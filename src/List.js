@@ -1,12 +1,11 @@
 import React from 'react'
+import ListItem from "./ListItem";
 
 const List = (props) => (
   <ul>
     {
       props.items.map((item, index) =>
-        <li key={index}>
-          {item}
-        </li>)
+        <ListItem index={index} item={item} handleDelete={props.handleDelete}/>)
     }
   </ul>
 );

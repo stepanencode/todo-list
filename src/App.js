@@ -29,6 +29,14 @@ class App extends Component {
     });
   };
 
+  handleDelete = (index) => {
+    console.log(index)
+    // this.setState({items: this.item.items})
+    this.setState(prevState => ({
+      items: prevState.items.filter((item, itemIndex) => itemIndex !== index)
+    }))
+  };
+
   render() {
     return (
       <div>
@@ -40,7 +48,7 @@ class App extends Component {
           />
           <button>Submit</button>
         </form>
-      <List items={this.state.items}/>
+      <List items={this.state.items} handleDelete={this.handleDelete}/>
       </div>
     );
   }
