@@ -30,11 +30,17 @@ class App extends Component {
   };
 
   handleDelete = (index) => {
-    console.log(index)
-    // this.setState({items: this.item.items})
     this.setState(prevState => ({
       items: prevState.items.filter((item, itemIndex) => itemIndex !== index)
     }))
+  };
+
+  handleChange = (index, item) => {
+    this.setState((prevState) => {
+      let items = prevState['items'].slice();
+      items[index] = item;
+      return {items: items};
+    });
   };
 
   render() {
@@ -48,7 +54,7 @@ class App extends Component {
           />
           <button>Submit</button>
         </form>
-      <List items={this.state.items} handleDelete={this.handleDelete}/>
+      <List items={this.state.items} handleDelete={this.handleDelete} handleChange={this.handleChange}/>
       </div>
     );
   }

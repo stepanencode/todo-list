@@ -2,21 +2,70 @@ import React, {Component} from 'react'
 
 
 class ListItem extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     editing: false
-  //   }
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEdit: false,
+      isHover: false
+    }
+  }
 
-  onDoubleClick = (event) => {
+  handleDelete = (event) => {
     this.props.handleDelete(this.props.index);
   };
 
+  handleEdit = (event) => {
+    console.log('Edit');
+    this.setState({
+      isEdit: true
+    })
+  };
+
+  handleSave = (event) => {
+    this.setState({
+      isEdit: false
+    })
+  };
+
+  handleChange = (event) => {
+    this.props.handleChange(this.props.index, event.target.value);
+
+  };
+
+  handleMouseOver = (event) => {
+    console.log('Hover!');
+    this.setState({
+      isHover: true
+    })
+
+  };
+
   render() {
+    let className = 'list_element';
+    if (this.state.isHover) {
+      className += ' active';
+    }
     return(
-      <li key={this.props.index} onDoubleClick={this.onDoubleClick}>
-        {this.props.item}
+      <li  key={this.props.index} >
+        {
+          this.state.isEdit ?
+            ( <span>
+                <input value={this.props.item} onChange={this.handleChange}/>
+                <button onClick={this.handleSave}>Save</button>
+              </span>
+            ) : (
+              <span>
+                <label className={className} onMouseOver={this.handleMouseOver}>{this.props.item}</label>
+                <button onClick={this.handleEdit}>Edit</button>
+              </span>
+          )
+
+        }
+
+
+
+
+        <button onClick={this.handleDelete}>Delete</button>
       </li>
     )
   }
