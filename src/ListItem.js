@@ -32,18 +32,26 @@ class ListItem extends Component {
 
   };
 
-  handleMouseOver = (event) => {
+  itemMouseOver = (event) => {
     console.log('Hover!');
     this.setState({
       isHover: true
     })
-
   };
+
+  itemMouseOut = (event) => {
+    this.setState({
+      isHover: false
+    })
+  };
+
 
   render() {
     let className = 'list_element';
     if (this.state.isHover) {
       className += ' active';
+    } else {
+      className = 'list_element';
     }
     return(
       <li  key={this.props.index} >
@@ -55,7 +63,7 @@ class ListItem extends Component {
               </span>
             ) : (
               <span>
-                <label className={className} onMouseOver={this.handleMouseOver}>{this.props.item}</label>
+                <label className={className} onMouseOver={this.itemMouseOver} onMouseOut={this.itemMouseOut}>{this.props.item}</label>
                 <button onClick={this.handleEdit}>Edit</button>
               </span>
           )
