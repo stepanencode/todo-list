@@ -6,7 +6,8 @@ class ListItem extends Component {
     super(props);
     this.state = {
       isEdit: false,
-      isHover: false
+      isHover: false,
+
     }
   }
 
@@ -48,6 +49,11 @@ class ListItem extends Component {
     })
   };
 
+  handleImportant = (event) => {
+    console.log('Important');
+    this.props.handleImportant(this.props.index);
+  };
+
   render() {
     let labelClassName = 'list_element';
     if (this.state.isHover) {
@@ -56,9 +62,16 @@ class ListItem extends Component {
     if (this.props.item.isCompleted) {
       labelClassName += ' checked';
     }
+    if (this.props.item.isImportant) {
+      labelClassName += ' important-item';
+    }
 
     return(
-      <li key={this.props.index} onMouseOver={this.itemMouseOver} onMouseLeave={this.itemMouseLeave}>
+      <li
+        key={this.props.index}
+        onMouseOver={this.itemMouseOver}
+        onMouseLeave={this.itemMouseLeave}
+      >
         <input type="checkbox"
           checked={this.props.item.isCompleted}
           onChange={this.handleComplete}
@@ -77,6 +90,8 @@ class ListItem extends Component {
               </span>
                 )
             }
+
+            <button onClick={this.handleImportant}>Important!</button>
 
             {
               this.state.isHover ?

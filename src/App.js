@@ -3,13 +3,18 @@ import List from "./List";
 
 // import './App.css';
 
+const ACTIVE = 'active';
+const ALL = 'all';
+const COMPLETED = 'completed';
+const IMPORTANT = 'important';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       term: '',
       items: [],
-      filterTerm: 'all'
+      filterTerm: ALL
     };
   }
 
@@ -25,7 +30,7 @@ class App extends Component {
       term: '',
       items: [
         ...this.state.items,
-        {text: this.state.term, isCompleted: false}
+        {text: this.state.term, isCompleted: false, isImportant: false}
       ]
     });
   };
@@ -44,6 +49,14 @@ class App extends Component {
     });
   };
 
+  handleImportant = (index) => {
+    this.setState((prevState) => {
+      let items = prevState['items'].slice();
+      items[index]['isImportant'] = !items[index]['isImportant'];
+      return {items: items};
+    });
+  };
+
   handleChange = (index, item) => {
     this.setState((prevState) => {
       let items = prevState['items'].slice();
@@ -55,44 +68,56 @@ class App extends Component {
   filterAll = (event) => {
     console.log('click');
     this.setState({
-      filterTerm: 'all'
+      filterTerm: ALL
     })
   };
 
   filterActive = (event) => {
     console.log('click');
     this.setState({
-      filterTerm: 'active'
+      filterTerm: ACTIVE
     })
   };
 
   filterCompleted = (event) => {
     console.log('click');
     this.setState({
-      filterTerm: 'completed'
+      filterTerm: COMPLETED
+    })
+  };
+
+  filterImportant = (event) => {
+    this.setState({
+      filterTerm: IMPORTANT
     })
   };
 
   getItems = () => {
-    if (this.state.filterTerm === 'active' ) {
+    if (this.state.filterTerm === ACTIVE ) {
       return this.state.items.filter((item) => item.isCompleted === false);
-     } else if (this.state.filterTerm === 'completed') {
+     } else if (this.state.filterTerm === COMPLETED) {
       return this.state.items.filter((item) => item.isCompleted === true);
+    } else if (this.state.filterTerm === IMPORTANT ) {
+      return this.state.items.filter((item) => item.isImportant === true);
     } else {
       return this.state.items;
     }
   };
 
-  render() {
-    let classFilterAll, classFilterActive, classFilterCompleted;
-    [classFilterAll, classFilterActive, classFilterCompleted] = ['', '', ''];
 
-    if (this.state.filterTerm === 'active') {
+
+  render() {
+    let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant;
+    [classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant] = ['', '', '', ''];
+
+    if (this.state.filterTerm === ACTIVE) {
       classFilterActive += ' pressedButton';
-    } else if (this.state.filterTerm === 'completed') {
+    } else if (this.state.filterTerm === COMPLETED) {
       classFilterCompleted += ' pressedButton';
-    } else {
-      classFilterAll += ' pressedButton';
+    }  else if (this.state.filterTerm === IMPORTANT) {
+      classFilterImportant += ' pressedButton'
+    }  else {
+    classFilterAll += ' pressedButton';
     }
 
 
@@ -107,11 +132,21 @@ class App extends Component {
           />
           <button>Submit</button>
         </form>
-        <List items={this.getItems()} handleDelete={this.handleDelete} handleChange={this.handleChange} handleComplete={this.handleComplete}/>
+        <List items={this.getItems()}
+              handleDelete={this.handleDelete}
+              handleChange={this.handleChange}
+              handleComplete={this.handleComplete}
+              handleImportant={this.handleImportant}
+        />
         <div>
           <button onClick={this.filterAll} className={classFilterAll}>All</button>
           <button onClick={this.filterActive} className={classFilterActive}>Active</button>
           <button onClick={this.filterCompleted} className={classFilterCompleted}>Completed</button>
+        </div>
+
+        <div>
+          <button onClick={this.filterAll} className={classFilterAll}>All</button>
+          <button onClick={this.filterImportant} className={classFilterImportant}>Important!</button>
         </div>
       </div>
     );

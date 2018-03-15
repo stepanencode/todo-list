@@ -8,6 +8,10 @@ li {
   list-style: none;
 }
 
+.important-item {
+  color: #ff99ff;
+}
+
 .active {
   background-color: #adebad ;
   /*color:  #0f3e0f;*/
@@ -35,4 +39,6 @@ button {
 
 .pressedButton {
   border: 1px solid green;
+  background-color: #adebad;
 }
+
