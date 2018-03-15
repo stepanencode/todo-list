@@ -36,6 +36,14 @@ class App extends Component {
     }))
   };
 
+  handleComplete = (index) => {
+    this.setState((prevState) => {
+      let items = prevState['items'].slice();
+      items[index]['isCompleted'] = !items[index]['isCompleted'];
+      return {items: items};
+    });
+  };
+
   handleChange = (index, item) => {
     this.setState((prevState) => {
       let items = prevState['items'].slice();
@@ -65,8 +73,19 @@ class App extends Component {
     })
   };
 
+  getItems = () => {
+    if (this.state.filterTerm === 'active' ) {
+      return this.state.items.filter((item) => item.isCompleted === false);
+     } else if (this.state.filterTerm === 'completed') {
+      return this.state.items.filter((item) => item.isCompleted === true);
+    } else {
+      return this.state.items;
+    }
+  };
+
   render() {
-    let classFilterAll, classFilterActive, classFilterCompleted = '';
+    let classFilterAll, classFilterActive, classFilterCompleted;
+    [classFilterAll, classFilterActive, classFilterCompleted] = ['', '', ''];
 
     if (this.state.filterTerm === 'active') {
       classFilterActive += ' pressedButton';
@@ -88,7 +107,7 @@ class App extends Component {
           />
           <button>Submit</button>
         </form>
-        <List items={this.state.items} handleDelete={this.handleDelete} handleChange={this.handleChange}/>
+        <List items={this.getItems()} handleDelete={this.handleDelete} handleChange={this.handleChange} handleComplete={this.handleComplete}/>
         <div>
           <button onClick={this.filterAll} className={classFilterAll}>All</button>
           <button onClick={this.filterActive} className={classFilterActive}>Active</button>

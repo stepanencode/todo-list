@@ -6,15 +6,12 @@ class ListItem extends Component {
     super(props);
     this.state = {
       isEdit: false,
-      isHover: false,
-      isChecked: false
+      isHover: false
     }
   }
 
-  toggleChange = () => {
-    this.setState({
-      isChecked: !this.state.isChecked,
-    });
+  handleComplete = () => {
+    this.props.handleComplete(this.props.index);
   };
 
   handleDelete = (event) => {
@@ -36,7 +33,6 @@ class ListItem extends Component {
 
   handleChange = (event) => {
     this.props.handleChange(this.props.index, event.target.value);
-
   };
 
   itemMouseOver = (event) => {
@@ -57,15 +53,15 @@ class ListItem extends Component {
     if (this.state.isHover) {
       labelClassName += ' active';
     }
-    if (this.state.isChecked) {
+    if (this.props.item.isCompleted) {
       labelClassName += ' checked';
     }
 
     return(
       <li key={this.props.index} onMouseOver={this.itemMouseOver} onMouseLeave={this.itemMouseLeave}>
         <input type="checkbox"
-          checked={this.state.isChecked}
-          onChange={this.toggleChange}
+          checked={this.props.item.isCompleted}
+          onChange={this.handleComplete}
         />
 
             {
