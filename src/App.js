@@ -25,7 +25,7 @@ class App extends Component {
       term: '',
       items: [
         ...this.state.items,
-        this.state.term
+        {text: this.state.term, isCompleted: false}
       ]
     });
   };
@@ -39,7 +39,7 @@ class App extends Component {
   handleChange = (index, item) => {
     this.setState((prevState) => {
       let items = prevState['items'].slice();
-      items[index] = item;
+      items[index]['text'] = item;
       return {items: items};
     });
   };

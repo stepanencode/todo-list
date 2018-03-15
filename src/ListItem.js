@@ -15,7 +15,7 @@ class ListItem extends Component {
     this.setState({
       isChecked: !this.state.isChecked,
     });
-  }
+  };
 
   handleDelete = (event) => {
     this.props.handleDelete(this.props.index);
@@ -67,16 +67,16 @@ class ListItem extends Component {
           checked={this.state.isChecked}
           onChange={this.toggleChange}
         />
-        
+
             {
               this.state.isEdit ?
                 (<span>
-                <input type='text' value={this.props.item} onChange={this.handleChange}/>
+                <input type='text' value={this.props.item.text} onChange={this.handleChange}/>
                 <button onClick={this.handleSave}>Save</button>
               </span>
                 ) : (
                   <span>
-                <label className={labelClassName}>{this.props.item}</label>
+                <label className={labelClassName}>{this.props.item.text}</label>
                 <button onClick={this.handleEdit}>Edit</button>
               </span>
                 )
