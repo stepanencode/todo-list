@@ -8,7 +8,8 @@ class App extends Component {
     super(props);
     this.state = {
       term: '',
-      items: []
+      items: [],
+      filterTerm: 'all'
     };
   }
 
@@ -43,7 +44,40 @@ class App extends Component {
     });
   };
 
+  filterAll = (event) => {
+    console.log('click');
+    this.setState({
+      filterTerm: 'all'
+    })
+  };
+
+  filterActive = (event) => {
+    console.log('click');
+    this.setState({
+      filterTerm: 'active'
+    })
+  };
+
+  filterCompleted = (event) => {
+    console.log('click');
+    this.setState({
+      filterTerm: 'completed'
+    })
+  };
+
   render() {
+    let classFilterAll, classFilterActive, classFilterCompleted = '';
+
+    if (this.state.filterTerm === 'active') {
+      classFilterActive += ' pressedButton';
+    } else if (this.state.filterTerm === 'completed') {
+      classFilterCompleted += ' pressedButton';
+    } else {
+      classFilterAll += ' pressedButton';
+    }
+
+
+
     return (
       <div>
         Hello!
@@ -54,7 +88,12 @@ class App extends Component {
           />
           <button>Submit</button>
         </form>
-      <List items={this.state.items} handleDelete={this.handleDelete} handleChange={this.handleChange}/>
+        <List items={this.state.items} handleDelete={this.handleDelete} handleChange={this.handleChange}/>
+        <div>
+          <button onClick={this.filterAll} className={classFilterAll}>All</button>
+          <button onClick={this.filterActive} className={classFilterActive}>Active</button>
+          <button onClick={this.filterCompleted} className={classFilterCompleted}>Completed</button>
+        </div>
       </div>
     );
   }

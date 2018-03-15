@@ -28,3 +28,11 @@ li {
   color: red;
   text-decoration: line-through;
 }
+
+button {
+  margin: 0 10px;
+}
+
+.pressedButton {
+  border: 1px solid green;
+}
