@@ -4,9 +4,27 @@ body {
   font-family: sans-serif;
 }
 
-
+li {
+  list-style: none;
+}
 
 .active {
   background-color: #adebad ;
-  color:  #0f3e0f;
+  /*color:  #0f3e0f;*/
+
+}
+
+
+.button-wrapper {
+  padding: 0 10px;
+  background-color: aqua;
+}
+
+.button-delete {
+  /*display: none;*/
+}
+
+.checked {
+  color: red;
+  text-decoration: line-through;
 }

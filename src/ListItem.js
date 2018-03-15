@@ -6,8 +6,15 @@ class ListItem extends Component {
     super(props);
     this.state = {
       isEdit: false,
-      isHover: false
+      isHover: false,
+      isChecked: false
     }
+  }
+
+  toggleChange = () => {
+    this.setState({
+      isChecked: !this.state.isChecked,
+    });
   }
 
   handleDelete = (event) => {
@@ -39,41 +46,51 @@ class ListItem extends Component {
     })
   };
 
-  itemMouseOut = (event) => {
+  itemMouseLeave = (event) => {
     this.setState({
       isHover: false
     })
   };
 
-
   render() {
-    let className = 'list_element';
+    let labelClassName = 'list_element';
     if (this.state.isHover) {
-      className += ' active';
-    } else {
-      className = 'list_element';
+      labelClassName += ' active';
     }
+    if (this.state.isChecked) {
+      labelClassName += ' checked';
+    }
+
     return(
-      <li  key={this.props.index} >
-        {
-          this.state.isEdit ?
-            ( <span>
-                <input value={this.props.item} onChange={this.handleChange}/>
+      <li key={this.props.index} onMouseOver={this.itemMouseOver} onMouseLeave={this.itemMouseLeave}>
+        <input type="checkbox"
+          checked={this.state.isChecked}
+          onChange={this.toggleChange}
+        />
+        
+            {
+              this.state.isEdit ?
+                (<span>
+                <input type='text' value={this.props.item} onChange={this.handleChange}/>
                 <button onClick={this.handleSave}>Save</button>
               </span>
-            ) : (
-              <span>
-                <label className={className} onMouseOver={this.itemMouseOver} onMouseOut={this.itemMouseOut}>{this.props.item}</label>
+                ) : (
+                  <span>
+                <label className={labelClassName}>{this.props.item}</label>
                 <button onClick={this.handleEdit}>Edit</button>
               </span>
-          )
+                )
+            }
 
-        }
+            {
+              this.state.isHover ?
+                (
+                  <button className='button-delete btn' onClick={this.handleDelete}>
+                    Delete
+                  </button>
+                ) : null
+            }
 
-
-
-
-        <button onClick={this.handleDelete}>Delete</button>
       </li>
     )
   }
