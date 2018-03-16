@@ -26,13 +26,17 @@ class App extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.setState({
-      term: '',
-      items: [
-        ...this.state.items,
-        {text: this.state.term, isCompleted: false, isImportant: false}
-      ]
-    });
+    if (this.state.term.trim()) {
+      this.setState({
+        term: '',
+        items: [
+          ...this.state.items,
+          {text: this.state.term.trim(), isCompleted: false, isImportant: false}
+        ]
+      });
+    } else {
+      alert('Text must not be empty');
+    }
   };
 
   handleDelete = (index) => {
@@ -104,8 +108,6 @@ class App extends Component {
     }
   };
 
-
-
   render() {
     let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant;
     [classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant] = ['', '', '', ''];
@@ -119,8 +121,6 @@ class App extends Component {
     }  else {
     classFilterAll += ' pressedButton';
     }
-
-
 
     return (
       <div>
