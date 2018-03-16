@@ -104,12 +104,12 @@ class App extends Component {
 
   getItems = () => {
     let result = this.state.items.slice();
-    if (this.state.filterCompletedTerm === ACTIVE ) {
+    if (this.state.filterCompletedTerm === ACTIVE) {
       result = result.filter((item) => item.isCompleted === false);
      } else if (this.state.filterCompletedTerm === COMPLETED) {
       result = result.filter((item) => item.isCompleted === true);
     }
-    if (this.state.isFilterImportant ) {
+    if (this.state.isFilterImportant) {
       result = result.filter((item) => item.isImportant === true);
     }
     return result;
@@ -143,6 +143,7 @@ class App extends Component {
           />
           <button>Submit</button>
         </form>
+        {((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ? <p>You don't have any important items!</p> : null}
         <List items={this.getItems()}
               handleDelete={this.handleDelete}
               handleChange={this.handleChange}
