@@ -6,7 +6,6 @@ import List from "./List";
 const ACTIVE = 'active';
 const ALL = 'all';
 const COMPLETED = 'completed';
-const IMPORTANT = 'important';
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +13,8 @@ class App extends Component {
     this.state = {
       term: '',
       items: [],
-      filterTerm: ALL
+      filterCompletedTerm: ALL,
+      isFilterImportant: false
     };
   }
 
@@ -72,54 +72,65 @@ class App extends Component {
   filterAll = (event) => {
     console.log('click');
     this.setState({
-      filterTerm: ALL
+      filterCompletedTerm: ALL
     })
   };
 
   filterActive = (event) => {
     console.log('click');
     this.setState({
-      filterTerm: ACTIVE
+      filterCompletedTerm: ACTIVE
     })
   };
 
   filterCompleted = (event) => {
     console.log('click');
     this.setState({
-      filterTerm: COMPLETED
+      filterCompletedTerm: COMPLETED
     })
   };
 
   filterImportant = (event) => {
     this.setState({
-      filterTerm: IMPORTANT
-    })
+      isFilterImportant: true
+    });
+  };
+
+  notFilterImportant = (event) => {
+    this.setState({
+      isFilterImportant: false
+    });
   };
 
   getItems = () => {
-    if (this.state.filterTerm === ACTIVE ) {
-      return this.state.items.filter((item) => item.isCompleted === false);
-     } else if (this.state.filterTerm === COMPLETED) {
-      return this.state.items.filter((item) => item.isCompleted === true);
-    } else if (this.state.filterTerm === IMPORTANT ) {
-      return this.state.items.filter((item) => item.isImportant === true);
-    } else {
-      return this.state.items;
+    let result = this.state.items.slice();
+    if (this.state.filterCompletedTerm === ACTIVE ) {
+      result = result.filter((item) => item.isCompleted === false);
+     } else if (this.state.filterCompletedTerm === COMPLETED) {
+      result = result.filter((item) => item.isCompleted === true);
     }
+    if (this.state.isFilterImportant ) {
+      result = result.filter((item) => item.isImportant === true);
+    }
+    return result;
   };
 
   render() {
-    let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant;
-    [classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant] = ['', '', '', ''];
+    let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant;
+    [classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant] = ['', '', '', '', ''];
 
-    if (this.state.filterTerm === ACTIVE) {
+    if (this.state.filterCompletedTerm === ACTIVE) {
       classFilterActive += ' pressedButton';
-    } else if (this.state.filterTerm === COMPLETED) {
+    } else if (this.state.filterCompletedTerm === COMPLETED) {
       classFilterCompleted += ' pressedButton';
-    }  else if (this.state.filterTerm === IMPORTANT) {
+    } else {
+      classFilterAll += ' pressedButton';
+    }
+
+    if (this.state.isFilterImportant) {
       classFilterImportant += ' pressedButton'
     }  else {
-    classFilterAll += ' pressedButton';
+      classNotFilterImportant += ' pressedButton';
     }
 
     return (
@@ -145,7 +156,7 @@ class App extends Component {
         </div>
 
         <div>
-          <button onClick={this.filterAll} className={classFilterAll}>All</button>
+          <button onClick={this.notFilterImportant} className={classNotFilterImportant}>All</button>
           <button onClick={this.filterImportant} className={classFilterImportant}>Important!</button>
         </div>
       </div>
