@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 
+const ENTERKEY = 13;
 
 class ListItem extends Component {
   constructor(props) {
@@ -54,6 +55,12 @@ class ListItem extends Component {
     this.props.handleImportant(this.props.index);
   };
 
+  onKeyPressed = (event) => {
+    if(event.keyCode === ENTERKEY){
+      this.handleSave();
+    }
+  };
+
   render() {
     let labelClassName = 'list_element';
     if (this.state.isHover) {
@@ -71,6 +78,8 @@ class ListItem extends Component {
         key={this.props.index}
         onMouseOver={this.itemMouseOver}
         onMouseLeave={this.itemMouseLeave}
+        onKeyDown={this.onKeyPressed}
+
       >
         <input type="checkbox"
           checked={this.props.item.isCompleted}

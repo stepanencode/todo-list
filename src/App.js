@@ -115,6 +115,8 @@ class App extends Component {
     return result;
   };
 
+
+
   render() {
     let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant;
     [classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant] = ['', '', '', '', ''];
@@ -149,6 +151,7 @@ class App extends Component {
               handleChange={this.handleChange}
               handleComplete={this.handleComplete}
               handleImportant={this.handleImportant}
+
         />
         <div>
           <button onClick={this.filterAll} className={classFilterAll}>All</button>
