@@ -115,6 +115,10 @@ class App extends Component {
     return result;
   };
 
+  itemsCounter = () => {
+    return this.getItems().length
+  };
+
 
 
   render() {
@@ -138,6 +142,11 @@ class App extends Component {
     return (
       <div>
         Hello!
+        <span className="items-counter">
+          You have
+          <span>
+            {this.itemsCounter()}
+          </span> items</span>
         <form className="App" onSubmit={this.onSubmit}>
           <input
             value={this.state.term}

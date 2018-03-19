@@ -13,7 +13,7 @@ li {
 }
 
 .active {
-  background-color: #adebad ;
+  background-color: #c4edee;
   /*color:  #0f3e0f;*/
 
 }
@@ -39,6 +39,11 @@ button {
 
 .pressedButton {
   border: 1px solid green;
-  background-color: #adebad;
+  background-color: #6fcaca;
+}
+
+.items-counter {
+  color: #81abd7;
+  margin-left: 10px;
 }
 
