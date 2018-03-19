@@ -16,6 +16,7 @@ class ListItem extends Component {
     this.props.handleComplete(this.props.index);
   };
 
+
   handleDelete = (event) => {
     this.props.handleDelete(this.props.index);
   };
@@ -55,11 +56,14 @@ class ListItem extends Component {
     this.props.handleImportant(this.props.index);
   };
 
+
+
   onKeyPressed = (event) => {
     if(event.keyCode === ENTERKEY){
       this.handleSave();
     }
   };
+
 
   render() {
     let labelClassName = 'list_element';

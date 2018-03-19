@@ -11,7 +11,8 @@ const List = (props) => (
           handleDelete={props.handleDelete}
           handleChange={props.handleChange}
           handleComplete={props.handleComplete}
-          handleImportant={props.handleImportant}/>)
+          handleImportant={props.handleImportant}
+          />)
     }
   </ul>
 );

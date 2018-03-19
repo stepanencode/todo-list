@@ -61,6 +61,13 @@ class App extends Component {
     });
   };
 
+  clearCompleted = () => {
+    this.setState((prevState) => {
+      let items = prevState['items'].slice();
+      return {items: prevState.items.filter((item, index) => items[index]['isCompleted'] === false)};
+    });
+  };
+
   handleChange = (index, item) => {
     this.setState((prevState) => {
       let items = prevState['items'].slice();
@@ -142,11 +149,9 @@ class App extends Component {
     return (
       <div>
         Hello!
-        <span className="items-counter">
-          You have
-          <span>
-            {this.itemsCounter()}
-          </span> items</span>
+          <span className="items-counter">
+            {(this.itemsCounter() === 0) ? <span>Let's get started!</span> : <span>You have {this.itemsCounter()} items</span>}
+          </span>
         <form className="App" onSubmit={this.onSubmit}>
           <input
             value={this.state.term}
@@ -166,6 +171,7 @@ class App extends Component {
           <button onClick={this.filterAll} className={classFilterAll}>All</button>
           <button onClick={this.filterActive} className={classFilterActive}>Active</button>
           <button onClick={this.filterCompleted} className={classFilterCompleted}>Completed</button>
+          <button onClick={this.clearCompleted}>Clear completed</button>
         </div>
 
         <div>
