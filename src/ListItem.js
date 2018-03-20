@@ -56,14 +56,11 @@ class ListItem extends Component {
     this.props.handleImportant(this.props.index);
   };
 
-
-
   onKeyPressed = (event) => {
     if(event.keyCode === ENTERKEY){
       this.handleSave();
     }
   };
-
 
   render() {
     let labelClassName = 'list_element';

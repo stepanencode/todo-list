@@ -171,7 +171,7 @@ class App extends Component {
           <button onClick={this.filterAll} className={classFilterAll}>All</button>
           <button onClick={this.filterActive} className={classFilterActive}>Active</button>
           <button onClick={this.filterCompleted} className={classFilterCompleted}>Completed</button>
-          <button onClick={this.clearCompleted}>Clear completed</button>
+          {(this.state.items.filter(item => item.isCompleted === true)).length > 0 ? (<button onClick={this.clearCompleted}>Clear completed</button>) : null}
         </div>
 
         <div>
