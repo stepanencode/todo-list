@@ -13,12 +13,12 @@ class ListItem extends Component {
   }
 
   handleComplete = () => {
-    this.props.handleComplete(this.props.index);
+    this.props.handleComplete(this.props.item.uuid);
   };
 
 
   handleDelete = (event) => {
-    this.props.handleDelete(this.props.index);
+    this.props.handleDelete(this.props.item.uuid);
   };
 
   handleEdit = (event) => {
@@ -35,7 +35,7 @@ class ListItem extends Component {
   };
 
   handleChange = (event) => {
-    this.props.handleChange(this.props.index, event.target.value);
+    this.props.handleChange(this.props.item.uuid, event.target.value);
   };
 
   itemMouseOver = (event) => {
@@ -53,7 +53,7 @@ class ListItem extends Component {
 
   handleImportant = (event) => {
     console.log('Important');
-    this.props.handleImportant(this.props.index);
+    this.props.handleImportant(this.props.item.uuid);
   };
 
   onKeyPressed = (event) => {
@@ -76,7 +76,6 @@ class ListItem extends Component {
 
     return(
       <li
-        key={this.props.index}
         onMouseOver={this.itemMouseOver}
         onMouseLeave={this.itemMouseLeave}
         onKeyDown={this.onKeyPressed}
@@ -118,9 +117,3 @@ class ListItem extends Component {
 }
 
 export default ListItem;
-
-// const ListItem = (props) => (
-//   <li key={props.index}>
-//     {props.item}
-//   </li>
-// );

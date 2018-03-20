@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import List from "./List";
+import uuidv4 from "uuid";
 
-// import './App.css';
 
 const ACTIVE = 'active';
 const ALL = 'all';
@@ -31,7 +31,7 @@ class App extends Component {
         term: '',
         items: [
           ...this.state.items,
-          {text: this.state.term.trim(), isCompleted: false, isImportant: false}
+          {text: this.state.term.trim(), isCompleted: false, isImportant: false, uuid: uuidv4()}
         ]
       });
     } else {
@@ -39,39 +39,50 @@ class App extends Component {
     }
   };
 
-  handleDelete = (index) => {
+  handleDelete = (uuid) => {
     this.setState(prevState => ({
-      items: prevState.items.filter((item, itemIndex) => itemIndex !== index)
+      items: prevState.items.filter(item => item.uuid !== uuid)
     }))
   };
 
-  handleComplete = (index) => {
+  handleComplete = (uuid) => {
     this.setState((prevState) => {
       let items = prevState['items'].slice();
-      items[index]['isCompleted'] = !items[index]['isCompleted'];
+      for (let item of items) {
+        if (item.uuid === uuid) {
+          item.isCompleted = !item.isCompleted;
+        }
+      }
       return {items: items};
     });
   };
 
-  handleImportant = (index) => {
+  handleImportant = (uuid) => {
     this.setState((prevState) => {
       let items = prevState['items'].slice();
-      items[index]['isImportant'] = !items[index]['isImportant'];
+      for (let item of items) {
+        if (item.uuid === uuid) {
+          item.isImportant = !item.isImportant;
+        }
+      }
       return {items: items};
     });
   };
 
   clearCompleted = () => {
     this.setState((prevState) => {
-      let items = prevState['items'].slice();
-      return {items: prevState.items.filter((item, index) => items[index]['isCompleted'] === false)};
+      return {items: prevState.items.filter(item => item.isCompleted === false)};
     });
   };
 
-  handleChange = (index, item) => {
+  handleChange = (uuid, text) => {
     this.setState((prevState) => {
       let items = prevState['items'].slice();
-      items[index]['text'] = item;
+      for (let item of items) {
+        if (item.uuid === uuid) {
+          item.text = text;
+        }
+      }
       return {items: items};
     });
   };

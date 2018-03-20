@@ -4,9 +4,9 @@ import ListItem from "./ListItem";
 const List = (props) => (
   <ul>
     {
-      props.items.map((item, index) =>
+      props.items.map(item =>
         <ListItem
-          index={index}
+          key={item.uuid}
           item={item}
           handleDelete={props.handleDelete}
           handleChange={props.handleChange}
