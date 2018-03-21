@@ -12,6 +12,7 @@ const List = (props) => (
           handleChange={props.handleChange}
           handleComplete={props.handleComplete}
           handleImportant={props.handleImportant}
+
           />)
     }
   </ul>

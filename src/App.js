@@ -14,9 +14,17 @@ class App extends Component {
       term: '',
       items: [],
       filterCompletedTerm: ALL,
-      isFilterImportant: false
+      isFilterImportant: false,
+      visible: false
     };
   }
+
+  okButton = (event) => {
+    this.setState({visible: !this.state.visible});
+    console.log('down');
+  };
+
+
 
   onChange = (event) => {
     this.setState({
@@ -26,17 +34,24 @@ class App extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
+
+
     if (this.state.term.trim()) {
       this.setState({
         term: '',
         items: [
           ...this.state.items,
           {text: this.state.term.trim(), isCompleted: false, isImportant: false, uuid: uuidv4()}
-        ]
+        ],
+        visible: false
       });
     } else {
       alert('Text must not be empty');
     }
+
+    // if (this.itemsCounter() === 2) { console.log ('Well done!')}
+
+
   };
 
   handleDelete = (uuid) => {
@@ -135,13 +150,14 @@ class App extends Component {
 
   itemsCounter = () => {
     return this.getItems().length
+
   };
 
 
 
   render() {
-    let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant;
-    [classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant] = ['', '', '', '', ''];
+    let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant, classVisibleHidden;
+    [classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant, classVisibleHidden] = ['', '', '', '', '', ''];
 
     if (this.state.filterCompletedTerm === ACTIVE) {
       classFilterActive += ' pressedButton';
@@ -157,6 +173,15 @@ class App extends Component {
       classNotFilterImportant += ' pressedButton';
     }
 
+    // if (this.state.visible === true) {
+    //   classVisibleHidden += ' visible-hidden';
+    // }
+
+    classVisibleHidden = this.state.visible ? 'visible-hidden' : 'visible';
+
+
+
+
     return (
       <div>
         Hello!
@@ -171,6 +196,7 @@ class App extends Component {
           <button>Submit</button>
         </form>
         {((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ? <p>You don't have any important items!</p> : null}
+
         <List items={this.getItems()}
               handleDelete={this.handleDelete}
               handleChange={this.handleChange}
@@ -182,13 +208,27 @@ class App extends Component {
           <button onClick={this.filterAll} className={classFilterAll}>All</button>
           <button onClick={this.filterActive} className={classFilterActive}>Active</button>
           <button onClick={this.filterCompleted} className={classFilterCompleted}>Completed</button>
-          {(this.state.items.filter(item => item.isCompleted === true)).length > 0 ? (<button onClick={this.clearCompleted}>Clear completed</button>) : null}
+          {(this.state.items.filter(item => item.isCompleted === true)).length > 0 ?
+            (<button onClick={this.clearCompleted}>Clear completed</button>) :
+            null}
         </div>
 
         <div>
           <button onClick={this.notFilterImportant} className={classNotFilterImportant}>All</button>
           <button onClick={this.filterImportant} className={classFilterImportant}>Important!</button>
         </div>
+
+        <div className={classVisibleHidden}>
+
+          {(this.itemsCounter() === 3) || (this.itemsCounter() === 5) ?
+
+            <div  className="welldone-box">
+              <p className="welldone-text">Well done!</p>
+              <button onClick={this.okButton} >OK</button>
+            </div>  :
+            null }
+
+            </div>
       </div>
     );
   }
