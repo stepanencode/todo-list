@@ -7,6 +7,7 @@ const ACTIVE = 'active';
 const ALL = 'all';
 const COMPLETED = 'completed';
 const WELLDONE_COUNTERS = [3, 5, 10];
+const TEXT_SAMPLE = 'Who is a good boy?';
 
 class App extends Component {
   constructor(props) {
@@ -31,9 +32,16 @@ class App extends Component {
     });
   };
 
+  textCompare = (event) => {
+    if (this.state.term === TEXT_SAMPLE) {
+      alert("it's you!")
+    }
+  };
+
   onSubmit = (event) => {
     event.preventDefault();
     if (this.state.term.trim()) {
+      this.textCompare();
       this.setState({
         term: '',
         items: [
@@ -196,6 +204,7 @@ class App extends Component {
               handleChange={this.handleChange}
               handleComplete={this.handleComplete}
               handleImportant={this.handleImportant}
+
         />
         <div>
           <button onClick={this.filterAll} className={classFilterAll}>All</button>

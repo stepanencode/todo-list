@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 const ENTERKEY = 13;
-// const TEXT_SAMPLE = 'Who is a good boy?';
+
 
 class ListItem extends Component {
   constructor(props) {
@@ -13,9 +13,7 @@ class ListItem extends Component {
     }
   }
 
-  // textCompare = () => {
-  //   if ()
-  // };
+
 
   handleComplete = () => {
     this.props.handleComplete(this.props.item.uuid);
