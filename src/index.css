@@ -66,9 +66,10 @@ button {
   transform: translate(-50%, -50%);
 }
 
-.visible-hidden {
-  display: none;
-}
 .visible {
   display: block;
+}
+
+.visible-hidden {
+  display: none;
 }

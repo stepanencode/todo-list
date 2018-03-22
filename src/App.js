@@ -6,6 +6,7 @@ import uuidv4 from "uuid";
 const ACTIVE = 'active';
 const ALL = 'all';
 const COMPLETED = 'completed';
+const WELLDONE_COUNTERS = [3, 5, 10];
 
 class App extends Component {
   constructor(props) {
@@ -15,16 +16,14 @@ class App extends Component {
       items: [],
       filterCompletedTerm: ALL,
       isFilterImportant: false,
-      visible: false
+      isWellDoneVisible: false
     };
   }
 
   okButton = (event) => {
-    this.setState({visible: !this.state.visible});
+    this.setState((prevState) => ({isWellDoneVisible: false}));
     console.log('down');
   };
-
-
 
   onChange = (event) => {
     this.setState({
@@ -34,24 +33,17 @@ class App extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-
-
     if (this.state.term.trim()) {
       this.setState({
         term: '',
         items: [
           ...this.state.items,
           {text: this.state.term.trim(), isCompleted: false, isImportant: false, uuid: uuidv4()}
-        ],
-        visible: false
+        ]
       });
     } else {
       alert('Text must not be empty');
     }
-
-    // if (this.itemsCounter() === 2) { console.log ('Well done!')}
-
-
   };
 
   handleDelete = (uuid) => {
@@ -68,7 +60,7 @@ class App extends Component {
           item.isCompleted = !item.isCompleted;
         }
       }
-      return {items: items};
+      return {items: items, isWellDoneVisible: this.isWellDone()};
     });
   };
 
@@ -148,12 +140,22 @@ class App extends Component {
     return result;
   };
 
-  itemsCounter = () => {
-    return this.getItems().length
-
+  getCompletedItems = () => {
+    return this.state.items.filter((item) => item.isCompleted === true);
   };
 
+  itemsCounter = () => {
+    return this.getItems().length
+  };
 
+  isWellDone = () => {
+    for (let counter of WELLDONE_COUNTERS) {
+      if (this.getCompletedItems().length === counter) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   render() {
     let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant, classVisibleHidden;
@@ -173,14 +175,7 @@ class App extends Component {
       classNotFilterImportant += ' pressedButton';
     }
 
-    // if (this.state.visible === true) {
-    //   classVisibleHidden += ' visible-hidden';
-    // }
-
-    classVisibleHidden = this.state.visible ? 'visible-hidden' : 'visible';
-
-
-
+    classVisibleHidden = (this.state.isWellDoneVisible ? 'visible' : 'visible-hidden');
 
     return (
       <div>
@@ -196,13 +191,11 @@ class App extends Component {
           <button>Submit</button>
         </form>
         {((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ? <p>You don't have any important items!</p> : null}
-
         <List items={this.getItems()}
               handleDelete={this.handleDelete}
               handleChange={this.handleChange}
               handleComplete={this.handleComplete}
               handleImportant={this.handleImportant}
-
         />
         <div>
           <button onClick={this.filterAll} className={classFilterAll}>All</button>
@@ -212,23 +205,16 @@ class App extends Component {
             (<button onClick={this.clearCompleted}>Clear completed</button>) :
             null}
         </div>
-
         <div>
           <button onClick={this.notFilterImportant} className={classNotFilterImportant}>All</button>
           <button onClick={this.filterImportant} className={classFilterImportant}>Important!</button>
         </div>
-
         <div className={classVisibleHidden}>
-
-          {(this.itemsCounter() === 3) || (this.itemsCounter() === 5) ?
-
-            <div  className="welldone-box">
-              <p className="welldone-text">Well done!</p>
-              <button onClick={this.okButton} >OK</button>
-            </div>  :
-            null }
-
-            </div>
+          <div className="welldone-box">
+            <p className="welldone-text">Well done! You have already completed {this.getCompletedItems().length} items</p>
+            <button onClick={this.okButton} >OK</button>
+          </div>
+        </div>
       </div>
     );
   }
