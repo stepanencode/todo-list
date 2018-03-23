@@ -9,9 +9,28 @@ class ListItem extends Component {
     this.state = {
       isEdit: false,
       isHover: false,
-
+      timeLeft: null,
+      timer: null
     }
   }
+
+  startTimer = (timeLeft) => {
+    clearInterval(this.state.timer);
+
+    let timer = setInterval(() => {
+      let timeLeft = this.state.timeLeft -1;
+      if (timeLeft === 0) {
+        clearInterval(timer)
+      }
+      this.setState({
+        timeLeft: timeLeft
+      })
+    }, 1000);
+    return this.setState({
+      timeLeft: timeLeft,
+      timer: timer
+    })
+  };
 
 
 
@@ -105,6 +124,9 @@ class ListItem extends Component {
 
             <button onClick={this.handleImportant}>Important!</button>
 
+            <TimerButton time='5' startTimer={this.startTimer}/>
+            <TimerDisplay timeLeft={this.state.timeLeft}/>
+
             {
               this.state.isHover ?
                 (
@@ -114,9 +136,35 @@ class ListItem extends Component {
                 ) : null
             }
 
+
       </li>
     )
   }
 }
 
 export default ListItem;
+
+class TimerButton extends Component{
+  handleStartTimer = (event) => {
+    return this.props.startTimer(this.props.time)
+  };
+
+  render() {
+    return(
+      <button onClick={this.handleStartTimer}>
+        {this.props.time} sec
+      </button>
+    )
+  }
+}
+
+class TimerDisplay extends Component {
+  render() {
+    if(this.props.timeLeft === 0 || this.props.timeLeft === null) {
+      return null
+    }
+    return(
+      <p>Осталось времени: {this.props.timeLeft}</p>
+    )
+  }
+}

@@ -220,6 +220,7 @@ class App extends Component {
           <button onClick={this.notFilterImportant} className={classNotFilterImportant}>All</button>
           <button onClick={this.filterImportant} className={classFilterImportant}>Important!</button>
         </div>
+
         <div className={classVisibleHidden}>
           <div className="welldone-box">
             <p className="welldone-text">Well done! You have already completed {this.getCompletedItems().length} items</p>
@@ -232,3 +233,4 @@ class App extends Component {
 }
 
 export default App;
+
