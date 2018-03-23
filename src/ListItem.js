@@ -17,10 +17,12 @@ class ListItem extends Component {
   startTimer = (timeLeft) => {
     clearInterval(this.state.timer);
 
+
     let timer = setInterval(() => {
       let timeLeft = this.state.timeLeft -1;
       if (timeLeft === 0) {
-        clearInterval(timer)
+        clearInterval(timer);
+        this.handleComplete();
       }
       this.setState({
         timeLeft: timeLeft
@@ -96,16 +98,25 @@ class ListItem extends Component {
       labelClassName += ' important-item';
     }
 
+    let disabledCheckbox = '';
+    if (this.props.item.isCompleted) {
+      disabledCheckbox += 'disabled'
+    }
+
+
     return(
       <li
         onMouseOver={this.itemMouseOver}
         onMouseLeave={this.itemMouseLeave}
         onKeyDown={this.onKeyPressed}
 
+
       >
         <input type="checkbox"
           checked={this.props.item.isCompleted}
           onChange={this.handleComplete}
+          disabled={disabledCheckbox}
+
         />
 
             {
@@ -124,13 +135,13 @@ class ListItem extends Component {
 
             <button onClick={this.handleImportant}>Important!</button>
 
-            <TimerButton time='5' startTimer={this.startTimer}/>
+            <TimerButton  time='5' startTimer={this.startTimer} item={this.props.item} />
             <TimerDisplay timeLeft={this.state.timeLeft}/>
 
             {
               this.state.isHover ?
                 (
-                  <button className='button-delete btn' onClick={this.handleDelete}>
+                  <button className='button-delete btn' onClick={this.handleDelete} >
                     Delete
                   </button>
                 ) : null
@@ -145,13 +156,18 @@ class ListItem extends Component {
 export default ListItem;
 
 class TimerButton extends Component{
+
   handleStartTimer = (event) => {
     return this.props.startTimer(this.props.time)
   };
 
   render() {
+    let disabledCheckbox = '';
+    if (this.props.item.isCompleted) {
+      disabledCheckbox += 'disabled'
+    }
     return(
-      <button onClick={this.handleStartTimer}>
+      <button onClick={this.handleStartTimer} disabled={disabledCheckbox}>
         {this.props.time} sec
       </button>
     )
@@ -168,3 +184,6 @@ class TimerDisplay extends Component {
     )
   }
 }
+
+// export default TimerButton;
+// export default TimerDisplay;

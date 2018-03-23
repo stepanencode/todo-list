@@ -73,3 +73,11 @@ button {
 .visible-hidden {
   display: none;
 }
+
+
+
+.disabled { color: #ccc; }
+
+input[type="checkbox"].disabled {
+  color:#e2e2e2;
+}

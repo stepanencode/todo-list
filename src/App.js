@@ -67,7 +67,7 @@ class App extends Component {
       let items = prevState['items'].slice();
       for (let item of items) {
         if (item.uuid === uuid) {
-          item.isCompleted = !item.isCompleted;
+          item.isCompleted = true;
         }
       }
       return {items: items, isWellDoneVisible: this.isWellDone()};
