@@ -7,7 +7,7 @@ const ACTIVE = 'active';
 const ALL = 'all';
 const COMPLETED = 'completed';
 const WELLDONE_COUNTERS = [3, 5, 10];
-const TEXT_SAMPLE = 'Who is a good boy?';
+const TEXT_SAMPLE = {'Who is a good boy?': "it's you!", 'Cъешь ещё этих мягких французских булок': 'да выпей чаю'};
 
 class App extends Component {
   constructor(props) {
@@ -33,8 +33,10 @@ class App extends Component {
   };
 
   textCompare = (event) => {
-    if (this.state.term === TEXT_SAMPLE) {
-      alert("it's you!")
+    for (let i in TEXT_SAMPLE) {
+      if (this.state.term === i) {
+        alert(TEXT_SAMPLE[i])
+      }
     }
   };
 
