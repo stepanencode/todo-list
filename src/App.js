@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import List from "./List";
 import uuidv4 from "uuid";
+import TextareaAutosize from "react-textarea-autosize";
 
 
 const ACTIVE = 'active';
@@ -251,7 +252,8 @@ class App extends Component {
       classVisibleHidden,
       classFilterDueToday,
       classFilterDueTomorrow,
-      classNotFilterDueDate;
+      classNotFilterDueDate,
+      classTextArea;
 
     [classFilterAll,
       classFilterActive,
@@ -261,7 +263,8 @@ class App extends Component {
       classVisibleHidden,
       classFilterDueToday,
       classFilterDueTomorrow,
-      classNotFilterDueDate] = ['', '', '', '', '', '', '', '', ''];
+      classNotFilterDueDate,
+      classTextArea] = ['', '', '', '', '', '', '', '', '',''];
 
     if (this.state.filterCompletedTerm === ACTIVE) {
       classFilterActive += ' pressedButton';
@@ -284,7 +287,7 @@ class App extends Component {
     } else {
       classNotFilterDueDate += ' pressedButton'
     }
-
+    classTextArea = 'text-area-submit';
 
     classVisibleHidden = (this.state.isWellDoneVisible ? 'visible' : 'visible-hidden');
 
@@ -295,9 +298,14 @@ class App extends Component {
             {(this.itemsCounter() === 0) ? <span>Let's get started!</span> : <span>You have {this.itemsCounter()} items</span>}
           </span>
         <form className="App" onSubmit={this.onSubmit}>
-          <input
+          <TextareaAutosize
             value={this.state.term}
             onChange={this.onChange}
+            minRows={3}
+            maxRows={4}
+            type="text"
+            className={classTextArea}
+            maxlength={50}
           />
           <button>Submit</button>
         </form>

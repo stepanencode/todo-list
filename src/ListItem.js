@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import TextareaAutosize from "react-textarea-autosize";
 
 const ENTERKEY = 13;
 
@@ -125,6 +126,8 @@ class ListItem extends Component {
       notActiveToday += ' visible-hidden'
     }
 
+    let classTextArea = 'text-area-submit';
+
     return(
       <li
         onMouseOver={this.itemMouseOver}
@@ -139,7 +142,15 @@ class ListItem extends Component {
             {
               this.state.isEdit ?
                 (<span>
-                <input type='text' value={this.props.item.text} onChange={this.handleChange}/>
+                    <TextareaAutosize
+                      minRows={1}
+                      maxRows={4}
+                      type="text"
+                      className={classTextArea}
+                      maxlength={50}
+                      value={this.props.item.text}
+                      onChange={this.handleChange}
+                    />
                 <button onClick={this.handleSave}>Save</button>
               </span>
                 ) : (

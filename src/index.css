@@ -18,7 +18,6 @@ li {
 
 }
 
-
 .button-wrapper {
   padding: 0 10px;
   background-color: aqua;
@@ -80,4 +79,9 @@ button {
 
 input[type="checkbox"].disabled {
   color:#e2e2e2;
+}
+
+.text-area-submit {
+  font-family: sans-serif;
+  background-color: #f5fdfd;
 }
