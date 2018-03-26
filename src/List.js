@@ -12,6 +12,9 @@ const List = (props) => (
           handleChange={props.handleChange}
           handleComplete={props.handleComplete}
           handleImportant={props.handleImportant}
+          handleDueToday={props.handleDueToday}
+          handleRemoveDueDate={props.handleRemoveDueDate}
+          handleDueTomorrow={props.handleDueTomorrow}
 
           />)
     }

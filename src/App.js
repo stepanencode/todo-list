@@ -17,7 +17,9 @@ class App extends Component {
       items: [],
       filterCompletedTerm: ALL,
       isFilterImportant: false,
-      isWellDoneVisible: false
+      isWellDoneVisible: false,
+      isFilterDueToday: false,
+      isFilterDueTomorrow: false
     };
   }
 
@@ -48,7 +50,13 @@ class App extends Component {
         term: '',
         items: [
           ...this.state.items,
-          {text: this.state.term.trim(), isCompleted: false, isImportant: false, uuid: uuidv4()}
+          {text: this.state.term.trim(),
+           isCompleted: false,
+           isImportant: false,
+           uuid: uuidv4(),
+           isDueToday: false,
+           isDueTomorrow: false
+          }
         ]
       });
     } else {
@@ -80,6 +88,43 @@ class App extends Component {
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isImportant = !item.isImportant;
+        }
+      }
+      return {items: items};
+    });
+  };
+
+  handleDueToday = (uuid) => {
+    this.setState((prevState) => {
+      let items = prevState['items'].slice();
+      for (let item of items) {
+        if (item.uuid === uuid) {
+          item.isDueToday = true;
+        }
+      }
+      return {items: items};
+    });
+  };
+
+  handleRemoveDueDate = (uuid) => {
+    this.setState((prevState) => {
+      let items = prevState['items'].slice();
+      for (let item of items) {
+        if (item.uuid === uuid) {
+          item.isDueToday = false;
+          item.isDueTomorrow = false;
+        }
+      }
+      return {items: items};
+    });
+  };
+
+  handleDueTomorrow = (uuid) => {
+    this.setState((prevState) => {
+      let items = prevState['items'].slice();
+      for (let item of items) {
+        if (item.uuid === uuid) {
+          item.isDueTomorrow = true;
         }
       }
       return {items: items};
@@ -137,6 +182,30 @@ class App extends Component {
     });
   };
 
+  filterDueToday = (event) => {
+    this.setState({
+      isFilterDueToday: true,
+      isFilterDueTomorrow: false
+    })
+  };
+
+  filterDueTomorrow = (event) => {
+    this.setState({
+      isFilterDueTomorrow: true,
+      isFilterDueToday: false
+    })
+  };
+
+
+  notFilterDueToday = (event) => {
+    this.setState({
+      isFilterDueToday: false,
+      isFilterDueTomorrow: false
+    })
+  };
+
+
+
   getItems = () => {
     let result = this.state.items.slice();
     if (this.state.filterCompletedTerm === ACTIVE) {
@@ -146,6 +215,12 @@ class App extends Component {
     }
     if (this.state.isFilterImportant) {
       result = result.filter((item) => item.isImportant === true);
+    }
+    if (this.state.isFilterDueToday) {
+      result = result.filter((item) => item.isDueToday === true && item.isDueTomorrow === false);
+    }
+    if (this.state.isFilterDueTomorrow) {
+      result = result.filter((item) => item.isDueTomorrow === true && item.isDueToday === false);
     }
     return result;
   };
@@ -168,8 +243,25 @@ class App extends Component {
   };
 
   render() {
-    let classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant, classVisibleHidden;
-    [classFilterAll, classFilterActive, classFilterCompleted, classFilterImportant, classNotFilterImportant, classVisibleHidden] = ['', '', '', '', '', ''];
+    let classFilterAll,
+      classFilterActive,
+      classFilterCompleted,
+      classFilterImportant,
+      classNotFilterImportant,
+      classVisibleHidden,
+      classFilterDueToday,
+      classFilterDueTomorrow,
+      classNotFilterDueDate;
+
+    [classFilterAll,
+      classFilterActive,
+      classFilterCompleted,
+      classFilterImportant,
+      classNotFilterImportant,
+      classVisibleHidden,
+      classFilterDueToday,
+      classFilterDueTomorrow,
+      classNotFilterDueDate] = ['', '', '', '', '', '', '', '', ''];
 
     if (this.state.filterCompletedTerm === ACTIVE) {
       classFilterActive += ' pressedButton';
@@ -184,6 +276,15 @@ class App extends Component {
     }  else {
       classNotFilterImportant += ' pressedButton';
     }
+
+    if(this.state.isFilterDueToday) {
+      classFilterDueToday += ' pressedButton'
+    } else if (this.state.isFilterDueTomorrow) {
+      classFilterDueTomorrow += ' pressedButton'
+    } else {
+      classNotFilterDueDate += ' pressedButton'
+    }
+
 
     classVisibleHidden = (this.state.isWellDoneVisible ? 'visible' : 'visible-hidden');
 
@@ -206,6 +307,10 @@ class App extends Component {
               handleChange={this.handleChange}
               handleComplete={this.handleComplete}
               handleImportant={this.handleImportant}
+              handleDueToday={this.handleDueToday}
+              handleRemoveDueDate={this.handleRemoveDueDate}
+              handleDueTomorrow={this.handleDueTomorrow}
+
 
         />
         <div>
@@ -219,6 +324,12 @@ class App extends Component {
         <div>
           <button onClick={this.notFilterImportant} className={classNotFilterImportant}>All</button>
           <button onClick={this.filterImportant} className={classFilterImportant}>Important!</button>
+        </div>
+
+        <div>
+          <button onClick={this.notFilterDueToday} className={classNotFilterDueDate}>All</button>
+          <button onClick={this.filterDueToday} className={classFilterDueToday}>Due Today</button>
+          <button onClick={this.filterDueTomorrow} className={classFilterDueTomorrow}>Due Tomorrow</button>
         </div>
 
         <div className={classVisibleHidden}>

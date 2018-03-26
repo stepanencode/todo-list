@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 
 const ENTERKEY = 13;
 
-
 class ListItem extends Component {
   constructor(props) {
     super(props);
@@ -10,13 +9,12 @@ class ListItem extends Component {
       isEdit: false,
       isHover: false,
       timeLeft: null,
-      timer: null
+      timer: null,
     }
   }
 
   startTimer = (timeLeft) => {
     clearInterval(this.state.timer);
-
 
     let timer = setInterval(() => {
       let timeLeft = this.state.timeLeft -1;
@@ -34,12 +32,9 @@ class ListItem extends Component {
     })
   };
 
-
-
   handleComplete = () => {
     this.props.handleComplete(this.props.item.uuid);
   };
-
 
   handleDelete = (event) => {
     this.props.handleDelete(this.props.item.uuid);
@@ -80,11 +75,28 @@ class ListItem extends Component {
     this.props.handleImportant(this.props.item.uuid);
   };
 
+  handleDueToday = (event) => {
+    console.log('Due Today');
+    this.props.handleDueToday(this.props.item.uuid);
+  };
+
+  handleRemoveDueDate = (event) => {
+    console.log('Remove Due Today');
+    this.props.handleRemoveDueDate(this.props.item.uuid);
+  };
+
+  handleDueTomorrow = (event) => {
+    console.log('Due Tomorrow');
+    this.props.handleDueTomorrow(this.props.item.uuid);
+  };
+
   onKeyPressed = (event) => {
     if(event.keyCode === ENTERKEY){
       this.handleSave();
     }
   };
+
+
 
   render() {
     let labelClassName = 'list_element';
@@ -103,22 +115,27 @@ class ListItem extends Component {
       disabledCheckbox += 'disabled'
     }
 
+    let notActiveTomorrow = '';
+    if (this.props.item.isDueToday) {
+      notActiveTomorrow += ' visible-hidden'
+    }
+
+    let notActiveToday = '';
+    if (this.props.item.isDueTomorrow) {
+      notActiveToday += ' visible-hidden'
+    }
 
     return(
       <li
         onMouseOver={this.itemMouseOver}
         onMouseLeave={this.itemMouseLeave}
         onKeyDown={this.onKeyPressed}
-
-
       >
         <input type="checkbox"
           checked={this.props.item.isCompleted}
           onChange={this.handleComplete}
           disabled={disabledCheckbox}
-
         />
-
             {
               this.state.isEdit ?
                 (<span>
@@ -135,9 +152,18 @@ class ListItem extends Component {
 
             <button onClick={this.handleImportant}>Important!</button>
 
+
+        {this.props.item.isDueToday ?
+            <button onClick={this.handleRemoveDueDate}>Remove Due Date</button> :
+            <button onClick={this.handleDueToday} className={notActiveToday}>Due Today</button>
+        }
+        {this.props.item.isDueTomorrow ?
+          <button onClick={this.handleRemoveDueDate}>Remove Due Date</button> :
+          <button onClick={this.handleDueTomorrow} className={notActiveTomorrow}>Due Tomorrow</button>
+        }
+
             <TimerButton  time='5' startTimer={this.startTimer} item={this.props.item} />
             <TimerDisplay timeLeft={this.state.timeLeft}/>
-
             {
               this.state.isHover ?
                 (
@@ -146,8 +172,6 @@ class ListItem extends Component {
                   </button>
                 ) : null
             }
-
-
       </li>
     )
   }
