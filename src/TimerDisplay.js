@@ -11,5 +11,4 @@ class TimerDisplay extends Component {
   }
 }
 
-
 export default TimerDisplay;

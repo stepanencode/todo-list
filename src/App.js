@@ -243,6 +243,8 @@ class App extends Component {
     return false;
   };
 
+
+
   render() {
     let classFilterAll,
       classFilterActive,
@@ -305,7 +307,7 @@ class App extends Component {
             maxRows={4}
             type="text"
             className={classTextArea}
-            maxlength={50}
+            maxLength={50}
           />
           <button>Submit</button>
         </form>

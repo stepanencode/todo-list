@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import TextareaAutosize from "react-textarea-autosize";
 import TimerButton from "./TimerButton"
 import TimerDisplay from "./TimerDisplay"
+import CommentField from "./CommentField"
 
 const ENTERKEY = 13;
 
@@ -13,6 +14,7 @@ class ListItem extends Component {
       isHover: false,
       timeLeft: null,
       timer: null,
+      showComment: false
     }
   }
 
@@ -99,6 +101,12 @@ class ListItem extends Component {
     }
   };
 
+  showCommentField = (event) => {
+    console.log('Show comments');
+    this.setState({
+      showComment: true
+    })
+  };
 
 
   render() {
@@ -166,6 +174,9 @@ class ListItem extends Component {
             <button onClick={this.handleImportant}>Important!</button>
 
 
+
+
+
         {this.props.item.isDueToday ?
             <button onClick={this.handleRemoveDueDate}>Remove Due Date</button> :
             <button onClick={this.handleDueToday} className={notActiveToday}>Due Today</button>
@@ -185,6 +196,11 @@ class ListItem extends Component {
                   </button>
                 ) : null
             }
+
+        <button onClick={this.showCommentField}>Add Comment</button>
+        {this.state.showComment ?
+          <CommentField /> : null
+        }
       </li>
     )
   }

@@ -85,3 +85,8 @@ input[type="checkbox"].disabled {
   font-family: sans-serif;
   background-color: #f5fdfd;
 }
+
+.liked {
+  color: tomato;
+
+}
