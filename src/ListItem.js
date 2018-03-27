@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import TextareaAutosize from "react-textarea-autosize";
+import TimerButton from "./TimerButton"
+import TimerDisplay from "./TimerDisplay"
 
 const ENTERKEY = 13;
 
@@ -190,35 +192,4 @@ class ListItem extends Component {
 
 export default ListItem;
 
-class TimerButton extends Component{
 
-  handleStartTimer = (event) => {
-    return this.props.startTimer(this.props.time)
-  };
-
-  render() {
-    let disabledCheckbox = '';
-    if (this.props.item.isCompleted) {
-      disabledCheckbox += 'disabled'
-    }
-    return(
-      <button onClick={this.handleStartTimer} disabled={disabledCheckbox}>
-        {this.props.time} sec
-      </button>
-    )
-  }
-}
-
-class TimerDisplay extends Component {
-  render() {
-    if(this.props.timeLeft === 0 || this.props.timeLeft === null) {
-      return null
-    }
-    return(
-      <p>Осталось времени: {this.props.timeLeft}</p>
-    )
-  }
-}
-
-// export default TimerButton;
-// export default TimerDisplay;
