@@ -16,6 +16,7 @@ const Input = styled.input`
   width: 60%;
   height: 1.78rem;
   border-radius: 3px;
+  font-size: 22px;
 `;
 
 const Button = styled.button`
@@ -315,7 +316,7 @@ class App extends Component {
         </ItemsCounter>
         <form onSubmit={this.onSubmit}>
 
-          <Input value={this.state.term} onChange={this.onChange}></Input>
+          <Input value={this.state.term} onChange={this.onChange} maxLength={100}/>
           <span onClick={this.onSubmit}>
             <Svg xmlns="http://www.w3.org/2000/svg"
                version="1.1"  viewBox="0 0 80 80"
