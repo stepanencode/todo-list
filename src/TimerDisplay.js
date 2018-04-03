@@ -1,13 +1,23 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import styled from "styled-components";
+
+const Text = styled.p`
+  font-family: sans-serif;
+  font-size: 1em;
+  text-align: center;
+  color: #1a53ff;
+`;
 
 class TimerDisplay extends Component {
   render() {
     if(this.props.timeLeft === 0 || this.props.timeLeft === null) {
-      return null
+      return null;
     }
+
+
     return(
-      <p>Осталось времени: {this.props.timeLeft}</p>
-    )
+      <Text>Осталось времени: {this.props.timeLeft}</Text>
+    );
   }
 }
 

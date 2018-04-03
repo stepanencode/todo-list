@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import ListItem from "./ListItem";
 
 const List = (props) => (
@@ -15,8 +15,7 @@ const List = (props) => (
           handleDueToday={props.handleDueToday}
           handleRemoveDueDate={props.handleRemoveDueDate}
           handleDueTomorrow={props.handleDueTomorrow}
-
-          />)
+        />)
     }
   </ul>
 );

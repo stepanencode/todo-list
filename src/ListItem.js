@@ -1,10 +1,44 @@
-import React, {Component} from 'react'
+import React, {Component} from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import TimerButton from "./TimerButton"
-import TimerDisplay from "./TimerDisplay"
-import CommentField from "./CommentField"
+import TimerButton from "./TimerButton";
+import TimerDisplay from "./TimerDisplay";
+import CommentField from "./CommentField";
+import styled, { css } from "styled-components";
+
 
 const ENTERKEY = 13;
+
+const Svg = styled.svg`
+  vertical-align: middle;
+  margin-right: 10px;
+`;
+
+const Button = styled.button`
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  margin: 0 10px;
+  background: transparent;
+  color: #ff6347;
+  border: 2px solid #ff6347;
+  width: 120px;
+  
+
+  ${props => props.primary && css`
+    background: white;
+    color: #ff99ff;
+    border: 2px solid #ff99ff;
+    font-size: 1rem;
+    vertical-align: bottom;
+  `}
+  ${props => props.pressed && css`
+    background: #0099ff;
+    color: white;
+  `}
+`;
+
+const Checkbox = styled.input`
+  display: none;
+`;
 
 class ListItem extends Component {
   constructor(props) {
@@ -15,12 +49,11 @@ class ListItem extends Component {
       timeLeft: null,
       timer: null,
       showComment: false
-    }
+    };
   }
 
   startTimer = (timeLeft) => {
     clearInterval(this.state.timer);
-
     let timer = setInterval(() => {
       let timeLeft = this.state.timeLeft -1;
       if (timeLeft === 0) {
@@ -29,69 +62,64 @@ class ListItem extends Component {
       }
       this.setState({
         timeLeft: timeLeft
-      })
+      });
     }, 1000);
     return this.setState({
       timeLeft: timeLeft,
       timer: timer
-    })
+    });
   };
 
   handleComplete = () => {
     this.props.handleComplete(this.props.item.uuid);
+    console.log('click');
   };
 
-  handleDelete = (event) => {
+  handleDelete = () => {
     this.props.handleDelete(this.props.item.uuid);
   };
 
-  handleEdit = (event) => {
-    console.log('Edit');
+  handleEdit = () => {
     this.setState({
       isEdit: true
-    })
+    });
   };
 
-  handleSave = (event) => {
+  handleSave = () => {
     this.setState({
       isEdit: false
-    })
+    });
   };
 
   handleChange = (event) => {
     this.props.handleChange(this.props.item.uuid, event.target.value);
   };
 
-  itemMouseOver = (event) => {
-    console.log('Hover!');
+  itemMouseOver = () => {
     this.setState({
       isHover: true
-    })
+    });
   };
 
-  itemMouseLeave = (event) => {
+  itemMouseLeave = () => {
     this.setState({
       isHover: false
-    })
+    });
   };
 
-  handleImportant = (event) => {
-    console.log('Important');
+  handleImportant = () => {
     this.props.handleImportant(this.props.item.uuid);
   };
 
-  handleDueToday = (event) => {
-    console.log('Due Today');
+  handleDueToday = () => {
     this.props.handleDueToday(this.props.item.uuid);
   };
 
-  handleRemoveDueDate = (event) => {
-    console.log('Remove Due Today');
+  handleRemoveDueDate = () => {
     this.props.handleRemoveDueDate(this.props.item.uuid);
   };
 
-  handleDueTomorrow = (event) => {
-    console.log('Due Tomorrow');
+  handleDueTomorrow = () => {
     this.props.handleDueTomorrow(this.props.item.uuid);
   };
 
@@ -101,42 +129,34 @@ class ListItem extends Component {
     }
   };
 
-  showCommentField = (event) => {
-    console.log('Show comments');
+  showCommentField = () => {
     this.setState({
       showComment: true
-    })
+    });
   };
 
-
   render() {
-    let labelClassName = 'list_element';
+
+
+    let labelClassName = "list_element";
     if (this.state.isHover) {
-      labelClassName += ' active';
+      labelClassName += " active";
     }
     if (this.props.item.isCompleted) {
-      labelClassName += ' checked';
+      labelClassName += " checked";
     }
     if (this.props.item.isImportant) {
-      labelClassName += ' important-item';
+      labelClassName += " important-item";
     }
-
-    let disabledCheckbox = '';
-    if (this.props.item.isCompleted) {
-      disabledCheckbox += 'disabled'
-    }
-
-    let notActiveTomorrow = '';
+    let notActiveTomorrow = "";
     if (this.props.item.isDueToday) {
-      notActiveTomorrow += ' visible-hidden'
+      notActiveTomorrow += " visible-hidden";
     }
-
-    let notActiveToday = '';
+    let notActiveToday = "";
     if (this.props.item.isDueTomorrow) {
-      notActiveToday += ' visible-hidden'
+      notActiveToday += " visible-hidden";
     }
-
-    let classTextArea = 'text-area-submit';
+    let classTextArea = "text-area-submit";
 
     return(
       <li
@@ -144,68 +164,89 @@ class ListItem extends Component {
         onMouseLeave={this.itemMouseLeave}
         onKeyDown={this.onKeyPressed}
       >
-        <input type="checkbox"
-          checked={this.props.item.isCompleted}
-          onChange={this.handleComplete}
-          disabled={disabledCheckbox}
-        />
-            {
-              this.state.isEdit ?
-                (<span>
-                    <TextareaAutosize
-                      minRows={1}
-                      maxRows={4}
-                      type="text"
-                      className={classTextArea}
-                      maxlength={50}
-                      value={this.props.item.text}
-                      onChange={this.handleChange}
+
+        <span>
+
+          {this.props.item.isCompleted ?
+            <label>
+              <Checkbox type="checkbox" id="option"
+                        checked={this.props.item.isCompleted}
+                        onClick={this.handleComplete}
+
+              />
+            <Svg xmlns="http://www.w3.org/2000/svg"
+                 width="1.3em" height="1.3em"
+                 viewBox="0 0 24 24" >
+              <path d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z"
+                    style={{fill: '#ebebe0'}}
                     />
-                <button onClick={this.handleSave}>Save</button>
-              </span>
-                ) : (
-                  <span>
+             </Svg>
+            </label> :
+            <label>
+              <Checkbox type="checkbox" id="option"
+                        checked={this.props.item.isCompleted}
+                        onClick={this.handleComplete}
+
+              />
+            <Svg xmlns="http://www.w3.org/2000/svg"
+                 width="1.2em" height="1.2em"
+                 viewBox="0 0 24 24">
+              <path d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"
+                    style={{fill: '#ffdb4d'}}
+              />
+            </Svg>
+            </label>
+        }
+        </span>
+        {
+          this.state.isEdit ?
+            (<span>
+              <TextareaAutosize
+                minRows={1}
+                maxRows={4}
+                type="text"
+                className={classTextArea}
+                maxlength={50}
+                value={this.props.item.text}
+                onChange={this.handleChange}
+              />
+              <Button onClick={this.handleSave}>Save</Button>
+            </span>
+            ) :
+            (
+              <span>
                 <label className={labelClassName}>{this.props.item.text}</label>
-                <button onClick={this.handleEdit}>Edit</button>
+                <Button onClick={this.handleEdit}>Edit</Button>
               </span>
-                )
-            }
-
-            <button onClick={this.handleImportant}>Important!</button>
-
-
-
-
-
+            )
+        }
+        <Button onClick={this.handleImportant}>Important!</Button>
         {this.props.item.isDueToday ?
-            <button onClick={this.handleRemoveDueDate}>Remove Due Date</button> :
-            <button onClick={this.handleDueToday} className={notActiveToday}>Due Today</button>
+          <Button onClick={this.handleRemoveDueDate}>Remove Due Date</Button> :
+          <Button onClick={this.handleDueToday} className={notActiveToday}>Due Today</Button>
         }
         {this.props.item.isDueTomorrow ?
-          <button onClick={this.handleRemoveDueDate}>Remove Due Date</button> :
-          <button onClick={this.handleDueTomorrow} className={notActiveTomorrow}>Due Tomorrow</button>
+          <Button onClick={this.handleRemoveDueDate}>Remove Due Date</Button> :
+          <Button onClick={this.handleDueTomorrow} className={notActiveTomorrow}>Due Tomorrow</Button>
         }
-
-            <TimerButton  time='5' startTimer={this.startTimer} item={this.props.item} />
-            <TimerDisplay timeLeft={this.state.timeLeft}/>
-            {
-              this.state.isHover ?
-                (
-                  <button className='button-delete btn' onClick={this.handleDelete} >
-                    Delete
-                  </button>
-                ) : null
-            }
-
-        <button onClick={this.showCommentField}>Add Comment</button>
+        <TimerButton  time='5' startTimer={this.startTimer} item={this.props.item} />
+        <TimerDisplay timeLeft={this.state.timeLeft}/>
+        {this.state.isHover ?
+          (
+            <Button className='button-delete btn' onClick={this.handleDelete}>
+              Delete
+            </Button>
+          ) :
+          null
+        }
+        <Button onClick={this.showCommentField}>Add Comment</Button>
         {this.state.showComment ?
-          <CommentField /> : null
+          <CommentField /> :
+          null
         }
       </li>
-    )
+    );
   }
 }
 
 export default ListItem;
-
-

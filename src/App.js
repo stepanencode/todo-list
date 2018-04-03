@@ -1,20 +1,91 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import List from "./List";
 import uuidv4 from "uuid";
-import TextareaAutosize from "react-textarea-autosize";
+// import TextareaAutosize from "react-textarea-autosize";
+import styled, { css } from "styled-components";
 
+const Input = styled.input`
+  font-family: sans-serif;
+  background-color: rgba(0, 153, 255, 0.27);
+  border-style: none;
+  width: 60%;
+  height: 1.78rem;
+  border-radius: 3px;
+`;
 
-const ACTIVE = 'active';
-const ALL = 'all';
-const COMPLETED = 'completed';
+const Button = styled.button`
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  margin: 0 10px;
+  background: transparent;
+  color: #0099ff;
+  border: 2px solid #0099ff;
+  width: 120px;
+  
+
+  ${props => props.primary && css`
+    background: white;
+    color: #ff99ff;
+    border: 2px solid #ff99ff;
+    font-size: 1rem;
+    vertical-align: bottom;
+  `}
+  ${props => props.pressed && css`
+    background: #0099ff;
+    color: white;
+  `}
+  
+  ${props => props.cleared && css`
+    background: #0099ff;
+    color: white;
+    width: 150px;
+  `}
+`;
+
+const ItemsCounter = styled.span`
+  color: #81abd7;
+  margin-left: 10px;
+`;
+
+const WellDoneBox = styled.div`
+  border-radius: 3px;
+  padding: 0.25em 1em;
+  background: transparent;
+  color: #0099ff;
+  border: 2px solid #0099ff;
+  width: 300px;
+  height: 200px;
+  z-index: 100;
+  margin: 0 auto;
+  position: relative;
+  
+  ${props => props.unvisible && css`
+    display: none;
+  `}
+`;
+
+const WellDoneMessage = styled.p`
+  margin: 0 auto;
+  color: #003cb3;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+`;
+
+const ACTIVE = "active";
+const ALL = "all";
+const COMPLETED = "completed";
 const WELLDONE_COUNTERS = [3, 5, 10];
-const TEXT_SAMPLE = {'Who is a good boy?': "it's you!", 'Cъешь ещё этих мягких французских булок': 'да выпей чаю'};
+const TEXT_SAMPLE = {"Who is a good boy?": "it's you!", "Cъешь ещё этих мягких французских булок": "да выпей чаю!"};
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      term: '',
+      term: "",
       items: [],
       filterCompletedTerm: ALL,
       isFilterImportant: false,
@@ -24,21 +95,20 @@ class App extends Component {
     };
   }
 
-  okButton = (event) => {
-    this.setState((prevState) => ({isWellDoneVisible: false}));
-    console.log('down');
+  okButton = () => {
+    this.setState(() => ({isWellDoneVisible: false}));
   };
 
   onChange = (event) => {
     this.setState({
-        term: event.target.value
+      term: event.target.value
     });
   };
 
-  textCompare = (event) => {
+  textCompare = () => {
     for (let i in TEXT_SAMPLE) {
       if (this.state.term === i) {
-        alert(TEXT_SAMPLE[i])
+        alert(TEXT_SAMPLE[i]);
       }
     }
   };
@@ -48,32 +118,32 @@ class App extends Component {
     if (this.state.term.trim()) {
       this.textCompare();
       this.setState({
-        term: '',
+        term: "",
         items: [
           ...this.state.items,
           {text: this.state.term.trim(),
-           isCompleted: false,
-           isImportant: false,
-           uuid: uuidv4(),
-           isDueToday: false,
-           isDueTomorrow: false
+            isCompleted: false,
+            isImportant: false,
+            uuid: uuidv4(),
+            isDueToday: false,
+            isDueTomorrow: false
           }
         ]
       });
     } else {
-      alert('Text must not be empty');
+      alert("Text must not be empty");
     }
   };
 
   handleDelete = (uuid) => {
     this.setState(prevState => ({
       items: prevState.items.filter(item => item.uuid !== uuid)
-    }))
+    }));
   };
 
   handleComplete = (uuid) => {
     this.setState((prevState) => {
-      let items = prevState['items'].slice();
+      let items = prevState["items"].slice();
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isCompleted = true;
@@ -85,7 +155,7 @@ class App extends Component {
 
   handleImportant = (uuid) => {
     this.setState((prevState) => {
-      let items = prevState['items'].slice();
+      let items = prevState["items"].slice();
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isImportant = !item.isImportant;
@@ -97,7 +167,7 @@ class App extends Component {
 
   handleDueToday = (uuid) => {
     this.setState((prevState) => {
-      let items = prevState['items'].slice();
+      let items = prevState["items"].slice();
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isDueToday = true;
@@ -109,7 +179,7 @@ class App extends Component {
 
   handleRemoveDueDate = (uuid) => {
     this.setState((prevState) => {
-      let items = prevState['items'].slice();
+      let items = prevState["items"].slice();
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isDueToday = false;
@@ -122,7 +192,7 @@ class App extends Component {
 
   handleDueTomorrow = (uuid) => {
     this.setState((prevState) => {
-      let items = prevState['items'].slice();
+      let items = prevState["items"].slice();
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isDueTomorrow = true;
@@ -140,7 +210,7 @@ class App extends Component {
 
   handleChange = (uuid, text) => {
     this.setState((prevState) => {
-      let items = prevState['items'].slice();
+      let items = prevState["items"].slice();
       for (let item of items) {
         if (item.uuid === uuid) {
           item.text = text;
@@ -150,68 +220,62 @@ class App extends Component {
     });
   };
 
-  filterAll = (event) => {
-    console.log('click');
+  filterAll = () => {
     this.setState({
       filterCompletedTerm: ALL
-    })
+    });
   };
 
-  filterActive = (event) => {
-    console.log('click');
+  filterActive = () => {
     this.setState({
       filterCompletedTerm: ACTIVE
-    })
+    });
   };
 
-  filterCompleted = (event) => {
-    console.log('click');
+  filterCompleted = () => {
     this.setState({
       filterCompletedTerm: COMPLETED
-    })
+    });
   };
 
-  filterImportant = (event) => {
+  filterImportant = () => {
     this.setState({
       isFilterImportant: true
     });
   };
 
-  notFilterImportant = (event) => {
+  notFilterImportant = () => {
     this.setState({
       isFilterImportant: false
     });
   };
 
-  filterDueToday = (event) => {
+  filterDueToday = () => {
     this.setState({
       isFilterDueToday: true,
       isFilterDueTomorrow: false
-    })
+    });
   };
 
-  filterDueTomorrow = (event) => {
+  filterDueTomorrow = () => {
     this.setState({
       isFilterDueTomorrow: true,
       isFilterDueToday: false
-    })
+    });
   };
 
-
-  notFilterDueToday = (event) => {
+  notFilterDueToday = () => {
     this.setState({
       isFilterDueToday: false,
       isFilterDueTomorrow: false
-    })
+    });
   };
-
-
 
   getItems = () => {
     let result = this.state.items.slice();
     if (this.state.filterCompletedTerm === ACTIVE) {
       result = result.filter((item) => item.isCompleted === false);
-     } else if (this.state.filterCompletedTerm === COMPLETED) {
+    } else if (this.state.filterCompletedTerm === COMPLETED) {
       result = result.filter((item) => item.isCompleted === true);
     }
     if (this.state.isFilterImportant) {
@@ -231,7 +295,7 @@ class App extends Component {
   };
 
   itemsCounter = () => {
-    return this.getItems().length
+    return this.getItems().length;
   };
 
   isWellDone = () => {
@@ -243,111 +307,65 @@ class App extends Component {
     return false;
   };
 
-
-
   render() {
-    let classFilterAll,
-      classFilterActive,
-      classFilterCompleted,
-      classFilterImportant,
-      classNotFilterImportant,
-      classVisibleHidden,
-      classFilterDueToday,
-      classFilterDueTomorrow,
-      classNotFilterDueDate,
-      classTextArea;
+    // let classTextArea;
 
-    [classFilterAll,
-      classFilterActive,
-      classFilterCompleted,
-      classFilterImportant,
-      classNotFilterImportant,
-      classVisibleHidden,
-      classFilterDueToday,
-      classFilterDueTomorrow,
-      classNotFilterDueDate,
-      classTextArea] = ['', '', '', '', '', '', '', '', '',''];
-
-    if (this.state.filterCompletedTerm === ACTIVE) {
-      classFilterActive += ' pressedButton';
-    } else if (this.state.filterCompletedTerm === COMPLETED) {
-      classFilterCompleted += ' pressedButton';
-    } else {
-      classFilterAll += ' pressedButton';
-    }
-
-    if (this.state.isFilterImportant) {
-      classFilterImportant += ' pressedButton'
-    }  else {
-      classNotFilterImportant += ' pressedButton';
-    }
-
-    if(this.state.isFilterDueToday) {
-      classFilterDueToday += ' pressedButton'
-    } else if (this.state.isFilterDueTomorrow) {
-      classFilterDueTomorrow += ' pressedButton'
-    } else {
-      classNotFilterDueDate += ' pressedButton'
-    }
-    classTextArea = 'text-area-submit';
-
-    classVisibleHidden = (this.state.isWellDoneVisible ? 'visible' : 'visible-hidden');
+    // classTextArea = "text-area-submit";
 
     return (
       <div>
-        Hello!
-          <span className="items-counter">
-            {(this.itemsCounter() === 0) ? <span>Let's get started!</span> : <span>You have {this.itemsCounter()} items</span>}
-          </span>
-        <form className="App" onSubmit={this.onSubmit}>
-          <TextareaAutosize
-            value={this.state.term}
-            onChange={this.onChange}
-            minRows={3}
-            maxRows={4}
-            type="text"
-            className={classTextArea}
-            maxLength={50}
-          />
-          <button>Submit</button>
+        <span>Hello!</span>
+        <ItemsCounter>
+          {(this.itemsCounter() === 0) ? <span>{"Let's get started!"}</span> : <span>You have {this.itemsCounter()} items</span>}
+        </ItemsCounter>
+        <form onSubmit={this.onSubmit}>
+          {/*<TextareaAutosize*/}
+            {/*value={this.state.term}*/}
+            {/*onChange={this.onChange}*/}
+            {/*minRows={3}*/}
+            {/*maxRows={4}*/}
+            {/*type="text"*/}
+            {/*maxLength={50}*/}
+            {/*style={{fontFamily: "Arial ,sans-serif", backgroundColor: 'rgba(108, 62, 245, 0.15)', borderWidth: 0, padding: 0, minHeight: 20, maxHeight: 80}}*/}
+
+          {/*/>*/}
+
+          <Input value={this.state.term} onChange={this.onChange}></Input>
+          <Button primary>Add</Button>
         </form>
-        {((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ? <p>You don't have any important items!</p> : null}
+        {((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ? <p>{"You don't have any important items!"}</p> : null}
         <List items={this.getItems()}
-              handleDelete={this.handleDelete}
-              handleChange={this.handleChange}
-              handleComplete={this.handleComplete}
-              handleImportant={this.handleImportant}
-              handleDueToday={this.handleDueToday}
-              handleRemoveDueDate={this.handleRemoveDueDate}
-              handleDueTomorrow={this.handleDueTomorrow}
-
-
+          handleDelete={this.handleDelete}
+          handleChange={this.handleChange}
+          handleComplete={this.handleComplete}
+          handleImportant={this.handleImportant}
+          handleDueToday={this.handleDueToday}
+          handleRemoveDueDate={this.handleRemoveDueDate}
+          handleDueTomorrow={this.handleDueTomorrow}
         />
         <div>
-          <button onClick={this.filterAll} className={classFilterAll}>All</button>
-          <button onClick={this.filterActive} className={classFilterActive}>Active</button>
-          <button onClick={this.filterCompleted} className={classFilterCompleted}>Completed</button>
+          <Button onClick={this.filterAll} pressed={this.state.filterCompletedTerm === ALL}>All</Button>
+          <Button onClick={this.filterActive} pressed={this.state.filterCompletedTerm === ACTIVE}>Active</Button>
+          <Button onClick={this.filterCompleted} pressed={this.state.filterCompletedTerm === COMPLETED}>Completed</Button>
           {(this.state.items.filter(item => item.isCompleted === true)).length > 0 ?
-            (<button onClick={this.clearCompleted}>Clear completed</button>) :
+            (<Button cleared onClick={this.clearCompleted}>Clear completed</Button>) :
             null}
         </div>
         <div>
-          <button onClick={this.notFilterImportant} className={classNotFilterImportant}>All</button>
-          <button onClick={this.filterImportant} className={classFilterImportant}>Important!</button>
+          <Button onClick={this.notFilterImportant} pressed={!this.state.isFilterImportant}>All</Button>
+          <Button onClick={this.filterImportant} pressed={this.state.isFilterImportant}>Important!</Button>
         </div>
 
         <div>
-          <button onClick={this.notFilterDueToday} className={classNotFilterDueDate}>All</button>
-          <button onClick={this.filterDueToday} className={classFilterDueToday}>Due Today</button>
-          <button onClick={this.filterDueTomorrow} className={classFilterDueTomorrow}>Due Tomorrow</button>
+          <Button onClick={this.notFilterDueToday} pressed={!this.state.isFilterDueToday && !this.state.isFilterDueTomorrow}>All</Button>
+          <Button onClick={this.filterDueToday} pressed={this.state.isFilterDueToday}>Due Today</Button>
+          <Button onClick={this.filterDueTomorrow} pressed={this.state.isFilterDueTomorrow}>Due Tomorrow</Button>
         </div>
 
-        <div className={classVisibleHidden}>
-          <div className="welldone-box">
-            <p className="welldone-text">Well done! You have already completed {this.getCompletedItems().length} items</p>
-            <button onClick={this.okButton} >OK</button>
-          </div>
-        </div>
+        <WellDoneBox unvisible={!this.state.isWellDoneVisible}>
+            <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items</WellDoneMessage>
+            <Button onClick={this.okButton} >OK</Button>
+        </WellDoneBox>
       </div>
     );
   }
