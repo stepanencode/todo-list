@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import TextareaAutosize from "react-textarea-autosize";
 import TimerButton from "./TimerButton";
 import TimerDisplay from "./TimerDisplay";
 import CommentField from "./CommentField";
@@ -34,10 +33,32 @@ const Button = styled.button`
     background: #0099ff;
     color: white;
   `}
+  
+  ${props => props.disabled && css`
+    background: white;
+    color: gray;
+    border: 2px solid gray;
+  `}
+  
+  ${props => props.bigger && css`
+    background: tomato;
+    color: white;
+    border: 2px solid tomato;
+    width: 150px;
+  `}
 `;
 
 const Checkbox = styled.input`
   display: none;
+`;
+
+const Input = styled.input`
+  font-family: sans-serif;
+  background-color: #BAE3FF;
+  border-style: none;
+  width: 20%;
+  height: 1rem;
+  border-radius: 3px;
 `;
 
 class ListItem extends Component {
@@ -156,7 +177,7 @@ class ListItem extends Component {
     if (this.props.item.isDueTomorrow) {
       notActiveToday += " visible-hidden";
     }
-    let classTextArea = "text-area-submit";
+
 
     return(
       <li
@@ -166,7 +187,6 @@ class ListItem extends Component {
       >
 
         <span>
-
           {this.props.item.isCompleted ?
             <label>
               <Checkbox type="checkbox" id="option"
@@ -199,49 +219,61 @@ class ListItem extends Component {
         }
         </span>
         {
-          this.state.isEdit ?
-            (<span>
-              <TextareaAutosize
-                minRows={1}
-                maxRows={4}
-                type="text"
-                className={classTextArea}
-                maxlength={50}
-                value={this.props.item.text}
-                onChange={this.handleChange}
-              />
+            this.state.isEdit ?
+              (<span>
+                  <Input value={this.props.item.text}   onChange={this.handleChange}/>
+              {/*<TextareaAutosize*/}
+                {/*minRows={1}*/}
+                {/*maxRows={4}*/}
+                {/*type="text"*/}
+                {/*className={classTextArea}*/}
+                {/*maxlength={50}*/}
+                {/*value={this.props.item.text}*/}
+                {/*onChange={this.handleChange}*/}
+              {/*/>*/}
               <Button onClick={this.handleSave}>Save</Button>
             </span>
-            ) :
-            (
-              <span>
+              ) :
+              (
+                <span>
+
                 <label className={labelClassName}>{this.props.item.text}</label>
+                  {this.props.item.isCompleted ? null :
                 <Button onClick={this.handleEdit}>Edit</Button>
+                  }
               </span>
-            )
+              )
+          }
+        {this.props.item.isCompleted ?
+          null :
+          <span>
+
+            <Button onClick={this.handleImportant}>Important!</Button>
+            {this.props.item.isDueToday ?
+              <Button bigger onClick={this.handleRemoveDueDate}>Remove Due Date</Button> :
+              <Button onClick={this.handleDueToday} className={notActiveToday}>Due Today</Button>
+            }
+            {this.props.item.isDueTomorrow ?
+              <Button bigger onClick={this.handleRemoveDueDate}>Remove Due Date</Button> :
+              <Button onClick={this.handleDueTomorrow} className={notActiveTomorrow}>Due Tomorrow</Button>
+            }
+
+
+            <Button onClick={this.showCommentField}>Add Comment</Button>
+            <TimerButton time='5' startTimer={this.startTimer} item={this.props.item}/>
+            <TimerDisplay timeLeft={this.state.timeLeft}/>
+            {this.state.showComment ?
+              <CommentField/> :
+              null
+            }
+        </span>
         }
-        <Button onClick={this.handleImportant}>Important!</Button>
-        {this.props.item.isDueToday ?
-          <Button onClick={this.handleRemoveDueDate}>Remove Due Date</Button> :
-          <Button onClick={this.handleDueToday} className={notActiveToday}>Due Today</Button>
-        }
-        {this.props.item.isDueTomorrow ?
-          <Button onClick={this.handleRemoveDueDate}>Remove Due Date</Button> :
-          <Button onClick={this.handleDueTomorrow} className={notActiveTomorrow}>Due Tomorrow</Button>
-        }
-        <TimerButton  time='5' startTimer={this.startTimer} item={this.props.item} />
-        <TimerDisplay timeLeft={this.state.timeLeft}/>
         {this.state.isHover ?
           (
             <Button className='button-delete btn' onClick={this.handleDelete}>
               Delete
             </Button>
           ) :
-          null
-        }
-        <Button onClick={this.showCommentField}>Add Comment</Button>
-        {this.state.showComment ?
-          <CommentField /> :
           null
         }
       </li>

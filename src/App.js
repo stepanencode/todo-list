@@ -4,9 +4,14 @@ import uuidv4 from "uuid";
 // import TextareaAutosize from "react-textarea-autosize";
 import styled, { css } from "styled-components";
 
+const Svg = styled.svg`
+    vertical-align: bottom;
+    margin-left: 10px;
+`;
+
 const Input = styled.input`
   font-family: sans-serif;
-  background-color: rgba(0, 153, 255, 0.27);
+  background-color: #BAE3FF;
   border-style: none;
   width: 60%;
   height: 1.78rem;
@@ -23,19 +28,13 @@ const Button = styled.button`
   width: 120px;
   
 
-  ${props => props.primary && css`
-    background: white;
-    color: #ff99ff;
-    border: 2px solid #ff99ff;
-    font-size: 1rem;
-    vertical-align: bottom;
-  `}
+  
   ${props => props.pressed && css`
     background: #0099ff;
     color: white;
   `}
   
-  ${props => props.cleared && css`
+  ${props => props.bigger && css`
     background: #0099ff;
     color: white;
     width: 150px;
@@ -308,10 +307,6 @@ class App extends Component {
   };
 
   render() {
-    // let classTextArea;
-
-    // classTextArea = "text-area-submit";
-
     return (
       <div>
         <span>Hello!</span>
@@ -319,19 +314,22 @@ class App extends Component {
           {(this.itemsCounter() === 0) ? <span>{"Let's get started!"}</span> : <span>You have {this.itemsCounter()} items</span>}
         </ItemsCounter>
         <form onSubmit={this.onSubmit}>
-          {/*<TextareaAutosize*/}
-            {/*value={this.state.term}*/}
-            {/*onChange={this.onChange}*/}
-            {/*minRows={3}*/}
-            {/*maxRows={4}*/}
-            {/*type="text"*/}
-            {/*maxLength={50}*/}
-            {/*style={{fontFamily: "Arial ,sans-serif", backgroundColor: 'rgba(108, 62, 245, 0.15)', borderWidth: 0, padding: 0, minHeight: 20, maxHeight: 80}}*/}
-
-          {/*/>*/}
 
           <Input value={this.state.term} onChange={this.onChange}></Input>
-          <Button primary>Add</Button>
+          <span onClick={this.onSubmit}>
+            <Svg xmlns="http://www.w3.org/2000/svg"
+               version="1.1"  viewBox="0 0 80 80"
+               style={{enableBackground: 'new 0 0 80 80'}}
+                width="1.78rem" height="1.78rem;">
+            <g>
+              <path d="M70,0H10C4.5,0,0,4.5,0,10v60c0,5.5,4.5,10,10,10h60c5.5,0,10-4.5,10-10V10C80,4.5,75.5,0,70,0z
+                  M65,45H45v20H35V45H15V35h20V15h10v20h20V45z"
+                    fill="#0099ff"
+                    />
+            </g>
+          </Svg>
+          </span>
+
         </form>
         {((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ? <p>{"You don't have any important items!"}</p> : null}
         <List items={this.getItems()}
@@ -348,7 +346,7 @@ class App extends Component {
           <Button onClick={this.filterActive} pressed={this.state.filterCompletedTerm === ACTIVE}>Active</Button>
           <Button onClick={this.filterCompleted} pressed={this.state.filterCompletedTerm === COMPLETED}>Completed</Button>
           {(this.state.items.filter(item => item.isCompleted === true)).length > 0 ?
-            (<Button cleared onClick={this.clearCompleted}>Clear completed</Button>) :
+            (<Button bigger onClick={this.clearCompleted}>Clear completed</Button>) :
             null}
         </div>
         <div>
