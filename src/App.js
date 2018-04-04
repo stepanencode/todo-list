@@ -1,8 +1,22 @@
 import React, { Component } from "react";
 import List from "./List";
 import uuidv4 from "uuid";
-// import TextareaAutosize from "react-textarea-autosize";
 import styled, { css } from "styled-components";
+
+const ToDoWrapper = styled.div`
+  margin: auto;
+  background: #f0f5f5;
+  width: 80%;
+  min-width: 660px;
+`;
+
+const ItemsCounterText = styled.p`
+  display: inline-block;
+  font-size: 36px;
+  color: #1a66ff
+  margin: 0;
+  padding-right: 2px;
+`;
 
 const Svg = styled.svg`
     vertical-align: bottom;
@@ -12,11 +26,15 @@ const Svg = styled.svg`
 const Input = styled.input`
   font-family: sans-serif;
   background-color: #BAE3FF;
+  color: #000080;
   border-style: none;
   width: 60%;
   height: 1.78rem;
   border-radius: 3px;
   font-size: 22px;
+  padding-left: 5px;
+  margin-left: 10px;
+  
 `;
 
 const Button = styled.button`
@@ -27,9 +45,7 @@ const Button = styled.button`
   color: #0099ff;
   border: 2px solid #0099ff;
   width: 120px;
-  
-
-  
+    
   ${props => props.pressed && css`
     background: #0099ff;
     color: white;
@@ -42,7 +58,9 @@ const Button = styled.button`
   `}
 `;
 
-const ItemsCounter = styled.span`
+const ItemsCounter = styled.div`
+  padding: 10px 0;
+  font-size: 22px;
   color: #81abd7;
   margin-left: 10px;
 `;
@@ -171,18 +189,31 @@ class App extends Component {
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isDueToday = true;
+          item.isDueTomorrow = false;
         }
       }
       return {items: items};
     });
   };
 
-  handleRemoveDueDate = (uuid) => {
+  handleRemoveDueToday = (uuid) => {
     this.setState((prevState) => {
       let items = prevState["items"].slice();
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isDueToday = false;
+
+        }
+      }
+      return {items: items};
+    });
+  };
+
+  handleRemoveDueTomorrow = (uuid) => {
+    this.setState((prevState) => {
+      let items = prevState["items"].slice();
+      for (let item of items) {
+        if (item.uuid === uuid) {
           item.isDueTomorrow = false;
         }
       }
@@ -196,6 +227,7 @@ class App extends Component {
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isDueTomorrow = true;
+          item.isDueToday = false;
         }
       }
       return {items: items};
@@ -309,14 +341,19 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <span>Hello!</span>
+      <ToDoWrapper>
         <ItemsCounter>
-          {(this.itemsCounter() === 0) ? <span>{"Let's get started!"}</span> : <span>You have {this.itemsCounter()} items</span>}
+          <ItemsCounterText>Hello!</ItemsCounterText>
+          {(this.itemsCounter() === 0) ?
+            <ItemsCounterText>{"Let's get started!"}</ItemsCounterText> :
+            <ItemsCounterText>You have {this.itemsCounter()} {(this.itemsCounter() === 1) ? <span>item.</span> : <span>items.</span>}
+            </ItemsCounterText>}
         </ItemsCounter>
         <form onSubmit={this.onSubmit}>
-
-          <Input value={this.state.term} onChange={this.onChange} maxLength={100}/>
+          <Input value={this.state.term}
+                 onChange={this.onChange}
+                 maxLength={100}
+                 placeholder={"Do you have new tasks?"}/>
           <span onClick={this.onSubmit}>
             <Svg xmlns="http://www.w3.org/2000/svg"
                version="1.1"  viewBox="0 0 80 80"
@@ -339,8 +376,9 @@ class App extends Component {
           handleComplete={this.handleComplete}
           handleImportant={this.handleImportant}
           handleDueToday={this.handleDueToday}
-          handleRemoveDueDate={this.handleRemoveDueDate}
+          handleRemoveDueToday={this.handleRemoveDueToday}
           handleDueTomorrow={this.handleDueTomorrow}
+          handleRemoveDueTomorrow={this.handleRemoveDueTomorrow}
         />
         <div>
           <Button onClick={this.filterAll} pressed={this.state.filterCompletedTerm === ALL}>All</Button>
@@ -365,7 +403,7 @@ class App extends Component {
             <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items</WellDoneMessage>
             <Button onClick={this.okButton} >OK</Button>
         </WellDoneBox>
-      </div>
+      </ToDoWrapper>
     );
   }
 }

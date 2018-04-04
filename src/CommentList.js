@@ -1,8 +1,13 @@
 import React from "react";
 import CommentItem from "./CommentItem";
+import styled from "styled-components";
+
+const CommentListWrapper = styled.ul`
+  padding-left: 0;
+`;
 
 const CommentList = (props) => (
-  <ul>
+  <CommentListWrapper>
     {
       props.commentItems.map((commentItem, index) =>
         <CommentItem
@@ -13,7 +18,7 @@ const CommentList = (props) => (
           handleLike={props.handleLike}
         />)
     }
-  </ul>
+  </CommentListWrapper>
 );
 
 export default CommentList;

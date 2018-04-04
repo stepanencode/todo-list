@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 const Svg = styled.svg`
-    vertical-align: bottom;
+    vertical-align: middle;
     margin: 0 10px;
 `;
 
@@ -18,11 +18,11 @@ class TimerButton extends Component{
         {this.props.item.isCompleted ?
           null :
           <Svg version="1.1"
-               id="Capa_1"
+               id="Timer"
                xmlns="http://www.w3.org/2000/svg"
                viewBox="0 0 60 60"
                style={{enableBackground: "new 0 0 60 60"}}
-               width="1.78rem" height="1.78rem;"
+               width="1.78rem" height="1.78rem"
                onClick={this.handleStartTimer}
           >
             <g>

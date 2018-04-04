@@ -1,8 +1,13 @@
 import React from "react";
 import ListItem from "./ListItem";
+import styled from "styled-components";
+
+const ListWrapper = styled.ul`
+  padding-left: 0;
+`;
 
 const List = (props) => (
-  <ul>
+  <ListWrapper>
     {
       props.items.map(item =>
         <ListItem
@@ -13,11 +18,12 @@ const List = (props) => (
           handleComplete={props.handleComplete}
           handleImportant={props.handleImportant}
           handleDueToday={props.handleDueToday}
-          handleRemoveDueDate={props.handleRemoveDueDate}
+          handleRemoveDueToday={props.handleRemoveDueToday}
           handleDueTomorrow={props.handleDueTomorrow}
+          handleRemoveDueTomorrow={props.handleRemoveDueTomorrow}
         />)
     }
-  </ul>
+  </ListWrapper>
 );
 
 export default List;

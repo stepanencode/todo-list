@@ -7,15 +7,23 @@ import styled, { css } from "styled-components";
 
 const ENTERKEY = 13;
 
+const ItemWrapper = styled.li`
+  padding: 10px;
+`;
+
 const Svg = styled.svg`
   vertical-align: middle;
   margin: 0 10px;
 `;
 
-const TextItem = styled.span`
+const TextItem = styled.p`
+  display: inline-block;
   font-family: sans-serif;
+  color: #000080;
   font-size: 20px;
-  
+  max-width: 500px;
+  word-break: break-all;
+  vertical-align: middle;
 `;
 
 const Button = styled.button`
@@ -63,8 +71,9 @@ const Checkbox = styled.input`
 
 const Input = styled.input`
   background-color: #BAE3FF;
+  color: #000080;
   border-style: none;
-  width: 20%;
+  width: 500px;
   height: 1.78rem;
   border-radius: 3px;
   font-size: 24px;
@@ -78,9 +87,12 @@ class ListItem extends Component {
       isHover: false,
       timeLeft: null,
       timer: null,
-      showComment: false
+      showComment: false,
+
     };
   }
+
+
 
   startTimer = (timeLeft) => {
     clearInterval(this.state.timer);
@@ -108,6 +120,8 @@ class ListItem extends Component {
   handleDelete = () => {
     this.props.handleDelete(this.props.item.uuid);
   };
+
+
 
   handleEdit = () => {
     this.setState({
@@ -145,8 +159,12 @@ class ListItem extends Component {
     this.props.handleDueToday(this.props.item.uuid);
   };
 
-  handleRemoveDueDate = () => {
-    this.props.handleRemoveDueDate(this.props.item.uuid);
+  handleRemoveDueToday = () => {
+    this.props.handleRemoveDueToday(this.props.item.uuid);
+  };
+
+  handleRemoveDueTomorrow = () => {
+    this.props.handleRemoveDueTomorrow(this.props.item.uuid);
   };
 
   handleDueTomorrow = () => {
@@ -160,34 +178,28 @@ class ListItem extends Component {
   };
 
   showCommentField = () => {
-    this.setState({
-      showComment: true
-    });
+    this.setState((prevState) => ({showComment: true}));
   };
+
+
+
 
   render() {
 
 
 
 
-    let notActiveTomorrow = "";
-    if (this.props.item.isDueToday) {
-      notActiveTomorrow += " visible-hidden";
-    }
-    let notActiveToday = "";
-    if (this.props.item.isDueTomorrow) {
-      notActiveToday += " visible-hidden";
-    }
 
 
     return(
-      <li
+      <ItemWrapper
         onMouseOver={this.itemMouseOver}
         onMouseLeave={this.itemMouseLeave}
         onKeyDown={this.onKeyPressed}
       >
 
         <span>
+
           {this.props.item.isCompleted ?
             <label>
               <Checkbox type="checkbox" id="option"
@@ -222,8 +234,10 @@ class ListItem extends Component {
         {
             this.state.isEdit ?
               (<span>
-                  <Input value={this.props.item.text}   onChange={this.handleChange}/>
-                  <Svg version="1.1" id="Layer_1"
+                  <Input value={this.props.item.text}
+                         maxLength={100}
+                         onChange={this.handleChange}/>
+                  <Svg version="1.1" id="Save"
                        xmlns="http://www.w3.org/2000/svg"
                        x="0px" y="0px"
                        viewBox="0 0 512 512"
@@ -249,7 +263,7 @@ class ListItem extends Component {
                 <TextItem maxLength={100}>{this.props.item.text}</TextItem>
                   {this.props.item.isCompleted ? null :
 
-                    <Svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                    <Svg version="1.1" id="Edit" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                     viewBox="0 0 504.48 504.48"
                     style={{enableBackground: "new 0 0 504.48 504.48"}}
                     onClick={this.handleEdit}
@@ -286,7 +300,7 @@ class ListItem extends Component {
           <span>
             {this.props.item.isImportant ?
               <Svg version="1.1"
-                   id="Capa_1"
+                   id="Important"
                    xmlns="http://www.w3.org/2000/svg"
                    x="0px" y="0px"
                    viewBox="0 0 47.94 47.94"
@@ -302,7 +316,7 @@ class ListItem extends Component {
                       					C22.602,0.567,25.338,0.567,26.285,2.486z"/>
               </Svg> :
               <Svg version="1.1"
-                   id="Capa_1"
+                   id="notImportant"
                    xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                    viewBox="0 0 511.999 511.999"
                    style={{enableBackground: "new 0 0 511.999 511.999"}}
@@ -335,21 +349,51 @@ class ListItem extends Component {
 
 
             {this.props.item.isDueToday ?
-              <Button bigger onClick={this.handleRemoveDueDate} >Remove Due Date</Button> :
-              <Button onClick={this.handleDueToday} className={notActiveToday}>Due Today</Button>
-            }
-            {this.props.item.isDueTomorrow ?
-              <Button bigger onClick={this.handleRemoveDueDate}>Remove Due Date</Button> :
-              <Button onClick={this.handleDueTomorrow} className={notActiveTomorrow}>Due Tomorrow</Button>
+              <Button bigger onClick={this.handleRemoveDueToday} >Remove Due Today</Button> :
+              <Button onClick={this.handleDueToday}>Due Today</Button>
             }
 
-            <Button onClick={this.showCommentField}>Add Comment</Button>
+            {this.props.item.isDueTomorrow ?
+              <Button bigger onClick={this.handleRemoveDueTomorrow}>Remove Due Date</Button> :
+              <Button onClick={this.handleDueTomorrow}>Due Tomorrow</Button>
+            }
+
+
+            <span>
+            <Svg xmlns="http://www.w3.org/2000/svg"
+                 version="1.1" id="CommentAdd" x="0px" y="0px"
+                 viewBox="0 0 489.8 489.8"
+                 style={{enableBackground: "new 0 0 489.8 489.8"}}
+                 width="1.78rem" height="1.78rem"
+                 onClick={this.showCommentField}
+
+            >
+              <g>
+                <g>
+                  <path d="M401.9,217.9c0.8,6.7,6.9,11.5,13.7,10.6c6.7-0.8,11.5-7,10.6-13.7c-12-95.7-103.3-167.9-212.5-167.9
+                      C95.9,46.9,0,131.7,0,235.8c0,40.9,15.1,80.8,42.8,113.4c-5.7,12.1-13.9,21.7-24.4,28.5c-6.3,4.1-9.3,11.6-7.7,18.9
+                      c1.6,7.2,7.5,12.6,14.8,13.6c16.7,2.3,48.3,3.6,78.7-12.1c33.1,17.4,70.7,26.6,109.4,26.6c22.4,0,44.4-3,65.5-9
+                      c6.5-1.9,10.3-8.6,8.4-15.1c-1.8-6.5-8.6-10.3-15.1-8.4c-18.9,5.4-38.7,8.1-58.8,8.1c-36.8,0-72.6-9.3-103.4-26.8
+                      c-3.8-2.2-8.6-2.1-12.4,0.1c-17.9,10.7-37,13.5-52,13.5c-0.1,0-0.2,0-0.2,0c9.9-9.7,17.6-21.8,22.8-36c1.6-4.3,0.6-9.2-2.5-12.6
+                      c-27.2-29.5-41.5-65-41.5-102.7c0-90.7,84.9-164.4,189.3-164.4C310.6,71.4,391.4,134.4,401.9,217.9z"
+                        style={{fill: "#FFDA44"}}/>
+                  <circle cx="213.6" cy="235.8" r="13.6" style={{fill: "#FFDA44"}}/>
+                  <circle cx="155.1" cy="235.8" r="13.6" style={{fill: "#FFDA44"}}/>
+                  <circle cx="272.2" cy="235.8" r="13.6" style={{fill: "#FFDA44"}}/>
+                  <path d="M388.3,239.8c-56,0-101.5,45.5-101.5,101.5s45.5,101.6,101.5,101.6s101.5-45.5,101.5-101.5S444.3,239.8,388.3,239.8z
+                       M388.3,418.4c-42.5,0-77-34.6-77-77s34.6-77,77-77s77,34.6,77,77S430.8,418.4,388.3,418.4z"
+                        style={{fill: "#FFDA44"}}/>
+                  <path d="M419.7,329.1h-19.2v-19.2c0-6.8-5.5-12.3-12.3-12.3s-12.3,5.5-12.3,12.3v19.2h-19c-6.8,0-12.3,5.5-12.3,12.3
+                      s5.5,12.3,12.3,12.3h19.2v19.2c0,6.8,5.5,12.3,12.3,12.3s12.3-5.5,12.3-12.3v-19.2h19.2c6.8,0,12.3-5.5,12.3-12.3
+                          S426.5,329.1,419.7,329.1z" style={{fill: "#FFDA44"}}/>
+                </g>
+              </g>
+            </Svg>
+              </span>
+
             <TimerButton time='5' startTimer={this.startTimer} item={this.props.item}/>
             <TimerDisplay timeLeft={this.state.timeLeft}/>
-            {this.state.showComment ?
-              <CommentField/> :
-              null
-            }
+
         </span>
         }
         <Svg version="1.1"
@@ -379,7 +423,13 @@ class ListItem extends Component {
                 </g>
               </g>
             </Svg>
-      </li>
+        {this.state.showComment ?
+          <CommentField
+            showCommentField={this.showCommentField}
+          /> :
+          null
+        }
+      </ItemWrapper>
     );
   }
 }
