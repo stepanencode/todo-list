@@ -2,12 +2,17 @@ import React, { Component } from "react";
 import List from "./List";
 import uuidv4 from "uuid";
 import styled, { css } from "styled-components";
+import { keyframes } from "styled-components"
+
 
 const ToDoWrapper = styled.div`
   margin: auto;
   background: #f0f5f5;
+  padding-bottom: 20px;
+  min-height: 100vh;
   width: 80%;
   min-width: 660px;
+  position: relative;
 `;
 
 const ItemsCounterText = styled.p`
@@ -21,6 +26,13 @@ const ItemsCounterText = styled.p`
 const Svg = styled.svg`
     vertical-align: bottom;
     margin-left: 10px;
+    
+    ${props => props.position && css`
+    position: absolute;
+    top: -105px;
+    right: -19px;
+  `}
+    
 `;
 
 const Input = styled.input`
@@ -65,24 +77,37 @@ const ItemsCounter = styled.div`
   margin-left: 10px;
 `;
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
 const WellDoneBox = styled.div`
   border-radius: 3px;
   padding: 0.25em 1em;
-  background: transparent;
+  background: #BAE3FF;
   color: #0099ff;
   border: 2px solid #0099ff;
   width: 300px;
   height: 200px;
-  z-index: 100;
   margin: 0 auto;
-  position: relative;
-  
-  ${props => props.unvisible && css`
-    display: none;
-  `}
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  animation: ${fadeIn} 1sl
+  cursor: pointer;
 `;
 
-const WellDoneMessage = styled.p`
+
+
+const WellDoneMessage = styled.span`
   margin: 0 auto;
   color: #003cb3;
   text-align: center;
@@ -92,6 +117,22 @@ const WellDoneMessage = styled.p`
   margin-right: -50%;
   transform: translate(-50%, -50%);
 `;
+
+const WellDoneWrapper = styled.div` 
+   width:100%;
+   min-height:100%; 
+   background-color: rgba(0,0,0,0.5);
+   overflow:hidden;
+   position:fixed;
+   top:0px;
+   left:0px;
+   
+   ${props => props.unvisible && css`
+
+    display: none;
+  `}
+`;
+
 
 const ACTIVE = "active";
 const ALL = "all";
@@ -399,10 +440,27 @@ class App extends Component {
           <Button onClick={this.filterDueTomorrow} pressed={this.state.isFilterDueTomorrow}>Due Tomorrow</Button>
         </div>
 
-        <WellDoneBox unvisible={!this.state.isWellDoneVisible}>
-            <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items</WellDoneMessage>
-            <Button onClick={this.okButton} >OK</Button>
-        </WellDoneBox>
+        <WellDoneWrapper unvisible={!this.state.isWellDoneVisible}>
+          <WellDoneBox >
+              <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items</WellDoneMessage>
+
+            <Svg version="1.1" id="Close-popup" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                 viewBox="0 0 512 512"
+                 style={{enableBackground: "new 0 0 512 512"}}
+                 width="1.78rem" height="1.78rem;"
+                 onClick={this.okButton}
+                 position>
+
+              <ellipse style={{fill: "#0099ff"}} cx="256" cy="256" rx="256" ry="255.832"/>
+              <g>
+                <rect x="228.021" y="113.143" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.0178 256.0051)"
+                      style={{fill: "#e6f5ff"}} width="55.991" height="285.669"/>
+                <rect x="113.164" y="227.968" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.0134 255.9885)"
+                      style={{fill: "#e6f5ff"}} width="285.669" height="55.991"/>
+              </g>
+            </Svg>
+          </WellDoneBox>
+        </WellDoneWrapper>
       </ToDoWrapper>
     );
   }

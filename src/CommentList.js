@@ -15,7 +15,7 @@ const CommentList = (props) => (
           index={index}
           commentItem={commentItem}
           handleCommentChange={props.handleCommentChange}
-          handleLike={props.handleLike}
+          handleDeleteComment={props.handleDeleteComment}
         />)
     }
   </CommentListWrapper>

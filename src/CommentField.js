@@ -57,24 +57,19 @@ class CommentField extends Component{
         commentItems: [
           ...this.state.commentItems,
           {text: this.state.commentText.trim(),
-            isLiked: false
           }
         ],
       });
     }
-    // else {
-    //   alert("Text must not be empty");
-    // }
-
   };
 
-  handleLike = (index) => {
-    this.setState((prevState) => {
-      let commentItems = prevState["commentItems"].slice();
-      commentItems[index]["isLiked"] = !commentItems[index]["isLiked"];
-      return {commentItems: commentItems};
-    });
+  handleDeleteComment = (index) => {
+    this.setState(prevState => ({
+      commentItems: prevState.commentItems.filter((item, itemIndex) => itemIndex !== index)
+    }));
   };
+
+
 
 
   handleCommentChange = (commentItem, text) => {
@@ -86,6 +81,8 @@ class CommentField extends Component{
       return {commentItems: commentItems};
     });
   };
+
+
 
   hideComments = () => {
     this.setState({
@@ -186,7 +183,7 @@ class CommentField extends Component{
         <CommentList
           commentItems={this.state.commentItems}
           handleCommentChange={this.handleCommentChange}
-          handleLike={this.handleLike}
+          handleDeleteComment={this.handleDeleteComment}
 
 
         />
