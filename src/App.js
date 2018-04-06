@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import List from "./List";
 import uuidv4 from "uuid";
 import styled, { css } from "styled-components";
-import { keyframes } from "styled-components"
+import { keyframes } from "styled-components";
 
+
+const Body = styled.div`
+  background-image: url(./boat.jpeg);
+  // background-color: blue;
+  background-attachment:fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
 
 const ToDoWrapper = styled.div`
   margin: auto;
-  background: #f0f5f5;
   padding-bottom: 20px;
   min-height: 100vh;
   width: 80%;
@@ -15,24 +22,28 @@ const ToDoWrapper = styled.div`
   position: relative;
 `;
 
+const ItemsCounter = styled.div`
+  padding: 40px 0;
+  margin-left: 10px;
+`;
+
 const ItemsCounterText = styled.p`
   display: inline-block;
-  font-size: 36px;
-  color: #1a66ff
+  font-size: 55px;
+  color: #1a66ff;
   margin: 0;
   padding-right: 2px;
 `;
 
 const Svg = styled.svg`
-    vertical-align: bottom;
-    margin-left: 10px;
+  vertical-align: bottom;
+  margin-left: 10px;
     
-    ${props => props.position && css`
+  ${props => props.position && css`
     position: absolute;
-    top: -105px;
+    top: -15px;
     right: -19px;
   `}
-    
 `;
 
 const Input = styled.input`
@@ -46,7 +57,6 @@ const Input = styled.input`
   font-size: 22px;
   padding-left: 5px;
   margin-left: 10px;
-  
 `;
 
 const Button = styled.button`
@@ -56,7 +66,10 @@ const Button = styled.button`
   background: transparent;
   color: #0099ff;
   border: 2px solid #0099ff;
-  width: 120px;
+  width: 125px;
+  background: #f2f2f2;
+  opacity: 0.9;
+  font-weight: bold;
     
   ${props => props.pressed && css`
     background: #0099ff;
@@ -67,21 +80,13 @@ const Button = styled.button`
     background: #0099ff;
     color: white;
     width: 150px;
-  `}
-`;
-
-const ItemsCounter = styled.div`
-  padding: 10px 0;
-  font-size: 22px;
-  color: #81abd7;
-  margin-left: 10px;
+  `} 
 `;
 
 const fadeIn = keyframes`
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
@@ -105,8 +110,6 @@ const WellDoneBox = styled.div`
   cursor: pointer;
 `;
 
-
-
 const WellDoneMessage = styled.span`
   margin: 0 auto;
   color: #003cb3;
@@ -128,11 +131,9 @@ const WellDoneWrapper = styled.div`
    left:0px;
    
    ${props => props.unvisible && css`
-
     display: none;
   `}
 `;
-
 
 const ACTIVE = "active";
 const ALL = "all";
@@ -243,7 +244,6 @@ class App extends Component {
       for (let item of items) {
         if (item.uuid === uuid) {
           item.isDueToday = false;
-
         }
       }
       return {items: items};
@@ -382,86 +382,116 @@ class App extends Component {
 
   render() {
     return (
-      <ToDoWrapper>
-        <ItemsCounter>
-          <ItemsCounterText>Hello!</ItemsCounterText>
-          {(this.itemsCounter() === 0) ?
-            <ItemsCounterText>{"Let's get started!"}</ItemsCounterText> :
-            <ItemsCounterText>You have {this.itemsCounter()} {(this.itemsCounter() === 1) ? <span>item.</span> : <span>items.</span>}
-            </ItemsCounterText>}
-        </ItemsCounter>
-        <form onSubmit={this.onSubmit}>
-          <Input value={this.state.term}
-                 onChange={this.onChange}
-                 maxLength={100}
-                 placeholder={"Do you have new tasks?"}/>
-          <span onClick={this.onSubmit}>
-            <Svg xmlns="http://www.w3.org/2000/svg"
-               version="1.1"  viewBox="0 0 80 80"
-               style={{enableBackground: 'new 0 0 80 80'}}
-                width="1.78rem" height="1.78rem;">
-            <g>
-              <path d="M70,0H10C4.5,0,0,4.5,0,10v60c0,5.5,4.5,10,10,10h60c5.5,0,10-4.5,10-10V10C80,4.5,75.5,0,70,0z
-                  M65,45H45v20H35V45H15V35h20V15h10v20h20V45z"
-                    fill="#0099ff"
-                    />
-            </g>
-          </Svg>
-          </span>
-
-        </form>
-        {((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ? <p>{"You don't have any important items!"}</p> : null}
-        <List items={this.getItems()}
-          handleDelete={this.handleDelete}
-          handleChange={this.handleChange}
-          handleComplete={this.handleComplete}
-          handleImportant={this.handleImportant}
-          handleDueToday={this.handleDueToday}
-          handleRemoveDueToday={this.handleRemoveDueToday}
-          handleDueTomorrow={this.handleDueTomorrow}
-          handleRemoveDueTomorrow={this.handleRemoveDueTomorrow}
-        />
-        <div>
-          <Button onClick={this.filterAll} pressed={this.state.filterCompletedTerm === ALL}>All</Button>
-          <Button onClick={this.filterActive} pressed={this.state.filterCompletedTerm === ACTIVE}>Active</Button>
-          <Button onClick={this.filterCompleted} pressed={this.state.filterCompletedTerm === COMPLETED}>Completed</Button>
-          {(this.state.items.filter(item => item.isCompleted === true)).length > 0 ?
-            (<Button bigger onClick={this.clearCompleted}>Clear completed</Button>) :
-            null}
-        </div>
-        <div>
-          <Button onClick={this.notFilterImportant} pressed={!this.state.isFilterImportant}>All</Button>
-          <Button onClick={this.filterImportant} pressed={this.state.isFilterImportant}>Important!</Button>
-        </div>
-
-        <div>
-          <Button onClick={this.notFilterDueToday} pressed={!this.state.isFilterDueToday && !this.state.isFilterDueTomorrow}>All</Button>
-          <Button onClick={this.filterDueToday} pressed={this.state.isFilterDueToday}>Due Today</Button>
-          <Button onClick={this.filterDueTomorrow} pressed={this.state.isFilterDueTomorrow}>Due Tomorrow</Button>
-        </div>
-
-        <WellDoneWrapper unvisible={!this.state.isWellDoneVisible}>
-          <WellDoneBox >
-              <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items</WellDoneMessage>
-
-            <Svg version="1.1" id="Close-popup" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                 viewBox="0 0 512 512"
-                 style={{enableBackground: "new 0 0 512 512"}}
-                 width="1.78rem" height="1.78rem;"
-                 onClick={this.okButton}
-                 position>
-
-              <ellipse style={{fill: "#0099ff"}} cx="256" cy="256" rx="256" ry="255.832"/>
-              <g>
-                <rect x="228.021" y="113.143" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.0178 256.0051)"
-                      style={{fill: "#e6f5ff"}} width="55.991" height="285.669"/>
-                <rect x="113.164" y="227.968" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.0134 255.9885)"
-                      style={{fill: "#e6f5ff"}} width="285.669" height="55.991"/>
-              </g>
-            </Svg>
-          </WellDoneBox>
-        </WellDoneWrapper>
-      </ToDoWrapper>
+      <Body>
+        <ToDoWrapper>
+          <ItemsCounter>
+            <ItemsCounterText>Hello!</ItemsCounterText>
+            {
+              (this.itemsCounter() === 0) ?
+                <ItemsCounterText>{"Let's get started!"}</ItemsCounterText> :
+                <ItemsCounterText>You have  {this.itemsCounter()}
+                  {
+                    (this.itemsCounter() === 1) ?
+                      <span>{" "}item.</span> :
+                      <span>{" "}items.</span>
+                  }
+                </ItemsCounterText>
+            }
+          </ItemsCounter>
+          <form onSubmit={this.onSubmit}>
+            <Input value={this.state.term}
+              onChange={this.onChange}
+              maxLength={100}
+              placeholder={"Do you have new tasks?"}
+            />
+            <span onClick={this.onSubmit}>
+              <Svg xmlns="http://www.w3.org/2000/svg"
+                version="1.1"  viewBox="0 0 80 80"
+                style={{enableBackground: "new 0 0 80 80"}}
+                width="1.78rem" height="1.78rem">
+                <g>
+                  <path style={{fill: "#0099ff"}}
+                    d="M70,0H10C4.5,0,0,4.5,0,10v60c0,5.5,4.5,10,10,10h60c5.5,0,10-4.5,10-10V10C80,4.5,75.5,0,70,0z
+                    M65,45H45v20H35V45H15V35h20V15h10v20h20V45z"/>
+                </g>
+              </Svg>
+            </span>
+          </form>
+          {
+            ((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ?
+              <p>{"You don't have any important items!"}</p> :
+              null
+          }
+          <List items={this.getItems()}
+            handleDelete={this.handleDelete}
+            handleChange={this.handleChange}
+            handleComplete={this.handleComplete}
+            handleImportant={this.handleImportant}
+            handleDueToday={this.handleDueToday}
+            handleRemoveDueToday={this.handleRemoveDueToday}
+            handleDueTomorrow={this.handleDueTomorrow}
+            handleRemoveDueTomorrow={this.handleRemoveDueTomorrow}
+          />
+          <div>
+            <Button onClick={this.filterAll}
+              pressed={this.state.filterCompletedTerm === ALL}>All
+            </Button>
+            <Button onClick={this.filterActive}
+              pressed={this.state.filterCompletedTerm === ACTIVE}>Active
+            </Button>
+            <Button onClick={this.filterCompleted}
+              pressed={this.state.filterCompletedTerm === COMPLETED}>Completed
+            </Button>
+            {
+              ((this.state.items.filter(item => item.isCompleted === true)).length > 0) ?
+                <Button bigger
+                  onClick={this.clearCompleted}>Clear completed
+                </Button> :
+                null
+            }
+          </div>
+          <div>
+            <Button onClick={this.notFilterImportant}
+              pressed={!this.state.isFilterImportant}>All
+            </Button>
+            <Button onClick={this.filterImportant}
+              pressed={this.state.isFilterImportant}>Important!
+            </Button>
+          </div>
+          <div>
+            <Button onClick={this.notFilterDueToday}
+              pressed={!this.state.isFilterDueToday && !this.state.isFilterDueTomorrow}>All
+            </Button>
+            <Button onClick={this.filterDueToday}
+              pressed={this.state.isFilterDueToday}>Due Today
+            </Button>
+            <Button onClick={this.filterDueTomorrow}
+              pressed={this.state.isFilterDueTomorrow}>Due Tomorrow
+            </Button>
+          </div>
+          <WellDoneWrapper unvisible={!this.state.isWellDoneVisible}>
+            <WellDoneBox >
+              <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items
+              </WellDoneMessage>
+              <Svg version="1.1"
+                id="Close-popup" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                viewBox="0 0 512 512"
+                style={{enableBackground: "new 0 0 512 512"}}
+                width="1.78rem" height="1.78rem"
+                onClick={this.okButton}
+                position>
+                <ellipse style={{fill: "#0099ff"}} cx="256" cy="256" rx="256" ry="255.832"/>
+                <g>
+                  <rect x="228.021" y="113.143" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.0178 256.0051)"
+                    style={{fill: "#e6f5ff"}} width="55.991" height="285.669"/>
+                  <rect x="113.164" y="227.968" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.0134 255.9885)"
+                    style={{fill: "#e6f5ff"}} width="285.669" height="55.991"/>
+                </g>
+              </Svg>
+            </WellDoneBox>
+          </WellDoneWrapper>
+        </ToDoWrapper>
+      </Body>
     );
   }
 }
