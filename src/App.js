@@ -6,6 +6,7 @@ import { keyframes } from "styled-components";
 import InlineSVG from 'svg-inline-react';
 import { injectGlobal } from 'styled-components';
 import 'normalize.css';
+import Gugi from './fonts/Gugi-Regular.ttf'
 
 const Svg = styled(InlineSVG)`
   vertical-align: bottom;
@@ -21,6 +22,10 @@ const Svg = styled(InlineSVG)`
 injectGlobal`
   body {
     overflow: hidden;
+  }
+  @font-face {
+    font-family: 'Gugi';
+    src: url(${Gugi});
   }
 `;
 
@@ -53,6 +58,7 @@ const ItemsCounter = styled.div`
 `;
 
 const ItemsCounterText = styled.p`
+  font-family: Gugi;
   display: inline-block;
   font-size: 55px;
   color: #1a66ff;
