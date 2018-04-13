@@ -3,7 +3,30 @@ import List from "./List";
 import uuidv4 from "uuid";
 import styled, { css } from "styled-components";
 import { keyframes } from "styled-components";
+import InlineSVG from 'svg-inline-react';
+import { injectGlobal } from 'styled-components';
+import 'normalize.css';
 
+const Svg = styled(InlineSVG)`
+  vertical-align: bottom;
+  margin-left: 10px;
+
+  ${props => props.position && css`
+    position: absolute;
+    top: -15px;
+    right: -19px;
+  `}
+`;
+
+injectGlobal`
+  body {
+    overflow: hidden;
+  }
+`;
+
+const FilterWrapper = styled.div`
+  margin-top: 10px;
+`;
 
 const Body = styled.div`
   background-image: url(./boat.jpeg);
@@ -11,6 +34,8 @@ const Body = styled.div`
   background-attachment:fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  font-size: 14px;
+  font-family: sans-serif;
 `;
 
 const ToDoWrapper = styled.div`
@@ -35,17 +60,6 @@ const ItemsCounterText = styled.p`
   padding-right: 2px;
 `;
 
-const Svg = styled.svg`
-  vertical-align: bottom;
-  margin-left: 10px;
-    
-  ${props => props.position && css`
-    position: absolute;
-    top: -15px;
-    right: -19px;
-  `}
-`;
-
 const Input = styled.input`
   font-family: sans-serif;
   background-color: #BAE3FF;
@@ -62,11 +76,11 @@ const Input = styled.input`
 const Button = styled.button`
   border-radius: 3px;
   padding: 0.25em 1em;
-  margin: 0 10px;
+  margin: 3px 10px;
   background: transparent;
   color: #0099ff;
   border: 2px solid #0099ff;
-  width: 125px;
+  width: 130px;
   background: #f2f2f2;
   opacity: 0.9;
   font-weight: bold;
@@ -382,6 +396,7 @@ class App extends Component {
 
   render() {
     return (
+      
       <Body>
         <ToDoWrapper>
           <ItemsCounter>
@@ -405,16 +420,7 @@ class App extends Component {
               placeholder={"Do you have new tasks?"}
             />
             <span onClick={this.onSubmit}>
-              <Svg xmlns="http://www.w3.org/2000/svg"
-                version="1.1"  viewBox="0 0 80 80"
-                style={{enableBackground: "new 0 0 80 80"}}
-                width="1.78rem" height="1.78rem">
-                <g>
-                  <path style={{fill: "#0099ff"}}
-                    d="M70,0H10C4.5,0,0,4.5,0,10v60c0,5.5,4.5,10,10,10h60c5.5,0,10-4.5,10-10V10C80,4.5,75.5,0,70,0z
-                    M65,45H45v20H35V45H15V35h20V15h10v20h20V45z"/>
-                </g>
-              </Svg>
+              <Svg src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
             </span>
           </form>
           {
@@ -422,16 +428,7 @@ class App extends Component {
               <p>{"You don't have any important items!"}</p> :
               null
           }
-          <List items={this.getItems()}
-            handleDelete={this.handleDelete}
-            handleChange={this.handleChange}
-            handleComplete={this.handleComplete}
-            handleImportant={this.handleImportant}
-            handleDueToday={this.handleDueToday}
-            handleRemoveDueToday={this.handleRemoveDueToday}
-            handleDueTomorrow={this.handleDueTomorrow}
-            handleRemoveDueTomorrow={this.handleRemoveDueTomorrow}
-          />
+          <FilterWrapper>
           <div>
             <Button onClick={this.filterAll}
               pressed={this.state.filterCompletedTerm === ALL}>All
@@ -469,29 +466,28 @@ class App extends Component {
               pressed={this.state.isFilterDueTomorrow}>Due Tomorrow
             </Button>
           </div>
+          </FilterWrapper>
+          <List items={this.getItems()}
+            handleDelete={this.handleDelete}
+            handleChange={this.handleChange}
+            handleComplete={this.handleComplete}
+            handleImportant={this.handleImportant}
+            handleDueToday={this.handleDueToday}
+            handleRemoveDueToday={this.handleRemoveDueToday}
+            handleDueTomorrow={this.handleDueTomorrow}
+            handleRemoveDueTomorrow={this.handleRemoveDueTomorrow}
+          />
           <WellDoneWrapper unvisible={!this.state.isWellDoneVisible}>
             <WellDoneBox >
               <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items
               </WellDoneMessage>
-              <Svg version="1.1"
-                id="Close-popup" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                viewBox="0 0 512 512"
-                style={{enableBackground: "new 0 0 512 512"}}
-                width="1.78rem" height="1.78rem"
-                onClick={this.okButton}
-                position>
-                <ellipse style={{fill: "#0099ff"}} cx="256" cy="256" rx="256" ry="255.832"/>
-                <g>
-                  <rect x="228.021" y="113.143" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.0178 256.0051)"
-                    style={{fill: "#e6f5ff"}} width="55.991" height="285.669"/>
-                  <rect x="113.164" y="227.968" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -106.0134 255.9885)"
-                    style={{fill: "#e6f5ff"}} width="285.669" height="55.991"/>
-                </g>
-              </Svg>
+              <Svg src={require(`!raw-loader!./icons/close-popup.svg`)} raw={true} onClick={this.okButton}
+                position/>
             </WellDoneBox>
           </WellDoneWrapper>
         </ToDoWrapper>
       </Body>
+     
     );
   }
 }

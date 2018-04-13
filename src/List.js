@@ -1,13 +1,19 @@
 import React from "react";
 import ListItem from "./ListItem";
 import styled from "styled-components";
+import { Scrollbars } from 'react-custom-scrollbars';
+
 
 const ListWrapper = styled.ul`
   padding-left: 0;
+  max-height: 50vh;
+
 `;
+
 
 const List = (props) => (
   <ListWrapper>
+    <Scrollbars style={{ minWidth: 660, height: `50vh` }}>
     {
       props.items.map(item =>
         <ListItem
@@ -23,6 +29,7 @@ const List = (props) => (
           handleRemoveDueTomorrow={props.handleRemoveDueTomorrow}
         />)
     }
+    </Scrollbars>
   </ListWrapper>
 );
 
