@@ -17,6 +17,10 @@ const Svg = styled(InlineSVG)`
     top: -15px;
     right: -19px;
   `}
+
+  ${props => props.robot && css`
+    margin-left: -10px;
+  `}
 `;
 
 injectGlobal`
@@ -53,8 +57,8 @@ const ToDoWrapper = styled.div`
 `;
 
 const ItemsCounter = styled.div`
-  padding: 40px 0;
-  margin-left: 10px;
+  padding: 30px 0;
+  // margin-left: 10px;
 `;
 
 const ItemsCounterText = styled.p`
@@ -406,7 +410,9 @@ class App extends Component {
       <Body>
         <ToDoWrapper>
           <ItemsCounter>
-            <ItemsCounterText>Hello!</ItemsCounterText>
+          <Svg robot src={require(`!raw-loader!./icons/robot.svg`)} raw={true}/>
+            <ItemsCounterText>Hello!</ItemsCounterText> 
+            
             {
               (this.itemsCounter() === 0) ?
                 <ItemsCounterText>{"Let's get started!"}</ItemsCounterText> :
@@ -434,6 +440,10 @@ class App extends Component {
               <p>{"You don't have any important items!"}</p> :
               null
           }
+          {(this.itemsCounter() === 0) ?
+            
+            null :
+           <div>
           <FilterWrapper>
           <div>
             <Button onClick={this.filterAll}
@@ -473,6 +483,7 @@ class App extends Component {
             </Button>
           </div>
           </FilterWrapper>
+
           <List items={this.getItems()}
             handleDelete={this.handleDelete}
             handleChange={this.handleChange}
@@ -483,6 +494,8 @@ class App extends Component {
             handleDueTomorrow={this.handleDueTomorrow}
             handleRemoveDueTomorrow={this.handleRemoveDueTomorrow}
           />
+          </div>
+          }
           <WellDoneWrapper unvisible={!this.state.isWellDoneVisible}>
             <WellDoneBox >
               <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items
