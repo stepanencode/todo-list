@@ -5,30 +5,29 @@ describe('Open Website', () => {
   var browser, page;
   var url = 'http://localhost:3000'
 
-beforeAll (async () => {
+  beforeAll (async () => {
     browser = await puppeteer.launch();
     page = await browser.newPage();
     await page.goto(url);
-  })
+  });
 
-afterAll (() => {
-  browser.close()
-  })
+  afterAll (() => {
+    browser.close()
+  });
 
-test('Title == React App', async () => {
+  test('Title == React App', async () => {
     await page.goto(url);
     const title = await page.title();
     expect(title).toBe("React App");
   });
 
-test('Type text works fine', async () => {
-  await page.goto(url);
-  await page.waitForSelector("input");
-  await page.click("input");
-  await page.type("input", "test text");
+  test('Type text works fine', async () => {
+    await page.goto(url);
+    await page.waitForSelector("input");
+    await page.click("input");
+    await page.type("input", "test text");
 
-  const inputText = await page.$eval("input", el => el.value);
-  expect(inputText).toEqual("test text");
-});
-
+    const inputText = await page.$eval("input", el => el.value);
+    expect(inputText).toEqual("test text");
+  });
 })

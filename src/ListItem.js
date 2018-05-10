@@ -216,8 +216,6 @@ class ListItem extends Component {
               <label onClick={this.handleComplete} data-testid="checkbox">
                 <Checkbox type="checkbox" id="option"
                   checked={this.props.item.isCompleted}
-                  // onClick={this.handleComplete}
-                  // data-testid="checkbox"
                 />
                 <SvgWrapper>
                   <Svg src={require(`!raw-loader!./icons/checkbox-notchecked.svg`)} raw={true}/>
@@ -231,18 +229,28 @@ class ListItem extends Component {
               <Input value={this.props.item.text}
                 maxLength={100}
                 onChange={this.handleChange}
+                data-testid="item-text-input"
               />
               <SvgWrapper>
-                <Svg src={require(`!raw-loader!./icons/save.svg`)} raw={true} onClick={this.handleSave}/>
+                <Svg src={require(`!raw-loader!./icons/save.svg`)}
+                 raw={true}
+                 onClick={this.handleSave} 
+                 data-testid="save-button"
+                 />
               </SvgWrapper>
             </span> :
             <span>
-              <TextItem maxLength={100} data-testid="item-text">{this.props.item.text}</TextItem>
+              <TextItem maxLength={100} 
+              data-testid="item-text"
+              >{this.props.item.text}</TextItem>
               {
                 this.props.item.isCompleted ?
                   null :
                   <SvgWrapper>
-                    <Svg src={require(`!raw-loader!./icons/edit.svg`)} raw={true} onClick={this.handleEdit}/>
+                    <Svg src={require(`!raw-loader!./icons/edit.svg`)} raw={true}
+                     onClick={this.handleEdit}
+                     data-testid="edit-button"
+                     />
                   </SvgWrapper>
               }
             </span>
@@ -255,26 +263,34 @@ class ListItem extends Component {
                 this.props.item.isImportant ?
                 <SvgWrapper>
                   <Svg src={require(`!raw-loader!./icons/important.svg`)}
-                    raw={true} onClick={this.handleImportant}/>
+                    raw={true} 
+                    onClick={this.handleImportant}
+                    data-testid="important-item"/>
                 </SvgWrapper> :
                 <SvgWrapper>
                   <Svg src={require(`!raw-loader!./icons/notimportant.svg`)} 
-                    raw={true} onClick={this.handleImportant}/>
+                    raw={true} 
+                    onClick={this.handleImportant}
+                    data-testid="not-important-item"/>
                 </SvgWrapper>
               }
               {
                 this.props.item.isDueToday ?
-                  <Button bigger
+                  <Button bigger 
+                    data-testid="due-today-on"
                     onClick={this.handleRemoveDueToday}>Remove Due Today
                   </Button> :
-                  <Button onClick={this.handleDueToday}>Due Today</Button>
+                  <Button onClick={this.handleDueToday} 
+                    data-testid="due-today-off" >Due Today</Button>
               }
               {
                 this.props.item.isDueTomorrow ?
-                  <Button bigger
-                    onClick={this.handleRemoveDueTomorrow}>Remove Due Tommorow
+                  <Button bigger 
+                    data-testid="due-tomorrow-on"
+                    onClick={this.handleRemoveDueTomorrow}>Remove Due Tomorrow
                   </Button> :
-                  <Button onClick={this.handleDueTomorrow}>Due Tomorrow</Button>
+                  <Button onClick={this.handleDueTomorrow} 
+                    data-testid="due-tomorrow-off">Due Tomorrow</Button>
               }
               <span>
               <SvgWrapper>
