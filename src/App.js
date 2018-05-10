@@ -425,25 +425,26 @@ class App extends Component {
                 </ItemsCounterText>
             }
           </ItemsCounter>
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSubmit} data-testid="submit">
             <Input value={this.state.term}
               onChange={this.onChange}
               maxLength={100}
               placeholder={"Do you have new tasks?"}
+              data-testid="input-add-item"
             />
-            <span onClick={this.onSubmit}>
+            <span onClick={this.onSubmit} data-testid="submit-button">
               <Svg src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
             </span>
           </form>
-          {
+          {/* {
             ((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ?
               <p>{"You don't have any important items!"}</p> :
               null
-          }
-          {(this.itemsCounter() === 0) ?
+          } */}
+          {/* {(this.itemsCounter() >= 1) ?
             
             null :
-           <div>
+           <div> */}
           <FilterWrapper>
           <div>
             <Button onClick={this.filterAll}
@@ -483,7 +484,7 @@ class App extends Component {
             </Button>
           </div>
           </FilterWrapper>
-
+          
           <List items={this.getItems()}
             handleDelete={this.handleDelete}
             handleChange={this.handleChange}
@@ -494,8 +495,8 @@ class App extends Component {
             handleDueTomorrow={this.handleDueTomorrow}
             handleRemoveDueTomorrow={this.handleRemoveDueTomorrow}
           />
-          </div>
-          }
+          {/* </div>
+          } */}
           <WellDoneWrapper unvisible={!this.state.isWellDoneVisible}>
             <WellDoneBox >
               <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items

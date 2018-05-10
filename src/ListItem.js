@@ -26,7 +26,11 @@ const ItemWrapper = styled.li`
 
 const Svg = styled(InlineSVG)`
   vertical-align: middle;
-  margin: 0 10px;
+  margin: 0;
+`;
+
+const SvgWrapper = styled.span`
+ margin: 0 10px;
 `;
 
 const TextItem = styled.p`
@@ -81,6 +85,7 @@ const Button = styled.button`
 const Checkbox = styled.input`
   display: none;
 `;
+
 
 const Input = styled.input`
   background-color: #BAE3FF;
@@ -202,15 +207,21 @@ class ListItem extends Component {
                 <Checkbox type="checkbox" id="option"
                   checked={this.props.item.isCompleted}
                   onClick={this.handleComplete}
+                  data-testid="checkbox-checked"
                 />
-                <Svg src={require(`!raw-loader!./icons/checkbox-checked.svg`)} raw={true}/>
+                <SvgWrapper>
+                  <Svg src={require(`!raw-loader!./icons/checkbox-checked.svg`)} raw={true}/>
+                </SvgWrapper>
               </label> :
-              <label>
+              <label onClick={this.handleComplete} data-testid="checkbox">
                 <Checkbox type="checkbox" id="option"
                   checked={this.props.item.isCompleted}
-                  onClick={this.handleComplete}
+                  // onClick={this.handleComplete}
+                  // data-testid="checkbox"
                 />
-                <Svg src={require(`!raw-loader!./icons/checkbox-notchecked.svg`)} raw={true}/>
+                <SvgWrapper>
+                  <Svg src={require(`!raw-loader!./icons/checkbox-notchecked.svg`)} raw={true}/>
+                </SvgWrapper>  
               </label>
           }
         </span>
@@ -221,14 +232,18 @@ class ListItem extends Component {
                 maxLength={100}
                 onChange={this.handleChange}
               />
-              <Svg src={require(`!raw-loader!./icons/save.svg`)} raw={true} onClick={this.handleSave}/>
+              <SvgWrapper>
+                <Svg src={require(`!raw-loader!./icons/save.svg`)} raw={true} onClick={this.handleSave}/>
+              </SvgWrapper>
             </span> :
             <span>
-              <TextItem maxLength={100}>{this.props.item.text}</TextItem>
+              <TextItem maxLength={100} data-testid="item-text">{this.props.item.text}</TextItem>
               {
                 this.props.item.isCompleted ?
                   null :
-                  <Svg src={require(`!raw-loader!./icons/edit.svg`)} raw={true} onClick={this.handleEdit}/>
+                  <SvgWrapper>
+                    <Svg src={require(`!raw-loader!./icons/edit.svg`)} raw={true} onClick={this.handleEdit}/>
+                  </SvgWrapper>
               }
             </span>
         }
@@ -238,10 +253,14 @@ class ListItem extends Component {
             <span>
               {
                 this.props.item.isImportant ?
+                <SvgWrapper>
                   <Svg src={require(`!raw-loader!./icons/important.svg`)}
-                    raw={true} onClick={this.handleImportant}/> :
+                    raw={true} onClick={this.handleImportant}/>
+                </SvgWrapper> :
+                <SvgWrapper>
                   <Svg src={require(`!raw-loader!./icons/notimportant.svg`)} 
                     raw={true} onClick={this.handleImportant}/>
+                </SvgWrapper>
               }
               {
                 this.props.item.isDueToday ?
@@ -258,8 +277,10 @@ class ListItem extends Component {
                   <Button onClick={this.handleDueTomorrow}>Due Tomorrow</Button>
               }
               <span>
+              <SvgWrapper>
                 <Svg src={require(`!raw-loader!./icons/add-comment.svg`)} 
                   raw={true} onClick={this.showCommentField}/> 
+              </SvgWrapper>
               </span>
               <TimerButton time='5'
                 startTimer={this.startTimer}
@@ -268,8 +289,10 @@ class ListItem extends Component {
               <TimerDisplay timeLeft={this.state.timeLeft}/>
             </span>
         }
-        <Svg src={require(`!raw-loader!./icons/delete-item.svg`)} 
-          raw={true} onClick={this.handleDelete}/>
+        <SvgWrapper>
+          <Svg src={require(`!raw-loader!./icons/delete-item.svg`)} 
+            raw={true} onClick={this.handleDelete}/>
+        </SvgWrapper>
         {
           this.state.showComment ?
             <CommentField
