@@ -159,6 +159,28 @@ const WellDoneWrapper = styled.div`
   `}
 `;
 
+const FilteredMessagesBox = styled.div`
+  
+  background-color: #ffffff;
+  opacity: 0.9;
+  border-radius: 3px;
+  margin-top: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #0099ff;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+const FilteredMessage = styled.p`
+  margin: 0;
+  padding-left: 10px;
+`;
+
 const ACTIVE = "active";
 const ALL = "all";
 const COMPLETED = "completed";
@@ -395,6 +417,10 @@ class App extends Component {
     return this.getItems().length;
   };
 
+  allItemsCounter = () => {
+    return this.state.items.length;
+  }
+  
   isWellDone = () => {
     for (let counter of WELLDONE_COUNTERS) {
       if (this.getCompletedItems().length === counter) {
@@ -441,15 +467,16 @@ class App extends Component {
               <p>{"You don't have any important items!"}</p> :
               null
           } */}
-          {/* {(this.itemsCounter() >= 1) ?
-            
-            null :
-           <div> */}
+          
+                    
           <FilterWrapper>
           <div>
+          {(this.allItemsCounter() === 0) ? null: 
+          <span>
             <Button onClick={this.filterAll}
               pressed={this.state.filterCompletedTerm === ALL}>All
-            </Button>
+            </Button> 
+
             <Button onClick={this.filterActive}
               pressed={this.state.filterCompletedTerm === ACTIVE}>Active
             </Button>
@@ -463,26 +490,77 @@ class App extends Component {
                 </Button> :
                 null
             }
+            </span>
+          }
           </div>
+          {(this.allItemsCounter() === 0) ? null: 
           <div>
             <Button onClick={this.notFilterImportant}
               pressed={!this.state.isFilterImportant}>All
-            </Button>
+          </Button> 
             <Button onClick={this.filterImportant}
               pressed={this.state.isFilterImportant}>Important!
-            </Button>
+            </Button> 
           </div>
+          }
+          {(this.allItemsCounter() === 0) ? null: 
           <div>
             <Button onClick={this.notFilterDueToday}
               pressed={!this.state.isFilterDueToday && !this.state.isFilterDueTomorrow}>All
-            </Button>
+          </Button> 
             <Button onClick={this.filterDueToday}
               pressed={this.state.isFilterDueToday}>Due Today
-            </Button>
+            </Button> 
+             
             <Button onClick={this.filterDueTomorrow}
               pressed={this.state.isFilterDueTomorrow}>Due Tomorrow
-            </Button>
+            </Button> 
           </div>
+          }
+          {/* {(this.allItemsCounter() === 0) ? <p>ничего нет</p>: <p>что-то написали</p>} */}
+
+          {(this.state.filterCompletedTerm === ACTIVE) && (this.state.isFilterImportant === false) &&
+           (this.allItemsCounter() >= 1)  &&
+            (this.itemsCounter() === 0) ? 
+            <FilteredMessagesBox>
+              <FilteredMessage>You don't have active tasks yet!</FilteredMessage>
+            </FilteredMessagesBox> : null}
+
+          {(this.state.filterCompletedTerm === COMPLETED) && (this.state.isFilterImportant === false) && (this.allItemsCounter() >= 1) && 
+            (this.itemsCounter() === 0) ? 
+            <FilteredMessagesBox>
+              <FilteredMessage>You don't have completed tasks yet!</FilteredMessage>
+            </FilteredMessagesBox> : null}
+
+          {(this.state.filterCompletedTerm === ACTIVE) && (this.state.isFilterImportant === true) && 
+            (this.itemsCounter() === 0) ? 
+            <FilteredMessagesBox>
+              <FilteredMessage>You don't have active and important tasks yet!</FilteredMessage>
+            </FilteredMessagesBox> : null}
+
+          {(this.state.filterCompletedTerm === ALL) && (this.state.isFilterImportant === true) && 
+            (this.itemsCounter() === 0) ? 
+            <FilteredMessagesBox>
+              <FilteredMessage>You don't have important tasks!</FilteredMessage>
+            </FilteredMessagesBox> : null}
+
+          {(this.state.filterCompletedTerm === COMPLETED) && (this.state.isFilterImportant === true) && 
+            (this.itemsCounter() === 0) ? 
+            <FilteredMessagesBox>
+              <FilteredMessage>You don't have completed and important tasks yet!</FilteredMessage>
+            </FilteredMessagesBox> : null}
+
+          {(this.state.isFilterDueToday === true)  &&
+           (this.itemsCounter() === 0) ? 
+           <FilteredMessagesBox>
+            <FilteredMessage>You have no tasks for today!</FilteredMessage>
+           </FilteredMessagesBox> : null}
+
+          {(this.state.isFilterDueTomorrow === true) &&
+           (this.itemsCounter() === 0) ? 
+           <FilteredMessagesBox>
+            <FilteredMessage>You have no tasks for tomorrow!</FilteredMessage>
+           </FilteredMessagesBox> : null}  
           </FilterWrapper>
           
           <List items={this.getItems()}

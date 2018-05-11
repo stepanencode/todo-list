@@ -108,6 +108,7 @@ class ListItem extends Component {
       timeLeft: null,
       timer: null,
       showComment: false,
+      showCommentItems: false
     };
   }
 
@@ -192,8 +193,10 @@ class ListItem extends Component {
   };
 
   showCommentField = () => {
-    this.setState(() => ({showComment: true}));
+    this.setState(() => ({showComment: !this.state.showComment}));
   };
+
+  
   render() {
     return(
       <ItemWrapper
