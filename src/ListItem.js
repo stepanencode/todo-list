@@ -193,7 +193,8 @@ class ListItem extends Component {
   };
 
   showCommentField = () => {
-    this.setState(() => ({showComment: !this.state.showComment}));
+    // this.setState(() => ({showComment: !this.state.showComment}));
+    this.setState(() => ({showComment: true}));
   };
 
   

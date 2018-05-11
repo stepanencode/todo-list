@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CommentList from "./CommentList";
 import styled, {css} from "styled-components";
 import InlineSVG from 'svg-inline-react';
+import uuidv4 from "uuid";
 
 const Svg = styled(InlineSVG)`
     vertical-align: middle;
@@ -17,7 +18,7 @@ const Input = styled.input`
   height: 1.78rem;
   border-radius: 3px;
   font-size: 22px;
-  margin-top: 20px;
+  margin-top: 5px;
   padding-left: 5px;
   margin-left: 10px;
   
@@ -53,33 +54,36 @@ class CommentField extends Component{
         commentItems: [
           ...this.state.commentItems,
           {text: this.state.commentText.trim(),
+            uuidComment: uuidv4()
           }
         ],
       });
     }
   };
 
-  handleDeleteComment = (index) => {
+  handleDeleteComment = (uuidComment) => {
     this.setState(prevState => ({
-      commentItems: prevState.commentItems.filter((item, itemIndex) => itemIndex !== index)
+      commentItems: prevState.commentItems.filter(item => item.uuidComment !== uuidComment)
     }));
   };
 
-  handleCommentChange = (commentItem, text) => {
+  handleCommentChange = (uuidComment, text) => {
     this.setState((prevState) => {
       let commentItems = prevState["items"].slice();
       for (let commentItem of commentItems) {
+        if (commentItem.uuidComment === uuidComment) {
         commentItem.text = text;
+      }
       }
       return {commentItems: commentItems};
     });
   };
 
-  hideComments = () => {
-    this.setState({
-      isHide: !this.state.isHide
-    });
-  };
+  // hideComments = () => {
+  //   this.setState({
+  //     isHide: !this.state.isHide
+  //   });
+  // };
 
   render() {
     return(
@@ -101,14 +105,14 @@ class CommentField extends Component{
                 </span>
               </span>
           }
-          {
+          {/* {
             this.state.isHide ?
               <Svg src={require(`!raw-loader!./icons/show-comment-field.svg`)}
                 raw={true} onClick={this.hideComments}/>
                :
                <Svg src={require(`!raw-loader!./icons/hide-comment-field.svg`)} 
                  raw={true} onClick={this.hideComments}/>
-          }
+          } */}
         </form>
         <CommentList
           commentItems={this.state.commentItems}

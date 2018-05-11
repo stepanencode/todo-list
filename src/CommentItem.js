@@ -28,11 +28,11 @@ class CommentItem extends Component {
   }
 
   handleDeleteComment = () => {
-    this.props.handleDeleteComment(this.props.index);
+    this.props.handleDeleteComment(this.props.commentItem.uuidComment);
   };
 
   handleCommentChange = (event) => {
-    this.props.handleCommentChange(this.props.commentItem, event.target.value);
+    this.props.handleCommentChange(this.props.commentItem.uuidComment, event.target.value);
   };
 
   handleLike = () => {

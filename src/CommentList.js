@@ -9,10 +9,9 @@ const CommentListWrapper = styled.ul`
 const CommentList = (props) => (
   <CommentListWrapper>
     {
-      props.commentItems.map((commentItem, index) =>
+      props.commentItems.map(commentItem =>
         <CommentItem
-          key={index}
-          index={index}
+          key={commentItem.uuidComment}
           commentItem={commentItem}
           handleCommentChange={props.handleCommentChange}
           handleDeleteComment={props.handleDeleteComment}
