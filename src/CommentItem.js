@@ -48,12 +48,16 @@ class CommentItem extends Component {
         {
           this.state.isLiked ?
             <Svg src={require(`!raw-loader!./icons/like-comment-item.svg`)} 
-              raw={true} onClick={this.handleLike}/> :
+              raw={true} 
+              onClick={this.handleLike}
+              data-testid="comment-liked"/> :
              <Svg src={require(`!raw-loader!./icons/notlike-comment-item.svg`)} 
-              raw={true} onClick={this.handleLike}/>
+              raw={true} 
+              onClick={this.handleLike}
+              data-testid="comment-not-liked"/>
         }
         <Svg src={require(`!raw-loader!./icons/delete-comment-item.svg`)} 
-          raw={true} onClick={this.handleDeleteComment}/>
+          raw={true} onClick={this.handleDeleteComment} data-testid="comment-delete"/>
       </CommentList>
     );
   }

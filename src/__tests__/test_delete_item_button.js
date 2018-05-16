@@ -1,12 +1,6 @@
-
-
 const puppeteer = require('puppeteer');
 
-
-
-
-
-describe('Test checkbox', () => {
+describe('Test delete item button', () => {
   var browser, page;
   var url = 'http://localhost:3000'
 
@@ -20,18 +14,19 @@ describe('Test checkbox', () => {
     browser.close()
   });
 
-  test('Press checkbox', async () => {
+  test('Test delete item button right works', async () => {
     await page.goto(url);
     await page.waitForSelector('[data-testid="input-add-item"]');
     await page.click('[data-testid="input-add-item"]');
     await page.type('[data-testid="input-add-item"]', "test text");
     await page.click('[data-testid="submit-button"]');
+    await page.waitForSelector('[data-testid="item-text"]');
 
-    await page.waitForSelector('[data-testid="checkbox"]');
-    await page.click('[data-testid="checkbox"]');
-    await page.waitForSelector('[data-testid="checkbox-checked"]');
- 
-    const itemCheckbox = await page.$eval('[data-testid="checkbox-checked"]', el => el.value);
-    expect(itemCheckbox).toBe("on")
+    await page.waitForSelector('[data-testid="delete-item"]');
+    await page.click('[data-testid="delete-item"]');
+
+    // await page.type('[data-testid="item-text"]', null);
+    expect('[data-testid="item-text"]').toBe("[data-testid=\"item-text\"]")
+
   });
 })

@@ -96,11 +96,14 @@ class CommentField extends Component{
                 <Input
                   value={this.state.commentText}
                   onChange={this.commentOnChange}
+                  data-testid="add-comment-field-input"
                   maxLength={50}
                   inputDisappear={this.inputDisappear}
                   placeholder={"Do you have any comments?"}
                 />
-                <span onClick={this.commentOnSubmit}>
+                <span 
+                  onClick={this.commentOnSubmit} 
+                  data-testid="submit-comment-button">
                   <Svg src={require(`!raw-loader!./icons/add-comment-item.svg`)} raw={true}/>
                 </span>
               </span>

@@ -65,7 +65,8 @@ const ItemsCounterText = styled.p`
   font-family: Gugi;
   display: inline-block;
   font-size: 55px;
-  color: #1a66ff;
+  color: #0099ff;
+  color: #1a75ff;
   margin: 0;
   padding-right: 2px;
 `;
@@ -436,17 +437,16 @@ class App extends Component {
       <Body>
         <ToDoWrapper>
           <ItemsCounter>
-          <Svg robot src={require(`!raw-loader!./icons/robot.svg`)} raw={true}/>
-            <ItemsCounterText>Hello!</ItemsCounterText> 
+          {/* <Svg robot src={require(`!raw-loader!./icons/robot.svg`)} raw={true}/> */}
             
             {
-              (this.itemsCounter() === 0) ?
-                <ItemsCounterText>{"Let's get started!"}</ItemsCounterText> :
-                <ItemsCounterText>You have  {this.itemsCounter()}
+              (this.allItemsCounter() === 0) ?
+                <ItemsCounterText>{"Hello! Let's get started!"}</ItemsCounterText> :
+                <ItemsCounterText>You have  {this.allItemsCounter()}
                   {
-                    (this.itemsCounter() === 1) ?
-                      <span>{" "}item.</span> :
-                      <span>{" "}items.</span>
+                    (this.allItemsCounter() === 1) ?
+                      <span>{" "}task.</span> :
+                      <span>{" "}tasks.</span>
                   }
                 </ItemsCounterText>
             }
@@ -462,11 +462,6 @@ class App extends Component {
               <Svg src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
             </span>
           </form>
-          {/* {
-            ((this.state.isFilterImportant === true) && (this.getItems().length === 0)) ?
-              <p>{"You don't have any important items!"}</p> :
-              null
-          } */}
           
                     
           <FilterWrapper>
@@ -477,10 +472,10 @@ class App extends Component {
               pressed={this.state.filterCompletedTerm === ALL}>All
             </Button> 
 
-            <Button onClick={this.filterActive}
+            <Button onClick={this.filterActive} data-testid="active"
               pressed={this.state.filterCompletedTerm === ACTIVE}>Active
             </Button>
-            <Button onClick={this.filterCompleted}
+            <Button onClick={this.filterCompleted} data-testid="completed"
               pressed={this.state.filterCompletedTerm === COMPLETED}>Completed
             </Button>
             {
@@ -498,8 +493,8 @@ class App extends Component {
             <Button onClick={this.notFilterImportant}
               pressed={!this.state.isFilterImportant}>All
           </Button> 
-            <Button onClick={this.filterImportant}
-              pressed={this.state.isFilterImportant}>Important!
+            <Button onClick={this.filterImportant} 
+              pressed={this.state.isFilterImportant} >Important!
             </Button> 
           </div>
           }

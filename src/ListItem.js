@@ -299,7 +299,9 @@ class ListItem extends Component {
               <span>
               <SvgWrapper>
                 <Svg src={require(`!raw-loader!./icons/add-comment.svg`)} 
-                  raw={true} onClick={this.showCommentField}/> 
+                  raw={true}
+                  onClick={this.showCommentField} 
+                  data-testid="add-comment"/> 
               </SvgWrapper>
               </span>
               <TimerButton time='5'
@@ -311,7 +313,9 @@ class ListItem extends Component {
         }
         <SvgWrapper>
           <Svg src={require(`!raw-loader!./icons/delete-item.svg`)} 
-            raw={true} onClick={this.handleDelete}/>
+            raw={true} 
+            onClick={this.handleDelete}
+            data-testid="delete-item"/>
         </SvgWrapper>
         {
           this.state.showComment ?

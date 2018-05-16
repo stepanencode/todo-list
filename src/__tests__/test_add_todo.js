@@ -14,7 +14,7 @@ describe('Test add todo', () => {
     browser.close()
   });
 
-  test('Add todo item works good with submit button', async () => {
+  const createItem = test('Add todo item works good with submit button', async () => {
     await page.goto(url);
     await page.waitForSelector('[data-testid="input-add-item"]');
     await page.click('[data-testid="input-add-item"]');
@@ -25,6 +25,8 @@ describe('Test add todo', () => {
     const itemText = await page.$eval('[data-testid="item-text"]', el => el.innerHTML);
     expect(itemText).toEqual("test text");
   });
+
+  
 
   test('Submit todo item without text raise alert dialog', async () => {
     page.on('dialog', async dialog => {

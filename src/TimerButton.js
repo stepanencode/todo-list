@@ -19,7 +19,7 @@ class TimerButton extends Component{
       <span>
         {this.props.item.isCompleted ?
           null :
-          <Svg src={require(`!raw-loader!./icons/timer.svg`)} raw={true} onClick={this.handleStartTimer}/>
+          <Svg src={require(`!raw-loader!./icons/timer.svg`)} raw={true} onClick={this.handleStartTimer}  data-testid="timer-for-item"/>
         }
       </span>
     );
