@@ -5,9 +5,9 @@
   "dependencies": {
     "normalize.css": "^8.0.0",
     "raw-loader": "^0.5.1",
-    "react": "^16.2.0",
+    "react": "^16.5.0",
     "react-custom-scrollbars": "^4.2.1",
-    "react-dom": "^16.2.0",
+    "react-dom": "^16.5.0",
     "react-icons": "^2.2.7",
     "react-scripts": "1.1.1",
     "react-text-input": "0.0.8",
