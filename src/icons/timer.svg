@@ -2,7 +2,7 @@
             id="Timer"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 60 60"
-            width="1.78rem" height="1.78rem"
+            width="1.78em" height="1.78em"
           >
             <g>
               <circle fill="#ffffff" cx="30" cy="29" r="29"/>

@@ -17,7 +17,7 @@ const List = (props) => (
             <div {...props} style={{ ...style, display: 'none' }}/>
         }
          renderThumbVertical={({ style, ...props }) =>
-        <div {...props} style={{ ...style, backgroundColor: `rgba(0, 153, 255, 0.5)`, borderRadius: `3px`  }}/>
+        <div {...props} style={{ ...style, backgroundColor: `rgba(9, 142, 168, 0.5)`, borderRadius: `3px`  }}/>
     }
     renderView={({ style, ...props }) =>
     <div {...props} style={{ ...style, overflowX: 'hidden'  }}/>

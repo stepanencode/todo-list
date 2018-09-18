@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import List from "./List";
 import uuidv4 from "uuid";
 import styled, { css } from "styled-components";
@@ -7,6 +8,8 @@ import InlineSVG from 'svg-inline-react';
 import { injectGlobal } from 'styled-components';
 import 'normalize.css';
 import Gugi from './fonts/Gugi-Regular.ttf'
+import img from './boat.jpg';
+import { setFilterDueTomorrow, unsetFilterDueTomorrow} from './actions'
 
 const Svg = styled(InlineSVG)`
   vertical-align: bottom;
@@ -38,8 +41,10 @@ const FilterWrapper = styled.div`
 `;
 
 const Body = styled.div`
-  background-image: url(./boat.jpeg);
-  // background-color: blue;
+  background-image: url(${img});
+  //width: 2000px;
+  //height: 1125px;
+  //background-color: blue;
   background-attachment:fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -59,16 +64,18 @@ const ToDoWrapper = styled.div`
 const ItemsCounter = styled.div`
   padding: 30px 0;
   // margin-left: 10px;
+
 `;
 
 const ItemsCounterText = styled.p`
   font-family: Gugi;
   display: inline-block;
   font-size: 55px;
-  color: #0099ff;
-  color: #1a75ff;
+  color: #ffffff;
+  opacity: 0.9;
   margin: 0;
   padding-right: 2px;
+  float: left;
 `;
 
 const Input = styled.input`
@@ -89,23 +96,31 @@ const Button = styled.button`
   padding: 0.25em 1em;
   margin: 3px 10px;
   background: transparent;
-  color: #0099ff;
-  border: 2px solid #0099ff;
-  width: 130px;
+  color: #098EA8;
+  border: 2px solid #ffffff;
+  width: 150px;
   background: #f2f2f2;
   opacity: 0.9;
-  font-weight: bold;
-    
+  font-weight: 500;
+
   ${props => props.pressed && css`
-    background: #0099ff;
-    color: white;
+    background: #098EA8;
+    color: #ffffff;
+    opacity: 0.9;
   `}
-  
+
   ${props => props.bigger && css`
-    background: #0099ff;
+    background: #098EA8;
     color: white;
     width: 150px;
-  `} 
+  `}
+
+  ${props => props.relax && css`
+    background: #098EA8;
+    color: white;
+    width: 150px;
+    float: right;
+  `}
 `;
 
 const fadeIn = keyframes`
@@ -122,7 +137,8 @@ const WellDoneBox = styled.div`
   padding: 0.25em 1em;
   background: #BAE3FF;
   color: #0099ff;
-  border: 2px solid #0099ff;
+  color: #098EA8;
+  border: 2px solid #098EA8;
   width: 300px;
   height: 200px;
   margin: 0 auto;
@@ -135,9 +151,13 @@ const WellDoneBox = styled.div`
   cursor: pointer;
 `;
 
+const Clearfix = styled.div`
+  clear: both;
+`;
+
 const WellDoneMessage = styled.span`
   margin: 0 auto;
-  color: #003cb3;
+  color: #098EA8;
   text-align: center;
   position: absolute;
   top: 50%;
@@ -146,22 +166,22 @@ const WellDoneMessage = styled.span`
   transform: translate(-50%, -50%);
 `;
 
-const WellDoneWrapper = styled.div` 
+const WellDoneWrapper = styled.div`
    width:100%;
-   min-height:100%; 
+   min-height:100%;
    background-color: rgba(0,0,0,0.5);
    overflow:hidden;
    position:fixed;
    top:0px;
    left:0px;
-   
+
    ${props => props.unvisible && css`
     display: none;
   `}
 `;
 
 const FilteredMessagesBox = styled.div`
-  
+
   background-color: #ffffff;
   opacity: 0.9;
   border-radius: 3px;
@@ -170,7 +190,7 @@ const FilteredMessagesBox = styled.div`
   padding-bottom: 20px;
   font-weight: bold;
   font-size: 16px;
-  color: #0099ff;
+  color: #098EA8;
 
   &:hover {
     opacity: 1;
@@ -198,9 +218,13 @@ class App extends Component {
       isFilterImportant: false,
       isWellDoneVisible: false,
       isFilterDueToday: false,
-      isFilterDueTomorrow: false
+      isFilterDueTomorrow: false,
+      isAudioVisible: false
     };
   }
+  relaxButton = () => {
+    this.setState(() => ({isAudioVisible: true}));
+  };
 
   okButton = () => {
     this.setState(() => ({isWellDoneVisible: false}));
@@ -373,22 +397,25 @@ class App extends Component {
   filterDueToday = () => {
     this.setState({
       isFilterDueToday: true,
-      isFilterDueTomorrow: false
+      // isFilterDueTomorrow: false
     });
+    this.props.unsetFilterDueTomorrow();
   };
 
   filterDueTomorrow = () => {
     this.setState({
-      isFilterDueTomorrow: true,
+      // isFilterDueTomorrow: true,
       isFilterDueToday: false
     });
+    this.props.setFilterDueTomorrow();
   };
 
   notFilterDueToday = () => {
     this.setState({
       isFilterDueToday: false,
-      isFilterDueTomorrow: false
+      // isFilterDueTomorrow: false
     });
+    this.props.unsetFilterDueTomorrow();
   };
 
   getItems = () => {
@@ -404,7 +431,7 @@ class App extends Component {
     if (this.state.isFilterDueToday) {
       result = result.filter((item) => item.isDueToday === true && item.isDueTomorrow === false);
     }
-    if (this.state.isFilterDueTomorrow) {
+    if (this.props.isFilterDueTomorrow) {
       result = result.filter((item) => item.isDueTomorrow === true && item.isDueToday === false);
     }
     return result;
@@ -421,7 +448,7 @@ class App extends Component {
   allItemsCounter = () => {
     return this.state.items.length;
   }
-  
+
   isWellDone = () => {
     for (let counter of WELLDONE_COUNTERS) {
       if (this.getCompletedItems().length === counter) {
@@ -433,12 +460,12 @@ class App extends Component {
 
   render() {
     return (
-      
+
       <Body>
         <ToDoWrapper>
           <ItemsCounter>
           {/* <Svg robot src={require(`!raw-loader!./icons/robot.svg`)} raw={true}/> */}
-            
+
             {
               (this.allItemsCounter() === 0) ?
                 <ItemsCounterText>{"Hello! Let's get started!"}</ItemsCounterText> :
@@ -450,7 +477,14 @@ class App extends Component {
                   }
                 </ItemsCounterText>
             }
+            <Button relax onClick={this.relaxButton}>{"I need to relax"}</Button>
+            {(this.state.isAudioVisible === true) ?
+              <audio controls>
+                <source src="relax.mp3" type="audio/mpeg" />
+              </audio>
+           : null}
           </ItemsCounter>
+          <Clearfix></Clearfix>
           <form onSubmit={this.onSubmit} data-testid="submit">
             <Input value={this.state.term}
               onChange={this.onChange}
@@ -462,15 +496,15 @@ class App extends Component {
               <Svg src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
             </span>
           </form>
-          
-                    
+
+
           <FilterWrapper>
           <div>
-          {(this.allItemsCounter() === 0) ? null: 
+          {(this.allItemsCounter() === 0) ? null:
           <span>
             <Button onClick={this.filterAll}
               pressed={this.state.filterCompletedTerm === ALL}>All
-            </Button> 
+            </Button>
 
             <Button onClick={this.filterActive} data-testid="active"
               pressed={this.state.filterCompletedTerm === ACTIVE}>Active
@@ -488,76 +522,77 @@ class App extends Component {
             </span>
           }
           </div>
-          {(this.allItemsCounter() === 0) ? null: 
+          {(this.allItemsCounter() === 0) ? null:
           <div>
             <Button onClick={this.notFilterImportant}
               pressed={!this.state.isFilterImportant}>All
-          </Button> 
-            <Button onClick={this.filterImportant} 
+          </Button>
+            <Button onClick={this.filterImportant}
               pressed={this.state.isFilterImportant} >Important!
-            </Button> 
+            </Button>
           </div>
           }
-          {(this.allItemsCounter() === 0) ? null: 
+          {(this.allItemsCounter() === 0) ? null:
           <div>
+
             <Button onClick={this.notFilterDueToday}
-              pressed={!this.state.isFilterDueToday && !this.state.isFilterDueTomorrow}>All
-          </Button> 
+              pressed={!this.state.isFilterDueToday && !this.props.isFilterDueTomorrow}>All
+          </Button>
             <Button onClick={this.filterDueToday}
               pressed={this.state.isFilterDueToday}>Due Today
-            </Button> 
-             
+            </Button>
+
             <Button onClick={this.filterDueTomorrow}
-              pressed={this.state.isFilterDueTomorrow}>Due Tomorrow
-            </Button> 
+              pressed={this.props.isFilterDueTomorrow}>Due Tomorrow
+            </Button>
           </div>
           }
           {/* {(this.allItemsCounter() === 0) ? <p>ничего нет</p>: <p>что-то написали</p>} */}
 
           {(this.state.filterCompletedTerm === ACTIVE) && (this.state.isFilterImportant === false) &&
            (this.allItemsCounter() >= 1)  &&
-            (this.itemsCounter() === 0) ? 
+            (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
-              <FilteredMessage>You don't have active tasks yet!</FilteredMessage>
+              <FilteredMessage>{"You don't have active tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === COMPLETED) && (this.state.isFilterImportant === false) && (this.allItemsCounter() >= 1) && 
-            (this.itemsCounter() === 0) ? 
+          {(this.state.filterCompletedTerm === COMPLETED) && (this.state.isFilterImportant === false) && (this.allItemsCounter() >= 1) &&
+            (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
-              <FilteredMessage>You don't have completed tasks yet!</FilteredMessage>
+              <FilteredMessage>{"You don't have completed tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === ACTIVE) && (this.state.isFilterImportant === true) && 
-            (this.itemsCounter() === 0) ? 
+          {(this.state.filterCompletedTerm === ACTIVE) && (this.state.isFilterImportant === true) &&
+            (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
-              <FilteredMessage>You don't have active and important tasks yet!</FilteredMessage>
+              <FilteredMessage>{"You don't have active and important tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === ALL) && (this.state.isFilterImportant === true) && 
-            (this.itemsCounter() === 0) ? 
+          {(this.state.filterCompletedTerm === ALL) && (this.state.isFilterImportant === true) &&
+            (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
-              <FilteredMessage>You don't have important tasks!</FilteredMessage>
+              <FilteredMessage>{"You don't have important tasks!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === COMPLETED) && (this.state.isFilterImportant === true) && 
-            (this.itemsCounter() === 0) ? 
+          {(this.state.filterCompletedTerm === COMPLETED) && (this.state.isFilterImportant === true) &&
+            (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
-              <FilteredMessage>You don't have completed and important tasks yet!</FilteredMessage>
+              <FilteredMessage>{"You don't have completed and important tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
           {(this.state.isFilterDueToday === true)  &&
-           (this.itemsCounter() === 0) ? 
+           (this.itemsCounter() === 0) ?
            <FilteredMessagesBox>
             <FilteredMessage>You have no tasks for today!</FilteredMessage>
            </FilteredMessagesBox> : null}
 
-          {(this.state.isFilterDueTomorrow === true) &&
-           (this.itemsCounter() === 0) ? 
+          {(this.props.isFilterDueTomorrow === true) &&
+           (this.itemsCounter() === 0) ?
            <FilteredMessagesBox>
             <FilteredMessage>You have no tasks for tomorrow!</FilteredMessage>
-           </FilteredMessagesBox> : null}  
+           </FilteredMessagesBox> : null}
           </FilterWrapper>
-          
+
           <List items={this.getItems()}
             handleDelete={this.handleDelete}
             handleChange={this.handleChange}
@@ -580,10 +615,28 @@ class App extends Component {
           </WellDoneWrapper>
         </ToDoWrapper>
       </Body>
-     
+
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isFilterDueTomorrow: state.isFilterDueTomorrow
+  }
+}
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setFilterDueTomorrow: () => dispatch(setFilterDueTomorrow()),
+    unsetFilterDueTomorrow: () => dispatch(unsetFilterDueTomorrow()),
+  }
+}
+
+const AppContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
+export default AppContainer;
+// export default App;

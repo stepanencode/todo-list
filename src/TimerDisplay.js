@@ -6,6 +6,7 @@ const Text = styled.p`
   font-size: 1.5em;
   text-align: center;
   color: #1a53ff;
+  color: #098EA8;
 `;
 
 class TimerDisplay extends Component {
