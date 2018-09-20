@@ -9,7 +9,7 @@ import { injectGlobal } from 'styled-components';
 import 'normalize.css';
 import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
-import { setFilterDueTomorrow, unsetFilterDueTomorrow} from './actions'
+import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton } from './actions'
 
 const Svg = styled(InlineSVG)`
   vertical-align: bottom;
@@ -120,6 +120,8 @@ const Button = styled.button`
     color: white;
     width: 150px;
     float: right;
+    padding-top: 8px;
+    padding-bottom: 8px;
   `}
 `;
 
@@ -215,15 +217,16 @@ class App extends Component {
       term: "",
       items: [],
       filterCompletedTerm: ALL,
-      isFilterImportant: false,
+      // isFilterImportant: false,
       isWellDoneVisible: false,
-      isFilterDueToday: false,
-      isFilterDueTomorrow: false,
-      isAudioVisible: false
+      // isFilterDueToday: false,
+      // isFilterDueTomorrow: false,
+      // isPlayRelaxAudio: false
     };
   }
   relaxButton = () => {
-    this.setState(() => ({isAudioVisible: true}));
+    // this.setState(() => ({isPlayRelaxAudio: !this.state.isPlayRelaxAudio}));
+    this.props.toggleRelaxButton()
   };
 
   okButton = () => {
@@ -383,39 +386,44 @@ class App extends Component {
   };
 
   filterImportant = () => {
-    this.setState({
-      isFilterImportant: true
-    });
+    // this.setState({
+    //   isFilterImportant: true
+    // });
+    this.props.setFilterImportant()
   };
 
   notFilterImportant = () => {
-    this.setState({
-      isFilterImportant: false
-    });
+    // this.setState({
+    //   isFilterImportant: false
+    // });
+    this.props.unsetFilterImportant()
   };
 
   filterDueToday = () => {
     this.setState({
-      isFilterDueToday: true,
+      // isFilterDueToday: true,
       // isFilterDueTomorrow: false
     });
     this.props.unsetFilterDueTomorrow();
+    this.props.setFilterDueToday();
   };
 
   filterDueTomorrow = () => {
     this.setState({
       // isFilterDueTomorrow: true,
-      isFilterDueToday: false
+      // isFilterDueToday: false
     });
     this.props.setFilterDueTomorrow();
+    this.props.unsetFilterDueToday();
   };
 
   notFilterDueToday = () => {
     this.setState({
-      isFilterDueToday: false,
+      // isFilterDueToday: false,
       // isFilterDueTomorrow: false
     });
     this.props.unsetFilterDueTomorrow();
+    this.props.unsetFilterDueToday();
   };
 
   getItems = () => {
@@ -425,10 +433,10 @@ class App extends Component {
     } else if (this.state.filterCompletedTerm === COMPLETED) {
       result = result.filter((item) => item.isCompleted === true);
     }
-    if (this.state.isFilterImportant) {
+    if (this.props.isFilterImportant) {
       result = result.filter((item) => item.isImportant === true);
     }
-    if (this.state.isFilterDueToday) {
+    if (this.props.isFilterDueToday) {
       result = result.filter((item) => item.isDueToday === true && item.isDueTomorrow === false);
     }
     if (this.props.isFilterDueTomorrow) {
@@ -464,9 +472,7 @@ class App extends Component {
       <Body>
         <ToDoWrapper>
           <ItemsCounter>
-          {/* <Svg robot src={require(`!raw-loader!./icons/robot.svg`)} raw={true}/> */}
-
-            {
+          {
               (this.allItemsCounter() === 0) ?
                 <ItemsCounterText>{"Hello! Let's get started!"}</ItemsCounterText> :
                 <ItemsCounterText>You have  {this.allItemsCounter()}
@@ -477,13 +483,21 @@ class App extends Component {
                   }
                 </ItemsCounterText>
             }
-            <Button relax onClick={this.relaxButton}>{"I need to relax"}</Button>
-            {(this.state.isAudioVisible === true) ?
-              <audio controls>
-                <source src="relax.mp3" type="audio/mpeg" />
-              </audio>
-           : null}
-          </ItemsCounter>
+            <Button relax onClick={this.relaxButton}>
+             {
+               (this.props.isPlayRelaxAudio === false) ?
+               // (this.props.isPlayRelaxAudio === false) ?
+               "I need to relax" :
+              "Back to work"
+            }
+            </Button>
+
+            {(this.props.isPlayRelaxAudio === true) ?
+         //        {(this.props.isPlayRelaxAudio === true) ?
+              <audio autoplay="autoplay" loop>
+                <source src="relax.ogg" type="audio/ogg" />
+              </audio>  : null}
+         </ItemsCounter>
           <Clearfix></Clearfix>
           <form onSubmit={this.onSubmit} data-testid="submit">
             <Input value={this.state.term}
@@ -525,10 +539,10 @@ class App extends Component {
           {(this.allItemsCounter() === 0) ? null:
           <div>
             <Button onClick={this.notFilterImportant}
-              pressed={!this.state.isFilterImportant}>All
+              pressed={!this.props.isFilterImportant}>All
           </Button>
             <Button onClick={this.filterImportant}
-              pressed={this.state.isFilterImportant} >Important!
+              pressed={this.props.isFilterImportant} >Important!
             </Button>
           </div>
           }
@@ -536,10 +550,10 @@ class App extends Component {
           <div>
 
             <Button onClick={this.notFilterDueToday}
-              pressed={!this.state.isFilterDueToday && !this.props.isFilterDueTomorrow}>All
+              pressed={!this.props.isFilterDueToday && !this.props.isFilterDueTomorrow}>All
           </Button>
             <Button onClick={this.filterDueToday}
-              pressed={this.state.isFilterDueToday}>Due Today
+              pressed={this.props.isFilterDueToday}>Due Today
             </Button>
 
             <Button onClick={this.filterDueTomorrow}
@@ -549,38 +563,38 @@ class App extends Component {
           }
           {/* {(this.allItemsCounter() === 0) ? <p>ничего нет</p>: <p>что-то написали</p>} */}
 
-          {(this.state.filterCompletedTerm === ACTIVE) && (this.state.isFilterImportant === false) &&
+          {(this.state.filterCompletedTerm === ACTIVE) && (this.props.isFilterImportant === false) &&
            (this.allItemsCounter() >= 1)  &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have active tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === COMPLETED) && (this.state.isFilterImportant === false) && (this.allItemsCounter() >= 1) &&
+          {(this.state.filterCompletedTerm === COMPLETED) && (this.props.isFilterImportant === false) && (this.allItemsCounter() >= 1) &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have completed tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === ACTIVE) && (this.state.isFilterImportant === true) &&
+          {(this.state.filterCompletedTerm === ACTIVE) && (this.props.isFilterImportant === true) &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have active and important tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === ALL) && (this.state.isFilterImportant === true) &&
+          {(this.state.filterCompletedTerm === ALL) && (this.props.isFilterImportant === true) &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have important tasks!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === COMPLETED) && (this.state.isFilterImportant === true) &&
+          {(this.state.filterCompletedTerm === COMPLETED) && (this.props.isFilterImportant === true) &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have completed and important tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.isFilterDueToday === true)  &&
+          {(this.props.isFilterDueToday === true)  &&
            (this.itemsCounter() === 0) ?
            <FilteredMessagesBox>
             <FilteredMessage>You have no tasks for today!</FilteredMessage>
@@ -622,7 +636,10 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isFilterDueTomorrow: state.isFilterDueTomorrow
+    isFilterDueTomorrow: state.isFilterDueTomorrow,
+    isFilterDueToday: state.isFilterDueToday,
+    isFilterImportant: state.isFilterImportant,
+    isPlayRelaxAudio: state.isPlayRelaxAudio
   }
 }
 
@@ -630,6 +647,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setFilterDueTomorrow: () => dispatch(setFilterDueTomorrow()),
     unsetFilterDueTomorrow: () => dispatch(unsetFilterDueTomorrow()),
+    setFilterDueToday: () => dispatch(setFilterDueToday()),
+    unsetFilterDueToday: () => dispatch(unsetFilterDueToday()),
+    setFilterImportant: () => dispatch(setFilterImportant()),
+    unsetFilterImportant: () => dispatch(unsetFilterImportant()),
+    toggleRelaxButton: () => dispatch(toggleRelaxButton())
   }
 }
 
