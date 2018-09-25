@@ -1,4 +1,6 @@
+
 // Action types
+
 const constants = {
   SET_FILTER_DUE_TOMORROW: 'SET_FILTER_DUE_TOMORROW',
   UNSET_FILTER_DUE_TOMORROW: 'UNSET_FILTER_DUE_TOMORROW',
@@ -9,6 +11,10 @@ const constants = {
   TOGGLE_RELAX_BUTTON: 'TOGGLE_RELAX_BUTTON',
   VISIBLE_WELLDONE_MESSAGE: "VISIBLE_WELLDONE_MESSAGE",
   UNVISIBLE_WELLDONE_MESSAGE: "UNVISIBLE_WELLDONE_MESSAGE",
+  FILTER_COMPLETED_ALL: "FILTER_COMPLETED_ALL",
+  FILTER_COMPLETED_ACTIVE: "FILTER_COMPLETED_ACTIVE",
+  FILTER_COMPLETED_DONE: "FILTER_COMPLETED_DONE",
+  SET_TERM: "SET_TERM",
 }
 // Action creators
 export function setFilterDueTomorrow() {
@@ -43,8 +49,24 @@ export function visibleWelldoneMessage() {
   return { type: constants.VISIBLE_WELLDONE_MESSAGE }
 }
 
-export function unvisiblewWelldoneMessage() {
+export function unvisibleWelldoneMessage() {
   return { type: constants.UNVISIBLE_WELLDONE_MESSAGE }
+}
+
+export function filterCompletedAll() {
+  return { type: constants.FILTER_COMPLETED_ALL }
+}
+
+export function filterCompletedActive() {
+  return { type: constants.FILTER_COMPLETED_ACTIVE }
+}
+
+export function filterCompletedDone() {
+  return { type: constants.FILTER_COMPLETED_DONE }
+}
+
+export function setTerm(term) {
+  return { type: constants.SET_TERM, term: term }
 }
 
 

@@ -9,7 +9,9 @@ import { injectGlobal } from 'styled-components';
 import 'normalize.css';
 import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
-import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton } from './actions'
+import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
+visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm } from './actions'
+import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
   vertical-align: bottom;
@@ -204,9 +206,9 @@ const FilteredMessage = styled.p`
   padding-left: 10px;
 `;
 
-const ACTIVE = "active";
-const ALL = "all";
-const COMPLETED = "completed";
+// const ACTIVE = "active";
+// const ALL = "all";
+// const COMPLETED = "completed";
 const WELLDONE_COUNTERS = [3, 5, 10];
 const TEXT_SAMPLE = {"Who is a good boy?": "it's you!", "Cъешь ещё этих мягких французских булок": "да выпей чаю!"};
 
@@ -214,11 +216,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      term: "",
+      // term: "",
       items: [],
-      filterCompletedTerm: ALL,
+      // filterCompletedTerm: ALL,
       // isFilterImportant: false,
-      isWellDoneVisible: false,
+      // isWellDoneVisible: false,
       // isFilterDueToday: false,
       // isFilterDueTomorrow: false,
       // isPlayRelaxAudio: false
@@ -230,18 +232,20 @@ class App extends Component {
   };
 
   okButton = () => {
-    this.setState(() => ({isWellDoneVisible: false}));
+    // this.setState(() => ({isWellDoneVisible: false}));
+    this.props.unvisibleWelldoneMessage()
   };
 
   onChange = (event) => {
-    this.setState({
-      term: event.target.value
-    });
+    this.props.setTerm(event.target.value);
+    // this.setState({
+    //   term: event.target.value
+    // });
   };
 
   textCompare = () => {
     for (let i in TEXT_SAMPLE) {
-      if (this.state.term === i) {
+      if (this.props.term === i) {
         alert(TEXT_SAMPLE[i]);
       }
     }
@@ -249,13 +253,13 @@ class App extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    if (this.state.term.trim()) {
+    this.props.setTerm('');
+    if (this.props.term.trim()) {
       this.textCompare();
       this.setState({
-        term: "",
         items: [
           ...this.state.items,
-          {text: this.state.term.trim(),
+          {text: this.props.term.trim(),
             isCompleted: false,
             isImportant: false,
             uuid: uuidv4(),
@@ -283,7 +287,8 @@ class App extends Component {
           item.isCompleted = true;
         }
       }
-      return {items: items, isWellDoneVisible: this.isWellDone()};
+      // return {items: items, isWellDoneVisible: this.isWellDone()};
+      return {items: items, isWelldoneMessageVisible: this.isWellDone()};//тут ошибка не срабатывает как только поставлены 3 чекбокса, наверно нужно сначала сделать item на redux
     });
   };
 
@@ -368,21 +373,24 @@ class App extends Component {
   };
 
   filterAll = () => {
-    this.setState({
-      filterCompletedTerm: ALL
-    });
+    // this.setState({
+    //   filterCompletedTerm: ALL
+    // });
+    this.props.filterCompletedAll()
   };
 
   filterActive = () => {
-    this.setState({
-      filterCompletedTerm: ACTIVE
-    });
+    // this.setState({
+    //   filterCompletedTerm: ACTIVE
+    // });
+    this.props.filterCompletedActive()
   };
 
   filterCompleted = () => {
-    this.setState({
-      filterCompletedTerm: COMPLETED
-    });
+    // this.setState({
+    //   filterCompletedTerm: COMPLETED
+    // });
+    this.props.filterCompletedDone()
   };
 
   filterImportant = () => {
@@ -428,9 +436,9 @@ class App extends Component {
 
   getItems = () => {
     let result = this.state.items.slice();
-    if (this.state.filterCompletedTerm === ACTIVE) {
+    if (this.props.filterCompletedTerm === completedFilter.ACTIVE) {
       result = result.filter((item) => item.isCompleted === false);
-    } else if (this.state.filterCompletedTerm === COMPLETED) {
+    } else if (this.props.filterCompletedTerm === completedFilter.DONE) {
       result = result.filter((item) => item.isCompleted === true);
     }
     if (this.props.isFilterImportant) {
@@ -500,7 +508,7 @@ class App extends Component {
          </ItemsCounter>
           <Clearfix></Clearfix>
           <form onSubmit={this.onSubmit} data-testid="submit">
-            <Input value={this.state.term}
+            <Input value={this.props.term}
               onChange={this.onChange}
               maxLength={100}
               placeholder={"Do you have new tasks?"}
@@ -517,14 +525,14 @@ class App extends Component {
           {(this.allItemsCounter() === 0) ? null:
           <span>
             <Button onClick={this.filterAll}
-              pressed={this.state.filterCompletedTerm === ALL}>All
+              pressed={this.props.filterCompletedTerm === completedFilter.ALL}>All
             </Button>
 
             <Button onClick={this.filterActive} data-testid="active"
-              pressed={this.state.filterCompletedTerm === ACTIVE}>Active
+              pressed={this.props.filterCompletedTerm === completedFilter.ACTIVE}>Active
             </Button>
             <Button onClick={this.filterCompleted} data-testid="completed"
-              pressed={this.state.filterCompletedTerm === COMPLETED}>Completed
+              pressed={this.props.filterCompletedTerm === completedFilter.DONE}>Completed
             </Button>
             {
               ((this.state.items.filter(item => item.isCompleted === true)).length > 0) ?
@@ -563,32 +571,32 @@ class App extends Component {
           }
           {/* {(this.allItemsCounter() === 0) ? <p>ничего нет</p>: <p>что-то написали</p>} */}
 
-          {(this.state.filterCompletedTerm === ACTIVE) && (this.props.isFilterImportant === false) &&
+          {(this.props.filterCompletedTerm === completedFilter.ACTIVE) && (this.props.isFilterImportant === false) &&
            (this.allItemsCounter() >= 1)  &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have active tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === COMPLETED) && (this.props.isFilterImportant === false) && (this.allItemsCounter() >= 1) &&
+          {(this.props.filterCompletedTerm === completedFilter.DONE) && (this.props.isFilterImportant === false) && (this.allItemsCounter() >= 1) &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have completed tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === ACTIVE) && (this.props.isFilterImportant === true) &&
+          {(this.props.filterCompletedTerm === completedFilter.ACTIVE) && (this.props.isFilterImportant === true) &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have active and important tasks yet!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === ALL) && (this.props.isFilterImportant === true) &&
+          {(this.props.filterCompletedTerm === completedFilter.ALL) && (this.props.isFilterImportant === true) &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have important tasks!"}</FilteredMessage>
             </FilteredMessagesBox> : null}
 
-          {(this.state.filterCompletedTerm === COMPLETED) && (this.props.isFilterImportant === true) &&
+          {(this.props.filterCompletedTerm === completedFilter.DONE) && (this.props.isFilterImportant === true) &&
             (this.itemsCounter() === 0) ?
             <FilteredMessagesBox>
               <FilteredMessage>{"You don't have completed and important tasks yet!"}</FilteredMessage>
@@ -619,7 +627,8 @@ class App extends Component {
           />
           {/* </div>
           } */}
-          <WellDoneWrapper unvisible={!this.state.isWellDoneVisible}>
+          {/*<WellDoneWrapper unvisible={!this.state.isWellDoneVisible}>*/}
+           <WellDoneWrapper unvisible={!this.props.isWelldoneMessageVisible}>
             <WellDoneBox >
               <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items
               </WellDoneMessage>
@@ -639,7 +648,10 @@ const mapStateToProps = (state) => {
     isFilterDueTomorrow: state.isFilterDueTomorrow,
     isFilterDueToday: state.isFilterDueToday,
     isFilterImportant: state.isFilterImportant,
-    isPlayRelaxAudio: state.isPlayRelaxAudio
+    isPlayRelaxAudio: state.isPlayRelaxAudio,
+    isWelldoneMessageVisible: state.isWelldoneMessageVisible,
+    filterCompletedTerm: state.filterCompletedTerm,
+    term: state.term,
   }
 }
 
@@ -651,7 +663,13 @@ const mapDispatchToProps = (dispatch) => {
     unsetFilterDueToday: () => dispatch(unsetFilterDueToday()),
     setFilterImportant: () => dispatch(setFilterImportant()),
     unsetFilterImportant: () => dispatch(unsetFilterImportant()),
-    toggleRelaxButton: () => dispatch(toggleRelaxButton())
+    toggleRelaxButton: () => dispatch(toggleRelaxButton()),
+    visibleWelldoneMessage: () => dispatch(visibleWelldoneMessage()),
+    unvisibleWelldoneMessage: () => dispatch(unvisibleWelldoneMessage()),
+    filterCompletedAll: ()  => dispatch(filterCompletedAll()),
+    filterCompletedActive: () => dispatch(filterCompletedActive()),
+    filterCompletedDone: () => dispatch(filterCompletedDone()),
+    setTerm: (term) => dispatch(setTerm(term)),
   }
 }
 
