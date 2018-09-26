@@ -10,7 +10,7 @@ import 'normalize.css';
 import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
-visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo } from './actions'
+visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem } from './actions'
 import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
@@ -282,9 +282,10 @@ class App extends Component {
   };
 
   handleDelete = (uuid) => {
-    this.setState(prevState => ({
-      items: prevState.items.filter(item => item.uuid !== uuid)
-    }));
+    // this.setState(prevState => ({
+    //   items: prevState.items.filter(item => item.uuid !== uuid)
+    // }));
+    this.props.deleteItem(uuid)
   };
 
   handleComplete = (uuid) => {
@@ -680,6 +681,7 @@ const mapDispatchToProps = (dispatch) => {
     filterCompletedDone: () => dispatch(filterCompletedDone()),
     setTerm: (term) => dispatch(setTerm(term)),
     addTodo: (item) => dispatch(addTodo(item)),
+    deleteItem: (uuid) => dispatch(deleteItem(uuid)),
   }
 }
 

@@ -17,6 +17,7 @@ const constants = {
   FILTER_COMPLETED_DONE: "FILTER_COMPLETED_DONE",
   SET_TERM: "SET_TERM",
   ADD_TODO: "ADD_TODO",
+  DELETE_ITEM: "DELETE_ITEM",
 }
 // Action creators
 export function setFilterDueTomorrow() {
@@ -75,7 +76,8 @@ export function setTerm(term) {
 export function addTodo(item) {
   return {
     type: constants.ADD_TODO,
-    text: item.text, isCompleted: item.isCompleted,
+    text: item.text,
+    isCompleted: item.isCompleted,
     isImportant: item.isImportant,
     uuid: uuidv4(),
     isDueToday: item.isDueToday,
@@ -83,9 +85,11 @@ export function addTodo(item) {
   }
 }
 
-export function addItems() {
-  return { type: constants.ADD_TODO }
+export function deleteItem(uuid) {
+  return { type: constants.DELETE_ITEM, uuid: uuid }
 }
+
+
 
 
 export default constants;

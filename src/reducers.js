@@ -90,6 +90,13 @@ export const rootReducer = (state=initialState, action) => {
             }
           ]
         })
+        case constants.DELETE_ITEM:
+          return Object.assign({}, state, {
+          items: [
+            ...state.items.filter(item => item.uuid !== action.uuid)
+          ]
+        })
+        
 
        default:
    return state
