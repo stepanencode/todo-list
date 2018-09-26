@@ -1,4 +1,5 @@
 
+import uuidv4 from "uuid";
 // Action types
 
 const constants = {
@@ -15,6 +16,7 @@ const constants = {
   FILTER_COMPLETED_ACTIVE: "FILTER_COMPLETED_ACTIVE",
   FILTER_COMPLETED_DONE: "FILTER_COMPLETED_DONE",
   SET_TERM: "SET_TERM",
+  ADD_TODO: "ADD_TODO",
 }
 // Action creators
 export function setFilterDueTomorrow() {
@@ -67,6 +69,22 @@ export function filterCompletedDone() {
 
 export function setTerm(term) {
   return { type: constants.SET_TERM, term: term }
+}
+
+// one argument - object
+export function addTodo(item) {
+  return {
+    type: constants.ADD_TODO,
+    text: item.text, isCompleted: item.isCompleted,
+    isImportant: item.isImportant,
+    uuid: uuidv4(),
+    isDueToday: item.isDueToday,
+    isDueTomorrow: item.isDueTomorrow
+  }
+}
+
+export function addItems() {
+  return { type: constants.ADD_TODO }
 }
 
 

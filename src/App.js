@@ -10,7 +10,7 @@ import 'normalize.css';
 import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
-visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm } from './actions'
+visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo } from './actions'
 import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
@@ -256,17 +256,25 @@ class App extends Component {
     this.props.setTerm('');
     if (this.props.term.trim()) {
       this.textCompare();
-      this.setState({
-        items: [
-          ...this.state.items,
-          {text: this.props.term.trim(),
-            isCompleted: false,
-            isImportant: false,
-            uuid: uuidv4(),
-            isDueToday: false,
-            isDueTomorrow: false
-          }
-        ]
+      // this.setState({
+      //   items: [
+      //     ...this.state.items,
+      //     {text: this.props.term.trim(),
+      //       isCompleted: false,
+      //       isImportant: false,
+      //       uuid: uuidv4(),
+      //       isDueToday: false,
+      //       isDueTomorrow: false
+      //     }
+      //   ]
+      // });
+      this.props.addTodo({
+        text: this.props.term.trim(),
+        isCompleted: false,
+        isImportant: false,
+        uuid: uuidv4(),
+        isDueToday: false,
+        isDueTomorrow: false
       });
     } else {
       alert("Text must not be empty");
@@ -435,7 +443,7 @@ class App extends Component {
   };
 
   getItems = () => {
-    let result = this.state.items.slice();
+    let result = this.props.items.slice();
     if (this.props.filterCompletedTerm === completedFilter.ACTIVE) {
       result = result.filter((item) => item.isCompleted === false);
     } else if (this.props.filterCompletedTerm === completedFilter.DONE) {
@@ -652,6 +660,7 @@ const mapStateToProps = (state) => {
     isWelldoneMessageVisible: state.isWelldoneMessageVisible,
     filterCompletedTerm: state.filterCompletedTerm,
     term: state.term,
+    items: state.items,
   }
 }
 
@@ -670,6 +679,7 @@ const mapDispatchToProps = (dispatch) => {
     filterCompletedActive: () => dispatch(filterCompletedActive()),
     filterCompletedDone: () => dispatch(filterCompletedDone()),
     setTerm: (term) => dispatch(setTerm(term)),
+    addTodo: (item) => dispatch(addTodo(item)),
   }
 }
 

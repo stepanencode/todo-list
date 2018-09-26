@@ -1,5 +1,6 @@
 import constants from './actions'
 import { combineReducers } from 'redux'
+import uuidv4 from "uuid";
 
 
 export const completedFilter = {
@@ -17,6 +18,7 @@ const initialState = {
   isWelldoneMessageVisible: false,
   filterCompletedTerm: completedFilter.ALL,
   term: '',
+  items: [],
 }
 
 
@@ -40,40 +42,55 @@ export const rootReducer = (state=initialState, action) => {
        })
       case constants.SET_FILTER_IMPORTANT:
         return Object.assign({}, state, {
-         isFilterImportant: true
-       })
+          isFilterImportant: true
+        })
       case constants.UNSET_FILTER_IMPORTANT:
-      return Object.assign({}, state, {
-        isFilterImportant: false
-      })
+        return Object.assign({}, state, {
+          isFilterImportant: false
+        })
       case constants.TOGGLE_RELAX_BUTTON:
-      return Object.assign({}, state, {
-        isPlayRelaxAudio: !state.isPlayRelaxAudio
-      })
+        return Object.assign({}, state, {
+          isPlayRelaxAudio: !state.isPlayRelaxAudio
+        })
       case constants.VISIBLE_WELLDONE_MESSAGE:
         return Object.assign({}, state, {
-         isWelldoneMessageVisible: true
-       })
+          isWelldoneMessageVisible: true
+        })
       case constants.UNVISIBLE_WELLDONE_MESSAGE:
-      return Object.assign({}, state, {
-        isWelldoneMessageVisible: false
-      })
+        return Object.assign({}, state, {
+          isWelldoneMessageVisible: false
+        })
       case constants.FILTER_COMPLETED_ALL:
-      return Object.assign({}, state, {
-        filterCompletedTerm: completedFilter.ALL
-      })
+        return Object.assign({}, state, {
+          filterCompletedTerm: completedFilter.ALL
+        })
       case constants.FILTER_COMPLETED_ACTIVE:
-      return Object.assign({}, state, {
-        filterCompletedTerm: completedFilter.ACTIVE
-      })
+        return Object.assign({}, state, {
+          filterCompletedTerm: completedFilter.ACTIVE
+        })
       case constants.FILTER_COMPLETED_DONE:
-      return Object.assign({}, state, {
-        filterCompletedTerm: completedFilter.DONE
-      })
+        return Object.assign({}, state, {
+          filterCompletedTerm: completedFilter.DONE
+        })
       case constants.SET_TERM:
-      return Object.assign({}, state, {
-        term: action.term
-      })
+        return Object.assign({}, state, {
+          term: action.term
+        })
+      case constants.ADD_TODO:
+        return Object.assign({}, state, {
+          items: [
+            ...state.items,
+            {
+              text: action.text,
+              isCompleted: action.isCompleted,
+              isImportant: action.isImportant,
+              uuid: action.uuid,
+              isDueToday: action.isDueToday,
+              isDueTomorrow: action.isDueTomorrow
+            }
+          ]
+        })
+
        default:
    return state
  }
