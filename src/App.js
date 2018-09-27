@@ -11,7 +11,7 @@ import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
 visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
-setItemComplete, clearCompletedItems, setDueTodayItem } from './actions'
+setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setCheckedItem } from './actions'
 import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
@@ -207,9 +207,6 @@ const FilteredMessage = styled.p`
   padding-left: 10px;
 `;
 
-// const ACTIVE = "active";
-// const ALL = "all";
-// const COMPLETED = "completed";
 const WELLDONE_COUNTERS = [3, 5, 10];
 const TEXT_SAMPLE = {"Who is a good boy?": "it's you!", "Cъешь ещё этих мягких французских булок": "да выпей чаю!"};
 
@@ -217,31 +214,19 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // term: "",
       items: [],
-      // filterCompletedTerm: ALL,
-      // isFilterImportant: false,
-      // isWellDoneVisible: false,
-      // isFilterDueToday: false,
-      // isFilterDueTomorrow: false,
-      // isPlayRelaxAudio: false
     };
   }
   relaxButton = () => {
-    // this.setState(() => ({isPlayRelaxAudio: !this.state.isPlayRelaxAudio}));
     this.props.toggleRelaxButton()
   };
 
   okButton = () => {
-    // this.setState(() => ({isWellDoneVisible: false}));
     this.props.unvisibleWelldoneMessage()
   };
 
   onChange = (event) => {
     this.props.setTerm(event.target.value);
-    // this.setState({
-    //   term: event.target.value
-    // });
   };
 
   textCompare = () => {
@@ -257,18 +242,6 @@ class App extends Component {
     this.props.setTerm('');
     if (this.props.term.trim()) {
       this.textCompare();
-      // this.setState({
-      //   items: [
-      //     ...this.state.items,
-      //     {text: this.props.term.trim(),
-      //       isCompleted: false,
-      //       isImportant: false,
-      //       uuid: uuidv4(),
-      //       isDueToday: false,
-      //       isDueTomorrow: false
-      //     }
-      //   ]
-      // });
       this.props.addTodo({
         text: this.props.term.trim(),
         isCompleted: false,
@@ -283,94 +256,34 @@ class App extends Component {
   };
 
   handleDelete = (uuid) => {
-    // this.setState(prevState => ({
-    //   items: prevState.items.filter(item => item.uuid !== uuid)
-    // }));
     this.props.deleteItem(uuid)
   };
 
   handleComplete = (uuid) => {
-    // this.setState((prevState) => {
-    //   let items = prevState["items"].slice();
-    //   for (let item of items) {
-    //     if (item.uuid === uuid) {
-    //       item.isCompleted = true;
-    //     }
-    //   }
-    //   // return {items: items, isWellDoneVisible: this.isWellDone()};
-    //   return {items: items, isWelldoneMessageVisible: this.isWellDone()};//тут ошибка не срабатывает как только поставлены 3 чекбокса, наверно нужно сначала сделать item на redux
-    // });
     this.props.setItemComplete(uuid)
   };
 
   handleImportant = (uuid) => {
-    // this.setState((prevState) => {
-    //   let items = prevState["items"].slice();
-    //   for (let item of items) {
-    //     if (item.uuid === uuid) {
-    //       item.isImportant = !item.isImportant;
-    //     }
-    //   }
-    //   return {items: items};
-    // });
     this.props.toggleItemImportant(uuid)
   };
 
   handleDueToday = (uuid) => {
-    // this.setState((prevState) => {
-    //   let items = prevState["items"].slice();
-    //   for (let item of items) {
-    //     if (item.uuid === uuid) {
-    //       item.isDueToday = true;
-    //       item.isDueTomorrow = false;
-    //     }
-    //   }
-    //   return {items: items};
-    // });
     this.props.setDueTodayItem(uuid)
   };
 
   handleRemoveDueToday = (uuid) => {
-    this.setState((prevState) => {
-      let items = prevState["items"].slice();
-      for (let item of items) {
-        if (item.uuid === uuid) {
-          item.isDueToday = false;
-        }
-      }
-      return {items: items};
-    });
+    this.props.unsetDueTodayItem(uuid)
   };
 
   handleRemoveDueTomorrow = (uuid) => {
-    this.setState((prevState) => {
-      let items = prevState["items"].slice();
-      for (let item of items) {
-        if (item.uuid === uuid) {
-          item.isDueTomorrow = false;
-        }
-      }
-      return {items: items};
-    });
+    this.props.unsetDueTomorrowItem(uuid)
   };
 
   handleDueTomorrow = (uuid) => {
-    this.setState((prevState) => {
-      let items = prevState["items"].slice();
-      for (let item of items) {
-        if (item.uuid === uuid) {
-          item.isDueTomorrow = true;
-          item.isDueToday = false;
-        }
-      }
-      return {items: items};
-    });
+    this.props.setDueTomorrowItem(uuid)
   };
 
   clearCompleted = () => {
-    // this.setState((prevState) => {
-    //   return {items: prevState.items.filter(item => item.isCompleted === false)};
-    // });
     this.props.clearCompletedItems()
   };
 
@@ -387,63 +300,36 @@ class App extends Component {
   };
 
   filterAll = () => {
-    // this.setState({
-    //   filterCompletedTerm: ALL
-    // });
     this.props.filterCompletedAll()
   };
 
   filterActive = () => {
-    // this.setState({
-    //   filterCompletedTerm: ACTIVE
-    // });
     this.props.filterCompletedActive()
   };
 
   filterCompleted = () => {
-    // this.setState({
-    //   filterCompletedTerm: COMPLETED
-    // });
     this.props.filterCompletedDone()
   };
 
   filterImportant = () => {
-    // this.setState({
-    //   isFilterImportant: true
-    // });
     this.props.setFilterImportant()
   };
 
   notFilterImportant = () => {
-    // this.setState({
-    //   isFilterImportant: false
-    // });
     this.props.unsetFilterImportant()
   };
 
   filterDueToday = () => {
-    // this.setState({
-      // isFilterDueToday: true,
-      // isFilterDueTomorrow: false
-    // });
     this.props.unsetFilterDueTomorrow();
     this.props.setFilterDueToday();
   };
 
   filterDueTomorrow = () => {
-    // this.setState({
-      // isFilterDueTomorrow: true,
-      // isFilterDueToday: false
-    // });
     this.props.setFilterDueTomorrow();
     this.props.unsetFilterDueToday();
   };
 
   notFilterDueToday = () => {
-    // this.setState({
-      // isFilterDueToday: false,
-      // isFilterDueTomorrow: false
-    // });
     this.props.unsetFilterDueTomorrow();
     this.props.unsetFilterDueToday();
   };
@@ -515,8 +401,7 @@ class App extends Component {
             </Button>
 
             {(this.props.isPlayRelaxAudio === true) ?
-         //        {(this.props.isPlayRelaxAudio === true) ?
-              <audio autoplay="autoplay" loop>
+              <audio autoPlay="autoPlay" loop>
                 <source src="relax.ogg" type="audio/ogg" />
               </audio>  : null}
          </ItemsCounter>
@@ -692,6 +577,9 @@ const mapDispatchToProps = (dispatch) => {
     setItemComplete: (uuid) => dispatch(setItemComplete(uuid)),
     clearCompletedItems: () => dispatch(clearCompletedItems()),
     setDueTodayItem: (uuid) => dispatch(setDueTodayItem(uuid)),
+    setDueTomorrowItem: (uuid) => dispatch(setDueTomorrowItem(uuid)),
+    unsetDueTodayItem: (uuid) => dispatch(unsetDueTodayItem(uuid)),
+    unsetDueTomorrowItem: (uuid) => dispatch(unsetDueTomorrowItem(uuid)),
   }
 }
 

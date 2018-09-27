@@ -165,6 +165,21 @@ export const rootReducer = (state=initialState, action) => {
               items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: true, isDueTomorrow: false } : item })
             })
 
+            case constants.SET_DUE_TOMORROW_ITEM:
+            return Object.assign({}, state, {
+              items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: false, isDueTomorrow: true } : item })
+            })
+
+            case constants.UNSET_DUE_TODAY_ITEM:
+            return Object.assign({}, state, {
+              items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: false } : item })
+            })
+            case constants.UNSET_DUE_TOMORROW_ITEM:
+            return Object.assign({}, state, {
+              items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueTomorrow: false } : item })
+            })
+
+
 
        default:
    return state

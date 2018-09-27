@@ -21,7 +21,11 @@ const constants = {
   TOGGLE_ITEM_IMPORTANT: "TOGGLE_ITEM_IMPORTANT",
   SET_ITEM_COMPLETE: "SET_ITEM_COMPLETE",
   CLEAR_COMPLETED_ITEMS: "CLEAR_COMPLETED_ITEMS",
-  SET_DUE_TODAY_ITEM: "SET_DUE_TODAY_ITEM"
+  SET_DUE_TODAY_ITEM: "SET_DUE_TODAY_ITEM",
+  SET_DUE_TOMORROW_ITEM: "SET_DUE_TOMORROW_ITEM",
+  UNSET_DUE_TODAY_ITEM: "UNSET_DUE_TODAY_ITEM",
+  UNSET_DUE_TOMORROW_ITEM: "UNSET_DUE_TOMORROW_ITEM",
+  SET_CHECKED_ITEM: "SET_CHECKED_ITEM",
 
 }
 // Action creators
@@ -108,6 +112,22 @@ export function clearCompletedItems() {
 
 export function setDueTodayItem(uuid) {
   return { type: constants.SET_DUE_TODAY_ITEM, uuid: uuid}
+}
+
+export function setDueTomorrowItem(uuid) {
+  return { type: constants.SET_DUE_TOMORROW_ITEM, uuid: uuid}
+}
+
+export function unsetDueTodayItem(uuid) {
+  return { type: constants.UNSET_DUE_TODAY_ITEM, uuid: uuid}
+}
+
+export function unsetDueTomorrowItem(uuid) {
+  return { type: constants.UNSET_DUE_TOMORROW_ITEM, uuid: uuid}
+}
+
+export function setCheckedItem(uuid, text) {
+  return { type: constants.SET_CHECKED_ITEM, uuid: uuid, text: text}
 }
 
 
