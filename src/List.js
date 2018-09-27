@@ -30,6 +30,7 @@ autoHeight={1}
 autoHeightMax={`50vh`}
 autoHeightMin={50}
     >
+    {console.log(props.items)}
     {
       props.items.map(item =>
         <ListItem

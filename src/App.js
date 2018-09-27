@@ -10,7 +10,7 @@ import 'normalize.css';
 import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
-visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem } from './actions'
+visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, setItemImportant } from './actions'
 import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
@@ -302,15 +302,16 @@ class App extends Component {
   };
 
   handleImportant = (uuid) => {
-    this.setState((prevState) => {
-      let items = prevState["items"].slice();
-      for (let item of items) {
-        if (item.uuid === uuid) {
-          item.isImportant = !item.isImportant;
-        }
-      }
-      return {items: items};
-    });
+    // this.setState((prevState) => {
+    //   let items = prevState["items"].slice();
+    //   for (let item of items) {
+    //     if (item.uuid === uuid) {
+    //       item.isImportant = !item.isImportant;
+    //     }
+    //   }
+    //   return {items: items};
+    // });
+    this.props.setItemImportant(uuid)
   };
 
   handleDueToday = (uuid) => {
@@ -662,6 +663,7 @@ const mapStateToProps = (state) => {
     filterCompletedTerm: state.filterCompletedTerm,
     term: state.term,
     items: state.items,
+  
   }
 }
 
@@ -682,6 +684,7 @@ const mapDispatchToProps = (dispatch) => {
     setTerm: (term) => dispatch(setTerm(term)),
     addTodo: (item) => dispatch(addTodo(item)),
     deleteItem: (uuid) => dispatch(deleteItem(uuid)),
+    setItemImportant: (uuid) => dispatch(setItemImportant(uuid))
   }
 }
 

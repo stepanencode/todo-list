@@ -19,6 +19,7 @@ const initialState = {
   filterCompletedTerm: completedFilter.ALL,
   term: '',
   items: [],
+
 }
 
 
@@ -96,9 +97,46 @@ export const rootReducer = (state=initialState, action) => {
             ...state.items.filter(item => item.uuid !== action.uuid)
           ]
         })
-        
-
+        // case constants.SET_ITEM_IMPORTANT:
+        // return Object.assign({}, state, {
+        //   items: [
+        //     ...state.items.filter(item => (item.uuid === action.uuid) ? (item.isImportant = !item.isImportant) : {})
+        //   ]
+        // })
+        // case constants.SET_ITEM_IMPORTANT:
+        // return Object.assign({}, state, {
+        //   items: [
+        //     ...state.items.map(item =>{for (item of state.items){ (item.uuid === action.uuid) ?  { ...state.items, isImportant: action.isImportant} : item}})
+        //   ]
+        // })
+        // case constants.SET_ITEM_IMPORTANT:
+        // let items = state.items.slice();
+        //   for (let item of items) {
+        //     if (item.uuid === action.uuid) {
+        //       item.isImportant = !item.isImportant;
+        //     }
+        //   }
+        // return Object.assign({}, state, {
+        //   items: items
+        // })
+        case constants.SET_ITEM_IMPORTANT:
+        return Object.assign({}, state, {
+          items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isImportant: !item.isImportant } : item })
+        })
        default:
    return state
  }
 }
+
+
+
+
+// this.setState((prevState) => {
+//   let items = prevState["items"].slice();
+//   for (let item of items) {
+//     if (item.uuid === uuid) {
+//       item.isImportant = !item.isImportant;
+//     }
+//   }
+//   return {items: items};
+// });
