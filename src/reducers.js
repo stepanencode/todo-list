@@ -178,6 +178,10 @@ export const rootReducer = (state=initialState, action) => {
             return Object.assign({}, state, {
               items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueTomorrow: false } : item })
             })
+            case constants.SET_CHANGE_ITEM:
+            return Object.assign({}, state, {
+              items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, text: action.text } : item })
+            })
 
 
 

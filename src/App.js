@@ -11,7 +11,7 @@ import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
 visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
-setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setCheckedItem } from './actions'
+setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from './actions'
 import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
@@ -288,15 +288,16 @@ class App extends Component {
   };
 
   handleChange = (uuid, text) => {
-    this.setState((prevState) => {
-      let items = prevState["items"].slice();
-      for (let item of items) {
-        if (item.uuid === uuid) {
-          item.text = text;
-        }
-      }
-      return {items: items};
-    });
+    // this.setState((prevState) => {
+    //   let items = prevState["items"].slice();
+    //   for (let item of items) {
+    //     if (item.uuid === uuid) {
+    //       item.text = text;
+    //     }
+    //   }
+    //   return {items: items};
+    // });
+    this.props.setChangeItem(uuid, text)
   };
 
   filterAll = () => {
@@ -580,6 +581,7 @@ const mapDispatchToProps = (dispatch) => {
     setDueTomorrowItem: (uuid) => dispatch(setDueTomorrowItem(uuid)),
     unsetDueTodayItem: (uuid) => dispatch(unsetDueTodayItem(uuid)),
     unsetDueTomorrowItem: (uuid) => dispatch(unsetDueTomorrowItem(uuid)),
+    setChangeItem: (uuid, text) => dispatch(setChangeItem(uuid, text)),
   }
 }
 

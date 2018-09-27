@@ -25,7 +25,7 @@ const constants = {
   SET_DUE_TOMORROW_ITEM: "SET_DUE_TOMORROW_ITEM",
   UNSET_DUE_TODAY_ITEM: "UNSET_DUE_TODAY_ITEM",
   UNSET_DUE_TOMORROW_ITEM: "UNSET_DUE_TOMORROW_ITEM",
-  SET_CHECKED_ITEM: "SET_CHECKED_ITEM",
+  SET_CHANGE_ITEM: "SET_CHANGE_ITEM",
 
 }
 // Action creators
@@ -126,8 +126,8 @@ export function unsetDueTomorrowItem(uuid) {
   return { type: constants.UNSET_DUE_TOMORROW_ITEM, uuid: uuid}
 }
 
-export function setCheckedItem(uuid, text) {
-  return { type: constants.SET_CHECKED_ITEM, uuid: uuid, text: text}
+export function setChangeItem(uuid, text) {
+  return { type: constants.SET_CHANGE_ITEM, uuid: uuid, text: text}
 }
 
 
