@@ -11,7 +11,7 @@ import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
 visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
-setItemComplete } from './actions'
+setItemComplete, clearCompletedItems } from './actions'
 import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
@@ -367,9 +367,10 @@ class App extends Component {
   };
 
   clearCompleted = () => {
-    this.setState((prevState) => {
-      return {items: prevState.items.filter(item => item.isCompleted === false)};
-    });
+    // this.setState((prevState) => {
+    //   return {items: prevState.items.filter(item => item.isCompleted === false)};
+    // });
+    this.props.clearCompletedItems()
   };
 
   handleChange = (uuid, text) => {
@@ -687,7 +688,8 @@ const mapDispatchToProps = (dispatch) => {
     addTodo: (item) => dispatch(addTodo(item)),
     deleteItem: (uuid) => dispatch(deleteItem(uuid)),
     toggleItemImportant: (uuid) => dispatch(toggleItemImportant(uuid)),
-    setItemComplete: (uuid) => dispatch(setItemComplete(uuid))
+    setItemComplete: (uuid) => dispatch(setItemComplete(uuid)),
+    clearCompletedItems: () => dispatch(clearCompletedItems()),
   }
 }
 

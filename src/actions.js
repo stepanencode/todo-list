@@ -20,6 +20,7 @@ const constants = {
   DELETE_ITEM: "DELETE_ITEM",
   TOGGLE_ITEM_IMPORTANT: "TOGGLE_ITEM_IMPORTANT",
   SET_ITEM_COMPLETE: "SET_ITEM_COMPLETE",
+  CLEAR_COMPLETED_ITEMS: "CLEAR_COMPLETED_ITEMS",
 
 }
 // Action creators
@@ -98,6 +99,10 @@ export function toggleItemImportant(uuid) {
 
 export function setItemComplete(uuid) {
   return { type: constants.SET_ITEM_COMPLETE, uuid: uuid}
+}
+
+export function clearCompletedItems() {
+  return { type: constants.CLEAR_COMPLETED_ITEMS}
 }
 
 

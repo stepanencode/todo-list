@@ -138,7 +138,14 @@ export const rootReducer = (state=initialState, action) => {
 
           case constants.SET_ITEM_COMPLETE:
           return Object.assign({}, state, {
-            items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isCompleted: true } : item })
+            items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isCompleted: true } : item }) //isWellDone добавить
+          })
+
+          case constants.CLEAR_COMPLETED_ITEMS:
+          return Object.assign({}, state, {
+            items : [
+               ...state.items.filter(item => item.isCompleted === false)
+            ]
           })
 
        default:
