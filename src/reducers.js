@@ -189,16 +189,3 @@ export const rootReducer = (state=initialState, action) => {
    return state
  }
 }
-
-
-
-
-// this.setState((prevState) => {
-//   let items = prevState["items"].slice();
-//   for (let item of items) {
-//     if (item.uuid === uuid) {
-//       item.isImportant = !item.isImportant;
-//     }
-//   }
-//   return {items: items};
-// });

@@ -14,6 +14,7 @@ visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterComp
 setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from './actions'
 import { completedFilter } from './reducers'
 
+
 const Svg = styled(InlineSVG)`
   vertical-align: bottom;
   margin-left: 10px;
@@ -214,7 +215,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
     };
   }
   relaxButton = () => {
@@ -260,7 +260,12 @@ class App extends Component {
   };
 
   handleComplete = (uuid) => {
-    this.props.setItemComplete(uuid)
+    this.props.setItemComplete(uuid);
+    for (let counter of WELLDONE_COUNTERS) {
+      if (this.getCompletedItems().length === counter) {
+        return this.props.visibleWelldoneMessage()
+      }
+    } return this.props.unvisibleWelldoneMessage()
   };
 
   handleImportant = (uuid) => {
@@ -288,15 +293,6 @@ class App extends Component {
   };
 
   handleChange = (uuid, text) => {
-    // this.setState((prevState) => {
-    //   let items = prevState["items"].slice();
-    //   for (let item of items) {
-    //     if (item.uuid === uuid) {
-    //       item.text = text;
-    //     }
-    //   }
-    //   return {items: items};
-    // });
     this.props.setChangeItem(uuid, text)
   };
 
@@ -395,7 +391,7 @@ class App extends Component {
             <Button relax onClick={this.relaxButton}>
              {
                (this.props.isPlayRelaxAudio === false) ?
-               // (this.props.isPlayRelaxAudio === false) ?
+
                "I need to relax" :
               "Back to work"
             }
