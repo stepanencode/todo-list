@@ -10,7 +10,8 @@ import 'normalize.css';
 import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
-visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, setItemImportant } from './actions'
+visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
+setItemComplete } from './actions'
 import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
@@ -289,16 +290,17 @@ class App extends Component {
   };
 
   handleComplete = (uuid) => {
-    this.setState((prevState) => {
-      let items = prevState["items"].slice();
-      for (let item of items) {
-        if (item.uuid === uuid) {
-          item.isCompleted = true;
-        }
-      }
-      // return {items: items, isWellDoneVisible: this.isWellDone()};
-      return {items: items, isWelldoneMessageVisible: this.isWellDone()};//тут ошибка не срабатывает как только поставлены 3 чекбокса, наверно нужно сначала сделать item на redux
-    });
+    // this.setState((prevState) => {
+    //   let items = prevState["items"].slice();
+    //   for (let item of items) {
+    //     if (item.uuid === uuid) {
+    //       item.isCompleted = true;
+    //     }
+    //   }
+    //   // return {items: items, isWellDoneVisible: this.isWellDone()};
+    //   return {items: items, isWelldoneMessageVisible: this.isWellDone()};//тут ошибка не срабатывает как только поставлены 3 чекбокса, наверно нужно сначала сделать item на redux
+    // });
+    this.props.setItemComplete(uuid)
   };
 
   handleImportant = (uuid) => {
@@ -311,7 +313,7 @@ class App extends Component {
     //   }
     //   return {items: items};
     // });
-    this.props.setItemImportant(uuid)
+    this.props.toggleItemImportant(uuid)
   };
 
   handleDueToday = (uuid) => {
@@ -418,28 +420,28 @@ class App extends Component {
   };
 
   filterDueToday = () => {
-    this.setState({
+    // this.setState({
       // isFilterDueToday: true,
       // isFilterDueTomorrow: false
-    });
+    // });
     this.props.unsetFilterDueTomorrow();
     this.props.setFilterDueToday();
   };
 
   filterDueTomorrow = () => {
-    this.setState({
+    // this.setState({
       // isFilterDueTomorrow: true,
       // isFilterDueToday: false
-    });
+    // });
     this.props.setFilterDueTomorrow();
     this.props.unsetFilterDueToday();
   };
 
   notFilterDueToday = () => {
-    this.setState({
+    // this.setState({
       // isFilterDueToday: false,
       // isFilterDueTomorrow: false
-    });
+    // });
     this.props.unsetFilterDueTomorrow();
     this.props.unsetFilterDueToday();
   };
@@ -464,7 +466,7 @@ class App extends Component {
   };
 
   getCompletedItems = () => {
-    return this.state.items.filter((item) => item.isCompleted === true);
+    return this.props.items.filter((item) => item.isCompleted === true);
   };
 
   itemsCounter = () => {
@@ -472,7 +474,7 @@ class App extends Component {
   };
 
   allItemsCounter = () => {
-    return this.state.items.length;
+    return this.props.items.length;
   }
 
   isWellDone = () => {
@@ -545,7 +547,7 @@ class App extends Component {
               pressed={this.props.filterCompletedTerm === completedFilter.DONE}>Completed
             </Button>
             {
-              ((this.state.items.filter(item => item.isCompleted === true)).length > 0) ?
+              ((this.props.items.filter(item => item.isCompleted === true)).length > 0) ?
                 <Button bigger
                   onClick={this.clearCompleted}>Clear completed
                 </Button> :
@@ -663,7 +665,7 @@ const mapStateToProps = (state) => {
     filterCompletedTerm: state.filterCompletedTerm,
     term: state.term,
     items: state.items,
-  
+
   }
 }
 
@@ -684,7 +686,8 @@ const mapDispatchToProps = (dispatch) => {
     setTerm: (term) => dispatch(setTerm(term)),
     addTodo: (item) => dispatch(addTodo(item)),
     deleteItem: (uuid) => dispatch(deleteItem(uuid)),
-    setItemImportant: (uuid) => dispatch(setItemImportant(uuid))
+    toggleItemImportant: (uuid) => dispatch(toggleItemImportant(uuid)),
+    setItemComplete: (uuid) => dispatch(setItemComplete(uuid))
   }
 }
 

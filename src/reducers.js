@@ -119,10 +119,28 @@ export const rootReducer = (state=initialState, action) => {
         // return Object.assign({}, state, {
         //   items: items
         // })
-        case constants.SET_ITEM_IMPORTANT:
+        case constants.TOGGLE_ITEM_IMPORTANT:
         return Object.assign({}, state, {
           items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isImportant: !item.isImportant } : item })
         })
+
+        // case constants.SET_ITEM_COMPLETE:
+        //  let items = state.items.slice();
+        //   for (let item of items) {
+        //     if (item.uuid === action.uuid) {
+        //       item.isCompleted = true;
+        //     }
+        //   }
+        //   return Object.assign({}, state, {
+        //     items: items,
+        //      // isWelldoneMessageVisible: this.isWellDone()
+        //   })
+
+          case constants.SET_ITEM_COMPLETE:
+          return Object.assign({}, state, {
+            items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isCompleted: true } : item })
+          })
+
        default:
    return state
  }

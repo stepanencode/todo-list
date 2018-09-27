@@ -18,7 +18,8 @@ const constants = {
   SET_TERM: "SET_TERM",
   ADD_TODO: "ADD_TODO",
   DELETE_ITEM: "DELETE_ITEM",
-  SET_ITEM_IMPORTANT: "SET_ITEM_IMPORTANT",
+  TOGGLE_ITEM_IMPORTANT: "TOGGLE_ITEM_IMPORTANT",
+  SET_ITEM_COMPLETE: "SET_ITEM_COMPLETE",
 
 }
 // Action creators
@@ -91,8 +92,12 @@ export function deleteItem(uuid) {
   return { type: constants.DELETE_ITEM, uuid: uuid }
 }
 
-export function setItemImportant(uuid) {
-  return { type: constants.SET_ITEM_IMPORTANT, uuid: uuid}
+export function toggleItemImportant(uuid) {
+  return { type: constants.TOGGLE_ITEM_IMPORTANT, uuid: uuid}
+}
+
+export function setItemComplete(uuid) {
+  return { type: constants.SET_ITEM_COMPLETE, uuid: uuid}
 }
 
 
