@@ -11,7 +11,7 @@ import Gugi from './fonts/Gugi-Regular.ttf'
 import img from './boat.jpg';
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
 visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
-setItemComplete, clearCompletedItems } from './actions'
+setItemComplete, clearCompletedItems, setDueTodayItem } from './actions'
 import { completedFilter } from './reducers'
 
 const Svg = styled(InlineSVG)`
@@ -317,16 +317,17 @@ class App extends Component {
   };
 
   handleDueToday = (uuid) => {
-    this.setState((prevState) => {
-      let items = prevState["items"].slice();
-      for (let item of items) {
-        if (item.uuid === uuid) {
-          item.isDueToday = true;
-          item.isDueTomorrow = false;
-        }
-      }
-      return {items: items};
-    });
+    // this.setState((prevState) => {
+    //   let items = prevState["items"].slice();
+    //   for (let item of items) {
+    //     if (item.uuid === uuid) {
+    //       item.isDueToday = true;
+    //       item.isDueTomorrow = false;
+    //     }
+    //   }
+    //   return {items: items};
+    // });
+    this.props.setDueTodayItem(uuid)
   };
 
   handleRemoveDueToday = (uuid) => {
@@ -690,6 +691,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleItemImportant: (uuid) => dispatch(toggleItemImportant(uuid)),
     setItemComplete: (uuid) => dispatch(setItemComplete(uuid)),
     clearCompletedItems: () => dispatch(clearCompletedItems()),
+    setDueTodayItem: (uuid) => dispatch(setDueTodayItem(uuid)),
   }
 }
 

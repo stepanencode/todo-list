@@ -21,6 +21,7 @@ const constants = {
   TOGGLE_ITEM_IMPORTANT: "TOGGLE_ITEM_IMPORTANT",
   SET_ITEM_COMPLETE: "SET_ITEM_COMPLETE",
   CLEAR_COMPLETED_ITEMS: "CLEAR_COMPLETED_ITEMS",
+  SET_DUE_TODAY_ITEM: "SET_DUE_TODAY_ITEM"
 
 }
 // Action creators
@@ -103,6 +104,10 @@ export function setItemComplete(uuid) {
 
 export function clearCompletedItems() {
   return { type: constants.CLEAR_COMPLETED_ITEMS}
+}
+
+export function setDueTodayItem(uuid) {
+  return { type: constants.SET_DUE_TODAY_ITEM, uuid: uuid}
 }
 
 

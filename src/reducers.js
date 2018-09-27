@@ -148,6 +148,24 @@ export const rootReducer = (state=initialState, action) => {
             ]
           })
 
+          // case constants.SET_DUE_TODAY_ITEM:
+          //   let items = state.items.slice();
+          //   for (let item of items) {
+          //     if (item.uuid === action.uuid) {
+          //       item.isDueToday = true;
+          //       item.isDueTomorrow = false;
+          //     }
+          //   }
+          //   return Object.assign({}, state, {
+          //     items: items
+          //   })
+
+            case constants.SET_DUE_TODAY_ITEM:
+            return Object.assign({}, state, {
+              items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: true, isDueTomorrow: false } : item })
+            })
+
+
        default:
    return state
  }
