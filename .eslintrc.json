@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "node": true
     },
     "extends": ["eslint:recommended",
                 "plugin:react/recommended"],
@@ -11,7 +12,8 @@
             "experimentalObjectRestSpread": true,
             "jsx": true
         },
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaVersion": 2018
     },
     "parser": "babel-eslint",
     "plugins": [
@@ -27,10 +29,7 @@
             "error",
             "unix"
         ],
-        "quotes": [
-            "error",
-            "double"
-        ],
+        "quotes": ["error", "double"],
         "semi": [
             "error",
             "always"

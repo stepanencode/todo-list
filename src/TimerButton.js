@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import InlineSVG from 'svg-inline-react';
+import InlineSVG from "svg-inline-react";
 
 
 const Svg = styled(InlineSVG)`
@@ -15,6 +15,7 @@ class TimerButton extends Component{
   };
 
   render() {
+    /* eslint-disable quotes */
     return(
       <span>
         {this.props.item.isCompleted ?
@@ -23,6 +24,7 @@ class TimerButton extends Component{
         }
       </span>
     );
+    /* eslint-enable quotes */
   }
 }
 

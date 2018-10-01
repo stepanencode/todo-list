@@ -3,7 +3,7 @@ import TimerButton from "./TimerButton";
 import TimerDisplay from "./TimerDisplay";
 import CommentField from "./CommentField";
 import styled, { css } from "styled-components";
-import InlineSVG from 'svg-inline-react';
+import InlineSVG from "svg-inline-react";
 
 const ENTERKEY = 13;
 
@@ -19,7 +19,7 @@ const ItemWrapper = styled.li`
     opacity: 1;
   }
 
-  &:first-child { 
+  &:first-child {
     margin-top: 0;
   }
 `;
@@ -51,7 +51,7 @@ const Button = styled.button`
   color: #ff6347;
   border: 2px solid #ff6347;
   width: 150px;
-  
+
   ${props => props.primary && css`
     background: white;
     color: #ff99ff;
@@ -59,18 +59,18 @@ const Button = styled.button`
     font-size: 1rem;
     vertical-align: bottom;
   `}
-  
+
   ${props => props.pressed && css`
     background: #0099ff;
     color: white;
   `}
-  
+
   ${props => props.disabled && css`
     background: white;
     color: gray;
     border: 2px solid gray;
   `}
-  
+
   ${props => props.bigger && css`
     background: tomato;
     color: white;
@@ -197,7 +197,7 @@ class ListItem extends Component {
     this.setState(() => ({showComment: true}));
   };
 
-  
+
   render() {
     return(
       <ItemWrapper
@@ -223,7 +223,7 @@ class ListItem extends Component {
                 />
                 <SvgWrapper>
                   <Svg src={require(`!raw-loader!./icons/checkbox-notchecked.svg`)} raw={true}/>
-                </SvgWrapper>  
+                </SvgWrapper>
               </label>
           }
         </span>
@@ -237,24 +237,24 @@ class ListItem extends Component {
               />
               <SvgWrapper>
                 <Svg src={require(`!raw-loader!./icons/save.svg`)}
-                 raw={true}
-                 onClick={this.handleSave} 
-                 data-testid="save-button"
-                 />
+                  raw={true}
+                  onClick={this.handleSave}
+                  data-testid="save-button"
+                />
               </SvgWrapper>
             </span> :
             <span>
-              <TextItem maxLength={100} 
-              data-testid="item-text"
+              <TextItem maxLength={100}
+                data-testid="item-text"
               >{this.props.item.text}</TextItem>
               {
                 this.props.item.isCompleted ?
                   null :
                   <SvgWrapper>
                     <Svg src={require(`!raw-loader!./icons/edit.svg`)} raw={true}
-                     onClick={this.handleEdit}
-                     data-testid="edit-button"
-                     />
+                      onClick={this.handleEdit}
+                      data-testid="edit-button"
+                    />
                   </SvgWrapper>
               }
             </span>
@@ -265,44 +265,44 @@ class ListItem extends Component {
             <span>
               {
                 this.props.item.isImportant ?
-                <SvgWrapper>
-                  <Svg src={require(`!raw-loader!./icons/important.svg`)}
-                    raw={true} 
-                    onClick={this.handleImportant}
-                    data-testid="important-item"/>
-                </SvgWrapper> :
-                <SvgWrapper>
-                  <Svg src={require(`!raw-loader!./icons/notimportant.svg`)} 
-                    raw={true} 
-                    onClick={this.handleImportant}
-                    data-testid="not-important-item"/>
-                </SvgWrapper>
+                  <SvgWrapper>
+                    <Svg src={require(`!raw-loader!./icons/important.svg`)}
+                      raw={true}
+                      onClick={this.handleImportant}
+                      data-testid="important-item"/>
+                  </SvgWrapper> :
+                  <SvgWrapper>
+                    <Svg src={require(`!raw-loader!./icons/notimportant.svg`)}
+                      raw={true}
+                      onClick={this.handleImportant}
+                      data-testid="not-important-item"/>
+                  </SvgWrapper>
               }
               {
                 this.props.item.isDueToday ?
-                  <Button bigger 
+                  <Button bigger
                     data-testid="due-today-on"
                     onClick={this.handleRemoveDueToday}>Remove Due Today
                   </Button> :
-                  <Button onClick={this.handleDueToday} 
+                  <Button onClick={this.handleDueToday}
                     data-testid="due-today-off" >Due Today</Button>
               }
               {
                 this.props.item.isDueTomorrow ?
-                  <Button bigger 
+                  <Button bigger
                     data-testid="due-tomorrow-on"
                     onClick={this.handleRemoveDueTomorrow}>Remove Due Tomorrow
                   </Button> :
-                  <Button onClick={this.handleDueTomorrow} 
+                  <Button onClick={this.handleDueTomorrow}
                     data-testid="due-tomorrow-off">Due Tomorrow</Button>
               }
               <span>
-              <SvgWrapper>
-                <Svg src={require(`!raw-loader!./icons/add-comment.svg`)} 
-                  raw={true}
-                  onClick={this.showCommentField} 
-                  data-testid="add-comment"/> 
-              </SvgWrapper>
+                <SvgWrapper>
+                  <Svg src={require(`!raw-loader!./icons/add-comment.svg`)}
+                    raw={true}
+                    onClick={this.showCommentField}
+                    data-testid="add-comment"/>
+                </SvgWrapper>
               </span>
               <TimerButton time='5'
                 startTimer={this.startTimer}
@@ -312,8 +312,8 @@ class ListItem extends Component {
             </span>
         }
         <SvgWrapper>
-          <Svg src={require(`!raw-loader!./icons/delete-item.svg`)} 
-            raw={true} 
+          <Svg src={require(`!raw-loader!./icons/delete-item.svg`)}
+            raw={true}
             onClick={this.handleDelete}
             data-testid="delete-item"/>
         </SvgWrapper>
