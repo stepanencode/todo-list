@@ -199,6 +199,7 @@ class ListItem extends Component {
 
 
   render() {
+    /* eslint-disable quotes */
     return(
       <ItemWrapper
         onMouseOver={this.itemMouseOver}
@@ -326,6 +327,7 @@ class ListItem extends Component {
         }
       </ItemWrapper>
     );
+    /* eslint-enable quotes */
   }
 }
 

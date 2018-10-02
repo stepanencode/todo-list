@@ -1,8 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 
-describe('Test add comment button into item', () => {
+describe("Test add comment button into item", () => {
   var browser, page;
-  var url = 'http://localhost:3000'
+  var url = "http://localhost:3000";
 
   beforeAll (async () => {
     browser = await puppeteer.launch();
@@ -11,10 +11,10 @@ describe('Test add comment button into item', () => {
   });
 
   afterAll (() => {
-    browser.close()
+    browser.close();
   });
-
-  test('Add comment button', async () => {
+  /*eslint quotes: ["error", "double", { "avoidEscape": true }]*/
+  test("Add comment button", async () => {
     await page.goto(url);
     await page.waitForSelector('[data-testid="input-add-item"]');
     await page.click('[data-testid="input-add-item"]');
@@ -23,6 +23,5 @@ describe('Test add comment button into item', () => {
 
     await page.waitForSelector('[data-testid="add-comment"]');
     await page.click('[data-testid="add-comment"]');
-
   });
-})
+});

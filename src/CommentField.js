@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CommentList from "./CommentList";
 import styled, {css} from "styled-components";
-import InlineSVG from 'svg-inline-react';
+import InlineSVG from "svg-inline-react";
 import uuidv4 from "uuid";
 
 const Svg = styled(InlineSVG)`
@@ -21,7 +21,7 @@ const Input = styled.input`
   margin-top: 5px;
   padding-left: 5px;
   margin-left: 10px;
-  
+
   ${props => props.placeholder && css`
     font-size: 16px;
   `}
@@ -72,20 +72,16 @@ class CommentField extends Component{
       let commentItems = prevState["items"].slice();
       for (let commentItem of commentItems) {
         if (commentItem.uuidComment === uuidComment) {
-        commentItem.text = text;
-      }
+          commentItem.text = text;
+        }
       }
       return {commentItems: commentItems};
     });
   };
 
-  // hideComments = () => {
-  //   this.setState({
-  //     isHide: !this.state.isHide
-  //   });
-  // };
 
   render() {
+    /* eslint-disable quotes */
     return(
       <div>
         <form onSubmit={this.commentOnSubmit}>
@@ -101,21 +97,13 @@ class CommentField extends Component{
                   inputDisappear={this.inputDisappear}
                   placeholder={"Do you have any comments?"}
                 />
-                <span 
-                  onClick={this.commentOnSubmit} 
+                <span
+                  onClick={this.commentOnSubmit}
                   data-testid="submit-comment-button">
                   <Svg src={require(`!raw-loader!./icons/add-comment-item.svg`)} raw={true}/>
                 </span>
               </span>
           }
-          {/* {
-            this.state.isHide ?
-              <Svg src={require(`!raw-loader!./icons/show-comment-field.svg`)}
-                raw={true} onClick={this.hideComments}/>
-               :
-               <Svg src={require(`!raw-loader!./icons/hide-comment-field.svg`)} 
-                 raw={true} onClick={this.hideComments}/>
-          } */}
         </form>
         <CommentList
           commentItems={this.state.commentItems}
@@ -124,6 +112,7 @@ class CommentField extends Component{
         />
       </div>
     );
+    /* eslint-enable quotes */
   }
 }
 

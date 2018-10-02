@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import InlineSVG from 'svg-inline-react';
+import InlineSVG from "svg-inline-react";
 
 const Svg = styled(InlineSVG)`
     vertical-align: middle;
@@ -42,24 +42,26 @@ class CommentItem extends Component {
   };
 
   render() {
+    /* eslint-disable quotes */
     return(
       <CommentList>
         <CommentText>{this.props.commentItem.text}</CommentText>
         {
           this.state.isLiked ?
-            <Svg src={require(`!raw-loader!./icons/like-comment-item.svg`)} 
-              raw={true} 
+            <Svg src={require(`!raw-loader!./icons/like-comment-item.svg`)}
+              raw={true}
               onClick={this.handleLike}
               data-testid="comment-liked"/> :
-             <Svg src={require(`!raw-loader!./icons/notlike-comment-item.svg`)} 
-              raw={true} 
+            <Svg src={require(`!raw-loader!./icons/notlike-comment-item.svg`)}
+              raw={true}
               onClick={this.handleLike}
               data-testid="comment-not-liked"/>
         }
-        <Svg src={require(`!raw-loader!./icons/delete-comment-item.svg`)} 
+        <Svg src={require(`!raw-loader!./icons/delete-comment-item.svg`)}
           raw={true} onClick={this.handleDeleteComment} data-testid="comment-delete"/>
       </CommentList>
     );
+    /* eslint-enable quotes */
   }
 }
 

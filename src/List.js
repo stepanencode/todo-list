@@ -12,40 +12,39 @@ const ListWrapper = styled.ul`
 
 const List = (props) => (
   <ListWrapper>
-    <Scrollbars style={{ minWidth: 660, height: '50vh'}}
-     renderTrackHorizontal={({ style, ...props }) =>
-            <div {...props} style={{ ...style, display: 'none' }}/>
-        }
-         renderThumbVertical={({ style, ...props }) =>
-        <div {...props} style={{ ...style, backgroundColor: `rgba(9, 142, 168, 0.5)`, borderRadius: `3px`  }}/>
-    }
-    renderView={({ style, ...props }) =>
-    <div {...props} style={{ ...style, overflowX: 'hidden'  }}/>
-}
-    renderTrackVertical={({ style, ...props }) =>
-    <div {...props} style={{ ...style, position: 'absolute', width: '8px',
-     right: '0px', bottom: '2px', top: '2px', borderRadius: '3px'}}/>
-}
-autoHeight={1}
-autoHeightMax={`50vh`}
-autoHeightMin={50}
+    <Scrollbars style={{ minWidth: 660, height: "50vh"}}
+      renderTrackHorizontal={({ style, ...props }) =>
+        <div {...props} style={{ ...style, display: "none" }}/>
+      }
+      renderThumbVertical={({ style, ...props }) =>
+        <div {...props} style={{ ...style, backgroundColor: "rgba(9, 142, 168, 0.5)", borderRadius: "19px"  }}/>
+      }
+      renderView={({ style, ...props }) =>
+        <div {...props} style={{ ...style, overflowX: "hidden"  }}/>
+      }
+      renderTrackVertical={({ style, ...props }) =>
+        <div {...props} style={{ ...style, position: "absolute", width: "8px",
+          right: "0px", bottom: "2px", top: "2px", borderRadius: "3px"}}/>
+      }
+      autoHeight={1}
+      autoHeightMax={"50vh"}
+      autoHeightMin={50}
     >
-    {console.log(props.items)}
-    {
-      props.items.map(item =>
-        <ListItem
-          key={item.uuid}
-          item={item}
-          handleDelete={props.handleDelete}
-          handleChange={props.handleChange}
-          handleComplete={props.handleComplete}
-          handleImportant={props.handleImportant}
-          handleDueToday={props.handleDueToday}
-          handleRemoveDueToday={props.handleRemoveDueToday}
-          handleDueTomorrow={props.handleDueTomorrow}
-          handleRemoveDueTomorrow={props.handleRemoveDueTomorrow}
-        />)
-    }
+      {
+        props.items.map(item =>
+          <ListItem
+            key={item.uuid}
+            item={item}
+            handleDelete={props.handleDelete}
+            handleChange={props.handleChange}
+            handleComplete={props.handleComplete}
+            handleImportant={props.handleImportant}
+            handleDueToday={props.handleDueToday}
+            handleRemoveDueToday={props.handleRemoveDueToday}
+            handleDueTomorrow={props.handleDueTomorrow}
+            handleRemoveDueTomorrow={props.handleRemoveDueTomorrow}
+          />)
+      }
     </Scrollbars>
   </ListWrapper>
 );

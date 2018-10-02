@@ -1,8 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 
-describe('Test add comment item', () => {
+describe("Test add comment item", () => {
   var browser, page;
-  var url = 'http://localhost:3000'
+  var url = "http://localhost:3000";
 
   beforeAll (async () => {
     browser = await puppeteer.launch();
@@ -11,10 +11,10 @@ describe('Test add comment item', () => {
   });
 
   afterAll (() => {
-    browser.close()
+    browser.close();
   });
-
-  test('Add comment item', async () => {
+  /*eslint quotes: ["error", "double", { "avoidEscape": true }]*/
+  test("Add comment item", async () => {
     await page.goto(url);
     await page.waitForSelector('[data-testid="input-add-item"]');
     await page.click('[data-testid="input-add-item"]');
@@ -28,6 +28,5 @@ describe('Test add comment item', () => {
     await page.click('[data-testid="add-comment-field-input"]');
     await page.type('[data-testid="add-comment-field-input"]', "test text comment");
     await page.click('[data-testid="submit-comment-button"]');
-
   });
-})
+});

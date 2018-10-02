@@ -1,8 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 
-describe('Test delete item button', () => {
+describe("Test delete item button", () => {
   var browser, page;
-  var url = 'http://localhost:3000'
+  var url = "http://localhost:3000";
 
   beforeAll (async () => {
     browser = await puppeteer.launch();
@@ -11,10 +11,10 @@ describe('Test delete item button', () => {
   });
 
   afterAll (() => {
-    browser.close()
+    browser.close();
   });
-
-  test('Test delete item button right works', async () => {
+  /*eslint quotes: ["error", "double", { "avoidEscape": true }]*/
+  test("Test delete item button right works", async () => {
     await page.goto(url);
     await page.waitForSelector('[data-testid="input-add-item"]');
     await page.click('[data-testid="input-add-item"]');
@@ -26,7 +26,6 @@ describe('Test delete item button', () => {
     await page.click('[data-testid="delete-item"]');
 
     // await page.type('[data-testid="item-text"]', null);
-    expect('[data-testid="item-text"]').toBe("[data-testid=\"item-text\"]")
-
+    expect('[data-testid="item-text"]').toBe("[data-testid=\"item-text\"]");
   });
-})
+});

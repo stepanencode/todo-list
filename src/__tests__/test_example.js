@@ -1,9 +1,9 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 
 
-describe('Open Website', () => {
+describe("Open Website", () => {
   var browser, page;
-  var url = 'http://localhost:3000'
+  var url = "http://localhost:3000";
 
   beforeAll (async () => {
     browser = await puppeteer.launch();
@@ -12,16 +12,16 @@ describe('Open Website', () => {
   });
 
   afterAll (() => {
-    browser.close()
+    browser.close();
   });
-
-  test('Title == React App', async () => {
+  /*eslint quotes: ["error", "double", { "avoidEscape": true }]*/
+  test("Title == React App", async () => {
     await page.goto(url);
     const title = await page.title();
     expect(title).toBe("React App");
   });
 
-  test('Type text works fine', async () => {
+  test("Type text works fine", async () => {
     await page.goto(url);
     await page.waitForSelector("input");
     await page.click("input");
@@ -30,4 +30,4 @@ describe('Open Website', () => {
     const inputText = await page.$eval("input", el => el.value);
     expect(inputText).toEqual("test text");
   });
-})
+});
