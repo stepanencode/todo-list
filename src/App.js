@@ -13,6 +13,7 @@ import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetF
   visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
   setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from "./actions";
 import { completedFilter } from "./reducers";
+import LogInForm from "./LoginForm";
 
 
 const Svg = styled(InlineSVG)`
@@ -63,12 +64,72 @@ const ToDoWrapper = styled.div`
   width: 80%;
   min-width: 660px;
   position: relative;
+  //background-color: blue;
+`;
+
+const Header = styled.header`
+  background-color: #025278;
+  //background-color: #5dcde3;
+  width: 100%;
+  height: 60px;
+
+`;
+
+const HeaderWrapper = styled.div `
+  margin: auto;
+  width: 80%;
+`;
+
+const LogIn = styled.a `
+  color: #5dcde3;
+  display: inline-block;
+  font-size: 20px;
+  margin: 0;
+  padding: 0 8px;
+  float: left;
+  line-height: 60px;
+
+  &:hover  {
+    color: #c9d7d8;
+  }
+`;
+
+const SignUp = styled.a `
+  color: #5dcde3;
+  display: inline-block;
+  font-size: 20px;
+  margin: 0;
+  padding: 0 8px;
+  float: left;
+  line-height: 60px;
+
+  &:hover  {
+    color: #c9d7d8;
+  }
+`;
+
+const User = styled.div `
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #c9d7d8;
+  //background-color: #e39f7a;
+  margin: 5px;
+  float: right;
+`;
+
+const UserName = styled.p `
+  font-family: Gugi;
+  color: #025278;
+  font-size: 20px;
+  text-align: center;
+  margin: 0;
+  line-height: 50px;
 `;
 
 const ItemsCounter = styled.div`
-  padding: 30px 0;
-  // margin-left: 10px;
-
+  margin-top: 30px;
 `;
 
 const ItemsCounterText = styled.p`
@@ -79,7 +140,7 @@ const ItemsCounterText = styled.p`
   opacity: 0.9;
   margin: 0;
   padding-right: 2px;
-  float: left;
+  //float: left;
 `;
 
 const Input = styled.input`
@@ -92,7 +153,8 @@ const Input = styled.input`
   border-radius: 3px;
   font-size: 22px;
   padding-left: 5px;
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-top: 15px;
 `;
 
 const Button = styled.button`
@@ -106,6 +168,10 @@ const Button = styled.button`
   background: #f2f2f2;
   opacity: 0.9;
   font-weight: 500;
+
+  &:hover  {
+    color: #025278;
+  }
 
   ${props => props.pressed && css`
     background: #098EA8;
@@ -123,9 +189,16 @@ const Button = styled.button`
     background: #098EA8;
     color: white;
     width: 150px;
-    float: right;
+
     padding-top: 8px;
     padding-bottom: 8px;
+    margin-top: 10px;
+
+    &:hover  {
+      color: #025278;
+      background: #c9d7d8;
+      border-color: white;
+    }
   `}
 `;
 
@@ -375,7 +448,30 @@ class App extends Component {
     /* eslint-disable quotes */
     return (
       <Body>
+      <Header>
+      <HeaderWrapper>
+
+        <span>
+          <LogIn>Log In</LogIn>
+          <SignUp>Sign Up</SignUp>
+          <Button relax onClick={this.relaxButton}>
+            {
+              (this.props.isPlayRelaxAudio === false) ?
+                "I need to relax" :
+                "Back to work"
+            }
+          </Button>
+          {(this.props.isPlayRelaxAudio === true) ?
+            <audio autoPlay="autoPlay" loop>
+              <source src="relax.ogg" type="audio/ogg" />
+            </audio>  : null}
+          <User><UserName>OS</UserName></User>
+          <Clearfix></Clearfix>
+        </span>
+        </HeaderWrapper>
+      </Header>
         <ToDoWrapper>
+
           <ItemsCounter>
             {
               (this.allItemsCounter() === 0) ?
@@ -388,19 +484,9 @@ class App extends Component {
                   }
                 </ItemsCounterText>
             }
-            <Button relax onClick={this.relaxButton}>
-              {
-                (this.props.isPlayRelaxAudio === false) ?
-                  "I need to relax" :
-                  "Back to work"
-              }
-            </Button>
-            {(this.props.isPlayRelaxAudio === true) ?
-              <audio autoPlay="autoPlay" loop>
-                <source src="relax.ogg" type="audio/ogg" />
-              </audio>  : null}
+
           </ItemsCounter>
-          <Clearfix></Clearfix>
+
           <form onSubmit={this.onSubmit} data-testid="submit">
             <Input value={this.props.term}
               onChange={this.onChange}
@@ -412,6 +498,10 @@ class App extends Component {
               <Svg src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
             </span>
           </form>
+
+          <LogInForm></LogInForm>
+
+
           <FilterWrapper>
             <div>
               {(this.allItemsCounter() === 0) ? null:

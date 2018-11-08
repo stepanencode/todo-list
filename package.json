@@ -9,6 +9,7 @@
   "dependencies": {
     "ajv": "^6.5.4",
     "eslint-plugin-jest": "^21.24.0",
+    "firebase": "^5.5.7",
     "normalize.css": "^8.0.0",
     "raw-loader": "^0.5.1",
     "react": "^16.5.0",

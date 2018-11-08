@@ -52,6 +52,12 @@ const Button = styled.button`
   border: 2px solid #ff6347;
   width: 150px;
 
+  &:hover  {
+    color: #fa2600;
+    border-color: #fa2600;
+    background-color: #ffefec;
+  }
+
   ${props => props.primary && css`
     background: white;
     color: #ff99ff;
