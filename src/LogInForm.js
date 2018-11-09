@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Gugi from "./fonts/Gugi-Regular.ttf";
 
+
 const Form = styled.form`
-  display: none;
+  // display: none;
   font-family: sans-serif;
   background-color: #BAE3FF;
   color: #000080;
@@ -57,17 +58,25 @@ const LogInButton = styled.button `
 
 
 class LogInForm extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: ""
+    };
+  }
 
   handleChange = (e) => {
-    console.log(e)
+    this.setState({
+      [e.target.id]: e.target.value
+    })
   }
   handleSubmit = (e) => {
-    console.log(e)
+    e.preventDefault();
+    console.log(this.state)
   }
 
-  onClick = (e) => {
-    console.log(e)
-  }
+
   render() {
     return(
       <div>
@@ -82,7 +91,7 @@ class LogInForm extends Component{
             <Input type="password" id="password" onChange={this.handleChange} maxLength={50} placeholder={"password"}/>
           </div>
           <div>
-            <LogInButton pressed={this.onClick}>Log In</LogInButton>
+            <LogInButton>Log In</LogInButton>
           </div>
         </Form>
       </div>

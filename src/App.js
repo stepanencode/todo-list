@@ -13,7 +13,7 @@ import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetF
   visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
   setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from "./actions";
 import { completedFilter } from "./reducers";
-import LogInForm from "./LoginForm";
+import LogInLink from "./LogInLink";
 
 
 const Svg = styled(InlineSVG)`
@@ -80,21 +80,9 @@ const HeaderWrapper = styled.div `
   width: 80%;
 `;
 
-const LogIn = styled.a `
-  color: #5dcde3;
-  display: inline-block;
-  font-size: 20px;
-  margin: 0;
-  padding: 0 8px;
-  float: left;
-  line-height: 60px;
 
-  &:hover  {
-    color: #c9d7d8;
-  }
-`;
 
-const SignUp = styled.a `
+const SignUpLink = styled.a `
   color: #5dcde3;
   display: inline-block;
   font-size: 20px;
@@ -447,13 +435,14 @@ class App extends Component {
   render() {
     /* eslint-disable quotes */
     return (
+
       <Body>
       <Header>
       <HeaderWrapper>
 
         <span>
-          <LogIn>Log In</LogIn>
-          <SignUp>Sign Up</SignUp>
+          <LogInLink />
+          <SignUpLink>Sign Up</SignUpLink>
           <Button relax onClick={this.relaxButton}>
             {
               (this.props.isPlayRelaxAudio === false) ?
@@ -499,7 +488,7 @@ class App extends Component {
             </span>
           </form>
 
-          <LogInForm></LogInForm>
+
 
 
           <FilterWrapper>
@@ -603,8 +592,10 @@ class App extends Component {
                 position/>
             </WellDoneBox>
           </WellDoneWrapper>
+
         </ToDoWrapper>
       </Body>
+
     );
     /* eslint-enable quotes */
   }
