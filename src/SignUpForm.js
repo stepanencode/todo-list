@@ -1,9 +1,20 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Gugi from "./fonts/Gugi-Regular.ttf";
+import InlineSVG from "svg-inline-react";
+
+const Svg = styled(InlineSVG)`
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+`;
+
+const Label = styled.label`
+  position: relative;
+`;
 
 const Form = styled.form`
-  // display: none;
   font-family: sans-serif;
   background-color: #BAE3FF;
   color: #000080;
@@ -17,9 +28,9 @@ const Form = styled.form`
 
 const Input = styled.input `
   background-color: #BAE3FF;
-  padding: 15px 30px;
-  width: 500px;
-  margin-left: 25px;
+  padding: 15px 60px;
+  width: 530px;
+  margin-left: 10px;
   border-radius: 0;
   border: none;
   border-bottom: 2px solid  #025278;
@@ -27,8 +38,8 @@ const Input = styled.input `
 `;
 
 const SignUpWrapper = styled.div `
-margin: 0 auto;
-width: 100%;
+  margin: 0 auto;
+  width: 100%;
 `;
 
 const SignUpHeader = styled.h3 `
@@ -49,12 +60,14 @@ const SignUpButton = styled.button `
   padding: 0.25em 1em;
   width: 500px;
   font-size: 30px;
-
-  &:hover  {
-    border: 2px solid #c9d7d8;
-  }
+    &:hover  {
+      border: 2px solid #c9d7d8;
+    }
 `;
-
+const InputWrapper = styled.div `
+  margin: 0 auto;
+  width: 100%;
+`;
 
 class SignUpForm extends Component{
   constructor(props) {
@@ -82,10 +95,24 @@ class SignUpForm extends Component{
         <Form onSubmit={this.handleSubmit}>
           <SignUpHeader>Sign Up to Your Account</SignUpHeader>
           <SignUpWrapper>
+          <InputWrapper>
+          <Label>
+            <Svg src={require(`!raw-loader!./icons/envelope.svg`)} raw={true}/>
             <Input type="email" id="email" onChange={this.handleChange} maxLength={50} placeholder={"email address"}/>
+          </Label>
+          </InputWrapper>
+          <InputWrapper>
+          <Label>
+            <Svg src={require(`!raw-loader!./icons/key.svg`)} raw={true}/>
             <Input type="password" id="password" onChange={this.handleChange} maxLength={50} placeholder={"password"}/>
-            <Input type="text" id="first-name" onChange={this.handleChange} maxLength={50} placeholder={"First Name"}/>
-            <Input type="text" id="last-name" onChange={this.handleChange} maxLength={50} placeholder={"Last Name"}/>
+          </Label>
+          </InputWrapper>
+          <InputWrapper>
+          <Label>
+            <Svg src={require(`!raw-loader!./icons/user.svg`)} raw={true}/>
+            <Input type="text" id="full-name" onChange={this.handleChange} maxLength={50} placeholder={"full name"}/>
+          </Label>
+          </InputWrapper>
           </SignUpWrapper>
           <div>
             <SignUpButton pressed={this.onClick}>Sign Up</SignUpButton>

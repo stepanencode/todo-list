@@ -14,20 +14,28 @@ import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetF
   setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from "./actions";
 import { completedFilter } from "./reducers";
 import LogInLink from "./LogInLink";
+import SignUpLink from "./SignUpLink";
 
 
 const Svg = styled(InlineSVG)`
-  vertical-align: bottom;
-  margin-left: 10px;
 
   ${props => props.position && css`
     position: absolute;
     top: -15px;
     right: -19px;
+    vertical-align: bottom;
+    margin-left: 10px;
   `}
 
-  ${props => props.robot && css`
-    margin-left: -10px;
+  ${props => props.add_item && css`
+    vertical-align: bottom;
+    margin-left: 10px;
+  `}
+
+  ${props => props.user && css`
+    position: absolute;
+    top: 5px;
+    left: 5px;
   `}
 `;
 
@@ -47,8 +55,7 @@ const FilterWrapper = styled.div`
 
 const Body = styled.div`
   background-image: url(${img});
-  //width: 2000px;
-  //height: 1125px;
+
   //background-color: blue;
   background-attachment:fixed;
   background-repeat: no-repeat;
@@ -72,7 +79,6 @@ const Header = styled.header`
   //background-color: #5dcde3;
   width: 100%;
   height: 60px;
-
 `;
 
 const HeaderWrapper = styled.div `
@@ -80,24 +86,8 @@ const HeaderWrapper = styled.div `
   width: 80%;
 `;
 
-
-
-const SignUpLink = styled.a `
-  color: #5dcde3;
-  display: inline-block;
-  font-size: 20px;
-  margin: 0;
-  padding: 0 8px;
-  float: left;
-  line-height: 60px;
-
-  &:hover  {
-    color: #c9d7d8;
-  }
-`;
-
 const User = styled.div `
-  display: inline-block;
+  position: relative;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -442,7 +432,7 @@ class App extends Component {
 
         <span>
           <LogInLink />
-          <SignUpLink>Sign Up</SignUpLink>
+          <SignUpLink />
           <Button relax onClick={this.relaxButton}>
             {
               (this.props.isPlayRelaxAudio === false) ?
@@ -454,7 +444,7 @@ class App extends Component {
             <audio autoPlay="autoPlay" loop>
               <source src="relax.ogg" type="audio/ogg" />
             </audio>  : null}
-          <User><UserName>OS</UserName></User>
+          <User><Svg user src={require(`!raw-loader!./icons/user.svg`)} raw={true}  width="2.78em" height="2.78em"/></User>
           <Clearfix></Clearfix>
         </span>
         </HeaderWrapper>
@@ -484,7 +474,7 @@ class App extends Component {
               data-testid="input-add-item"
             />
             <span onClick={this.onSubmit} data-testid="submit-button">
-              <Svg src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
+              <Svg add_item src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
             </span>
           </form>
 
