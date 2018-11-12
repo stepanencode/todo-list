@@ -14,7 +14,7 @@ const SignUp = styled.a `
   line-height: 60px;
 
   &:hover  {
-    color: #c9d7d8;
+    color: #faf3cf;
   }
 `;
 

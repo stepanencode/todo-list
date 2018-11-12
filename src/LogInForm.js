@@ -2,35 +2,25 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Gugi from "./fonts/Gugi-Regular.ttf";
 import InlineSVG from "svg-inline-react";
-import img from "./boat.jpg";
+import img from "./login-background.jpeg";
 
 const LoginBackground = styled.div`
-
   overflow: hidden;
-  // background-color: blue;
-
+  min-height: 100vh;
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  font-size: 14px;
-  font-family: sans-serif;
-  min-height: 100vh;
-
   position: relative;
-   z-index:1;
-
-   &:before {
+  z-index: 1;
+    &:before {
      content: url(${img});
      z-index:-1;
-     position:absolute;
-     left:0;
-     top:0;
-     opacity: 0.5;
+     position: absolute;
+     top: -20%;
+     left: 0;
+     opacity: 0.8;
    }
-
-
 `;
-
 
 const Svg = styled(InlineSVG)`
   position: absolute;
@@ -45,7 +35,7 @@ const Label = styled.label`
 
 const Form = styled.form`
   font-family: sans-serif;
-  background-color: #BAE3FF;
+  background-color: #faf3cf;
   color: #000080;
   border-style: none;
   width: 550px;
@@ -53,13 +43,10 @@ const Form = styled.form`
   border-radius: 8px;
   font-size: 22px;
   margin: 0 auto;
-  z-index: 100;
-
-
 `;
 
 const Input = styled.input `
-  background-color: #BAE3FF;
+  background-color: #faf3cf;
   padding: 15px 60px;
   width: 530px;
   margin-left: 10px;
@@ -85,7 +72,7 @@ const LoginHeader = styled.h3 `
 const LogInButton = styled.button `
   border: none;
   background-color: #025278;
-  color: #c9d7d8;
+  color: #faf3cf;
   margin-left: 25px;
   margin-top: 40px;
   border-radius: 3px;
@@ -93,7 +80,7 @@ const LogInButton = styled.button `
   width: 500px;
   font-size: 30px;
     &:hover  {
-      border: 2px solid #c9d7d8;
+      border: 2px solid #faf3cf;
     }
 `;
 

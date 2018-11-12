@@ -8,7 +8,7 @@ import InlineSVG from "svg-inline-react";
 import { injectGlobal } from "styled-components";
 import "normalize.css";
 import Gugi from "./fonts/Gugi-Regular.ttf";
-import img from "./boat.jpg";
+import img from "./main-background.jpg";
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
   visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
   setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from "./actions";
@@ -91,7 +91,7 @@ const User = styled.div `
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #c9d7d8;
+  background-color: #faf3cf;
   //background-color: #e39f7a;
   margin: 5px;
   float: right;
@@ -174,7 +174,7 @@ const Button = styled.button`
 
     &:hover  {
       color: #025278;
-      background: #c9d7d8;
+      background: #faf3cf;
       border-color: white;
     }
   `}
@@ -425,11 +425,9 @@ class App extends Component {
   render() {
     /* eslint-disable quotes */
     return (
-
       <Body>
       <Header>
       <HeaderWrapper>
-
         <span>
           <LogInLink />
           <SignUpLink />
@@ -582,10 +580,8 @@ class App extends Component {
                 position/>
             </WellDoneBox>
           </WellDoneWrapper>
-
         </ToDoWrapper>
       </Body>
-
     );
     /* eslint-enable quotes */
   }
