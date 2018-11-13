@@ -84,6 +84,11 @@ const Header = styled.header`
 const HeaderWrapper = styled.div `
   margin: auto;
   width: 80%;
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 `;
 
 const User = styled.div `
@@ -208,9 +213,7 @@ const WellDoneBox = styled.div`
   cursor: pointer;
 `;
 
-const Clearfix = styled.div`
-  clear: both;
-`;
+
 
 const WellDoneMessage = styled.span`
   margin: 0 auto;
@@ -238,7 +241,6 @@ const WellDoneWrapper = styled.div`
 `;
 
 const FilteredMessagesBox = styled.div`
-
   background-color: #ffffff;
   opacity: 0.9;
   border-radius: 3px;
@@ -443,7 +445,7 @@ class App extends Component {
               <source src="relax.ogg" type="audio/ogg" />
             </audio>  : null}
           <User><Svg user src={require(`!raw-loader!./icons/user.svg`)} raw={true}  width="2.78em" height="2.78em"/></User>
-          <Clearfix></Clearfix>
+
         </span>
         </HeaderWrapper>
       </Header>
@@ -597,7 +599,6 @@ const mapStateToProps = (state) => {
     filterCompletedTerm: state.filterCompletedTerm,
     term: state.term,
     items: state.items,
-
   };
 };
 
