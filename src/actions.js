@@ -26,6 +26,8 @@ const constants = {
   UNSET_DUE_TODAY_ITEM: "UNSET_DUE_TODAY_ITEM",
   UNSET_DUE_TOMORROW_ITEM: "UNSET_DUE_TOMORROW_ITEM",
   SET_CHANGE_ITEM: "SET_CHANGE_ITEM",
+  LOGIN_FORM_FILLING_EMAIL: "LOGIN_FORM_FILLING_EMAIL",
+  LOGIN_FORM_FILLING_PASSWORD: "LOGIN_FORM_FILLING_PASSWORD"
 };
 
 // Action creators
@@ -56,6 +58,20 @@ export function unsetFilterImportant() {
 export function toggleRelaxButton() {
   return { type: constants.TOGGLE_RELAX_BUTTON };
 }
+
+export function loginFormFillingEmail(email) {
+  return {
+    type: constants.LOGIN_FORM_FILLING_EMAIL,
+    payload: email
+   };
+}
+export function loginFormFillingPassword(password) {
+  return {
+    type: constants.LOGIN_FORM_FILLING_PASSWORD,
+    payload: password
+   };
+}
+
 
 export function visibleWelldoneMessage() {
   return { type: constants.VISIBLE_WELLDONE_MESSAGE };

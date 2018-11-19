@@ -63,7 +63,8 @@ const SignUpWrapper = styled.div `
 
 const SignUpHeader = styled.h3 `
   padding: 20px 0;
-  font-family: Gugi;
+  font-family: 'Gugi';
+  src: url(${Gugi});
   text-align: center;
   font-size: 40px;
   color: #025278;

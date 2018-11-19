@@ -102,15 +102,6 @@ const User = styled.div `
   float: right;
 `;
 
-const UserName = styled.p `
-  font-family: Gugi;
-  color: #025278;
-  font-size: 20px;
-  text-align: center;
-  margin: 0;
-  line-height: 50px;
-`;
-
 const ItemsCounter = styled.div`
   margin-top: 30px;
 `;

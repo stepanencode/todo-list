@@ -19,6 +19,8 @@ const initialState = {
   filterCompletedTerm: completedFilter.ALL,
   term: "",
   items: [],
+  email: "ddd@uuu.ppp",
+  password: "kkkkkk"
 };
 
 
@@ -52,6 +54,15 @@ export const rootReducer = (state=initialState, action) => {
     return Object.assign({}, state, {
       isPlayRelaxAudio: !state.isPlayRelaxAudio
     });
+  case constants.LOGIN_FORM_FILLING_EMAIL:
+    return Object.assign({}, state, {
+      email: action.payload
+    });
+    case constants.LOGIN_FORM_FILLING_PASSWORD:
+      return Object.assign({}, state, {
+        password: action.payload
+      });
+
   case constants.VISIBLE_WELLDONE_MESSAGE:
     return Object.assign({}, state, {
       isWelldoneMessageVisible: true

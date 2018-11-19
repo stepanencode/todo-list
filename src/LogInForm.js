@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Gugi from "./fonts/Gugi-Regular.ttf";
 import InlineSVG from "svg-inline-react";
 import img from "./login-background.jpeg";
+import { connect } from "react-redux";
+import { loginFormFillingEmail, loginFormFillingPassword } from "./actions";
 
 const LoginBackground = styled.div`
   overflow: hidden;
@@ -63,7 +65,8 @@ const EmailWrapper = styled.div `
 
 const LoginHeader = styled.h3 `
   padding: 20px 0;
-  font-family: Gugi;
+  font-family: 'Gugi';
+  src: url(${Gugi});
   text-align: center;
   font-size: 40px;
   color: #025278;
@@ -85,22 +88,30 @@ const LogInButton = styled.button `
 `;
 
 class LogInForm extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: ""
-    };
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     email: "",
+  //     password: ""
+  //   };
+  // }
+
+  handleChangeEmail = (event) => {
+    // this.setState({
+    //   [event.target.id]: event.target.value
+    // })
+    this.props.loginFormFillingEmail(event.target.value);
+    console.log(event.target.value);
   }
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value
-    })
+  handleChangePassword = (event) => {
+    this.props.loginFormFillingPassword(event.target.value);
+    console.log(event.target.value);
   }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state)
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(this.props);
   }
 
   render() {
@@ -111,12 +122,12 @@ class LogInForm extends Component{
           <EmailWrapper>
             <Label>
               <Svg src={require(`!raw-loader!./icons/envelope.svg`)} raw={true}/>
-              <Input type="email" id="email" onChange={this.handleChange} maxLength={50} placeholder={"email address"}/>
+              <Input type="email" id="email" onChange={this.handleChangeEmail} maxLength={50} placeholder={"email address"} />
             </Label>
           </EmailWrapper>
           <Label>
             <Svg src={require(`!raw-loader!./icons/key.svg`)} raw={true}/>
-            <Input type="password" id="password" onChange={this.handleChange} maxLength={50} placeholder={"password"} />
+            <Input type="password" id="password" onChange={this.handleChangePassword} maxLength={50} placeholder={"password"} />
           </Label>
           <div>
             <LogInButton>Log In</LogInButton>
@@ -127,4 +138,23 @@ class LogInForm extends Component{
   }
 }
 
-export default LogInForm;
+const mapStateToProps = (state) => {
+  return {
+    email: state.email,
+    password: state.password
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginFormFillingEmail: (email) => dispatch(loginFormFillingEmail(email)),
+    loginFormFillingPassword: (password) => dispatch(loginFormFillingPassword(password))
+  };
+};
+
+const LogInFormContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LogInForm);
+
+export default LogInFormContainer;

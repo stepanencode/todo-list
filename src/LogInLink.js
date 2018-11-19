@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
-import Gugi from "./fonts/Gugi-Regular.ttf";
 import { NavLink } from "react-router-dom"
 
 const LogIn = styled.a `
