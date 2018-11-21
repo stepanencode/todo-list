@@ -55,8 +55,6 @@ const FilterWrapper = styled.div`
 
 const Body = styled.div`
   background-image: url(${img});
-
-  //background-color: blue;
   background-attachment:fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -71,12 +69,10 @@ const ToDoWrapper = styled.div`
   width: 80%;
   min-width: 660px;
   position: relative;
-  //background-color: blue;
 `;
 
 const Header = styled.header`
   background-color: #025278;
-  //background-color: #5dcde3;
   width: 100%;
   height: 60px;
 `;
@@ -97,7 +93,6 @@ const User = styled.div `
   height: 50px;
   border-radius: 50%;
   background-color: #faf3cf;
-  //background-color: #e39f7a;
   margin: 5px;
   float: right;
 `;
@@ -114,7 +109,6 @@ const ItemsCounterText = styled.p`
   opacity: 0.9;
   margin: 0;
   padding-right: 2px;
-  //float: left;
 `;
 
 const Input = styled.input`
@@ -256,11 +250,7 @@ const WELLDONE_COUNTERS = [3, 5, 10];
 const TEXT_SAMPLE = {"Who is a good boy?": "it's you!", "Cъешь ещё этих мягких французских булок": "да выпей чаю!"};
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
+
   relaxButton = () => {
     this.props.toggleRelaxButton();
   };
@@ -403,6 +393,7 @@ class App extends Component {
   };
 
   allItemsCounter = () => {
+    console.log(this.props.items);
     return this.props.items.length;
   }
 
@@ -576,20 +567,22 @@ class App extends Component {
         </ToDoWrapper>
       </Body>
     );
-    /* eslint-enable quotes */
+  /* eslint-enable quotes */
+
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    isFilterDueTomorrow: state.isFilterDueTomorrow,
-    isFilterDueToday: state.isFilterDueToday,
-    isFilterImportant: state.isFilterImportant,
-    isPlayRelaxAudio: state.isPlayRelaxAudio,
-    isWelldoneMessageVisible: state.isWelldoneMessageVisible,
-    filterCompletedTerm: state.filterCompletedTerm,
-    term: state.term,
-    items: state.items,
+    isFilterDueTomorrow: state.rootReducer.isFilterDueTomorrow,
+    isFilterDueToday: state.rootReducer.isFilterDueToday,
+    isFilterImportant: state.rootReducer.isFilterImportant,
+    isPlayRelaxAudio: state.rootReducer.isPlayRelaxAudio,
+    isWelldoneMessageVisible: state.rootReducer.isWelldoneMessageVisible,
+    filterCompletedTerm: state.rootReducer.filterCompletedTerm,
+    term: state.rootReducer.term,
+    items: state.rootReducer.items,
+
   };
 };
 

@@ -206,6 +206,7 @@ class ListItem extends Component {
 
   render() {
     /* eslint-disable quotes */
+  
     return(
       <ItemWrapper
         onMouseOver={this.itemMouseOver}

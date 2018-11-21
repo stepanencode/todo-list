@@ -20,7 +20,10 @@ const initialState = {
   term: "",
   items: [],
   email: "ddd@uuu.ppp",
-  password: "kkkkkk"
+  password: "kkkkkk",
+  emailSignUp: "ddd@uuu.pp",
+  passwordSignUp: "wwwwwwww",
+  userNameSignUp : "Joe"
 };
 
 
@@ -145,3 +148,5 @@ export const rootReducer = (state=initialState, action) => {
     return state;
   }
 };
+
+export default rootReducer;

@@ -72,7 +72,6 @@ export function loginFormFillingPassword(password) {
    };
 }
 
-
 export function visibleWelldoneMessage() {
   return { type: constants.VISIBLE_WELLDONE_MESSAGE };
 }

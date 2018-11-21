@@ -95,8 +95,7 @@ class SignUpForm extends Component{
     this.state = {
       email: "",
       password: "",
-      firstName: "",
-      lastName: ""
+      fullName: "",
     };
   }
 
@@ -130,7 +129,7 @@ class SignUpForm extends Component{
           <InputWrapper>
           <Label>
             <Svg src={require(`!raw-loader!./icons/user.svg`)} raw={true}/>
-            <Input type="text" id="full-name" onChange={this.handleChange} maxLength={50} placeholder={"full name"}/>
+            <Input type="text" id="fullname" onChange={this.handleChange} maxLength={50} placeholder={"full name"}/>
           </Label>
           </InputWrapper>
           </SignUpWrapper>
