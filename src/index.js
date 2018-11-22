@@ -3,26 +3,12 @@ import ReactDOM from "react-dom";
 import AppContainer from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "react-redux";
-// import store from "./store";
+import store from "./store";
 import LogInFormContainer from "./LogInForm";
 import SignUpForm from "./SignUpForm";
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { createStore } from 'redux'
-import { combineReducers } from 'redux';
-
-import { rootReducer } from "./reducers";
-
-const reducer  = combineReducers({
-  rootReducer
-})
-
-
-const store = createStore(reducer)
-console.log(store.getState())
-
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 ReactDOM.render(
-
   <Provider store={store}>
     <BrowserRouter>
       <Switch>

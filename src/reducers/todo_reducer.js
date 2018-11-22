@@ -1,4 +1,4 @@
-import constants from "./actions";
+import constants from "../actions";
 // import { combineReducers } from 'redux';
 // import uuidv4 from "uuid";
 
@@ -27,7 +27,7 @@ const initialState = {
 };
 
 
-export const rootReducer = (state=initialState, action) => {
+export const todoReducer = (state=initialState, action) => {
   switch (action.type) {
   case constants.SET_FILTER_DUE_TOMORROW:
     return Object.assign({}, state, {
@@ -149,4 +149,4 @@ export const rootReducer = (state=initialState, action) => {
   }
 };
 
-export default rootReducer;
+export default todoReducer;
