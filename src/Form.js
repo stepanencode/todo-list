@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Gugi from "./fonts/Gugi-Regular.ttf";
 import InlineSVG from "svg-inline-react";
 import { Field, reduxForm } from 'redux-form';
+import { keyframes } from "styled-components";
 
 const Svg = styled(InlineSVG)`
   position: absolute;
@@ -26,6 +27,11 @@ const FormStyle = styled.form`
   font-size: 22px;
   margin: 0 auto;
 `;
+const borderAnimation = keyframes`
+from {border-bottom: 2px solid  #dcd8c8;}
+
+to {border-bottom: 2px solid  #025278;}
+`;
 
 const Input = styled.input `
   background-color: #faf3cf;
@@ -34,9 +40,13 @@ const Input = styled.input `
   margin-left: 10px;
   border-radius: 0;
   border: none;
-  border-bottom: 2px solid  #025278;
+  border-bottom: 2px solid  #dcd8c8;
   box-sizing: border-box;
+
+  &:focus{animation: ${borderAnimation} 2s 1 forwards;}
 `;
+
+
 
 const SignUpWrapper = styled.div `
   margin: 0 auto;
@@ -44,11 +54,13 @@ const SignUpWrapper = styled.div `
 `;
 
 const SignUpHeader = styled.h3 `
-  padding: 20px 0;
+  padding-top: 20px;
+  padding-bottom: 10px;
   font-family: 'Gugi';
   src: url(${Gugi});
   text-align: center;
   font-size: 40px;
+  margin-bottom: 20px;
   color: #025278;
 `;
 
@@ -91,22 +103,23 @@ const validate = values => {
     }
     if (!values.password) {
       errors.password = 'Required'
-    } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i.test(values.password)) {
-      errors.password = 'Minimum eight characters, at least one letter and one number'
+    } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values.password)) {
+      errors.password = 'Minimum 8 characters, at least one letter, one number and one special character'
     }
-    if (values.password !== values.confirm_password) {
-      errors.confirm_password = 'Fail'
+    if (values.confirm_password !== values.password) {
+      errors.confirm_password = 'Incorrect password'
     }
     return errors
   }
 
 
 class Form extends Component {
-  nameField = ({ input, type, meta: { touched, error, warning } }) => (
+
+  nameFieldError = ({ input, type, meta: { touched, error, warning } }) => (
     <span>
       <Input
         {...input} placeholder={"full name"} type={type} maxLength={50} />
-        {touched && ((error && <ErrorWrapper >{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))}
+        {touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))}
       </span>
   );
   emailField = ({ input, type, meta: { touched, error, warning } }) => (
@@ -134,7 +147,7 @@ class Form extends Component {
 
     render(){
 
-        const {handleSubmit, pristine, submitting} = this.props;
+        const {handleSubmit, submitting} = this.props;
         const submit = (values) => console.log(values);
 
         return (
@@ -146,7 +159,8 @@ class Form extends Component {
             <InputWrapper>
             <Label>
               <Svg src={require(`!raw-loader!./icons/user.svg`)} raw={true}/>
-              <Field name="fullname" type="text" id="fullname" component={this.nameField}/>
+
+              <Field name="fullname" type="text" id="fullname" component={this.nameFieldError}/>
             </Label>
             </InputWrapper>
 
@@ -176,7 +190,7 @@ class Form extends Component {
             </SignUpWrapper>
 
                 <div>
-                    <SignUpButton type="submit" disabled={pristine || submitting}>Sign Up</SignUpButton>
+                    <SignUpButton type="submit" disabled={submitting}>Sign Up</SignUpButton>
                 </div>
             </FormStyle>
         );
