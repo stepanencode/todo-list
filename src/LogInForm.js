@@ -140,8 +140,8 @@ class LogInForm extends Component{
 
 const mapStateToProps = (state) => {
   return {
-    email: state.todoReducer.email,
-    password: state.todoReducer.password
+    email: state.todo.email,
+    password: state.todo.password
   };
 };
 

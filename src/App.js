@@ -12,7 +12,7 @@ import img from "./main-background.jpg";
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
   visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
   setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from "./actions";
-import { completedFilter } from "./reducers/todo_reducer";
+import { completedFilter } from "./reducers/todoReducer";
 import LogInLink from "./LogInLink";
 import SignUpLink from "./SignUpLink";
 
@@ -574,14 +574,14 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isFilterDueTomorrow: state.todoReducer.isFilterDueTomorrow,
-    isFilterDueToday: state.todoReducer.isFilterDueToday,
-    isFilterImportant: state.todoReducer.isFilterImportant,
-    isPlayRelaxAudio: state.todoReducer.isPlayRelaxAudio,
-    isWelldoneMessageVisible: state.todoReducer.isWelldoneMessageVisible,
-    filterCompletedTerm: state.todoReducer.filterCompletedTerm,
-    term: state.todoReducer.term,
-    items: state.todoReducer.items,
+    isFilterDueTomorrow: state.todo.isFilterDueTomorrow,
+    isFilterDueToday: state.todo.isFilterDueToday,
+    isFilterImportant: state.todo.isFilterImportant,
+    isPlayRelaxAudio: state.todo.isPlayRelaxAudio,
+    isWelldoneMessageVisible: state.todo.isWelldoneMessageVisible,
+    filterCompletedTerm: state.todo.filterCompletedTerm,
+    term: state.todo.term,
+    items: state.todo.items,
 
   };
 };
