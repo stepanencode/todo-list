@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from "styled-components";
+import styled, { css }  from "styled-components";
 import Gugi from "./fonts/Gugi-Regular.ttf";
 import InlineSVG from "svg-inline-react";
 import { Field, reduxForm } from 'redux-form';
@@ -27,6 +27,7 @@ const FormStyle = styled.form`
   font-size: 22px;
   margin: 0 auto;
 `;
+
 const borderAnimation = keyframes`
 from {border-bottom: 2px solid  #dcd8c8;}
 
@@ -44,6 +45,12 @@ const Input = styled.input `
   box-sizing: border-box;
 
   &:focus{animation: ${borderAnimation} 2s 1 forwards;}
+
+  ${props => props.error && css`
+    &:focus{animation: ${borderAnimation} 0s ;}
+    border-bottom: 2px solid  red;
+  `}
+
 `;
 
 
@@ -92,17 +99,17 @@ const ErrorWrapper = styled.div `
 const validate = values => {
     const errors = {}
     if (!values.fullname) {
-      errors.fullname = 'Required'
+      errors.fullname = 'This field is required'
     } else if (values.fullname.length < 2) {
       errors.fullname = 'Minimum be 2 characters or more'
     }
     if (!values.email) {
-      errors.email = 'Required'
+      errors.email = 'This field is required'
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
       errors.email = 'Invalid email address'
     }
     if (!values.password) {
-      errors.password = 'Required'
+      errors.password = 'This field is required'
     } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values.password)) {
       errors.password = 'Minimum 8 characters, at least one letter, one number and one special character'
     }
@@ -117,8 +124,10 @@ class Form extends Component {
 
   nameFieldError = ({ input, type, meta: { touched, error, warning } }) => (
     <span>
+    {(input.value.length === 0  || input.value.length >= 2) ?
       <Input
-        {...input} placeholder={"full name"} type={type} maxLength={50} />
+        {...input} placeholder={"full name"} type={type} maxLength={50} /> : <Input error
+          {...input} placeholder={"full name"} type={type} maxLength={50} />}
         {touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))}
       </span>
   );
@@ -131,9 +140,11 @@ class Form extends Component {
   );
   passwordField = ({ input, type, meta: { touched, error, warning }  }) => (
     <span>
+
     <Input
       {...input} placeholder={"password"} type={type} maxLength={50} />
       {touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))}
+
       </span>
   );
   confirmPasswordField = ({ input, type, meta: { touched, error, warning }   }) => (
@@ -159,7 +170,6 @@ class Form extends Component {
             <InputWrapper>
             <Label>
               <Svg src={require(`!raw-loader!./icons/user.svg`)} raw={true}/>
-
               <Field name="fullname" type="text" id="fullname" component={this.nameFieldError}/>
             </Label>
             </InputWrapper>
