@@ -10,6 +10,13 @@ const Svg = styled(InlineSVG)`
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
+
+  ${props => props.right && css`
+    position: absolute;
+    top: 50%;
+    left: 495px;
+    transform: translateY(-50%);
+  `}
 `;
 
 const Label = styled.label`
@@ -56,8 +63,6 @@ const Input = styled.input `
   `}
 
 `;
-
-
 
 const SignUpWrapper = styled.div `
   margin: 0 auto;
@@ -126,6 +131,18 @@ const validate = values => {
 
 class Form extends Component {
 
+  constructor(props) {
+  super(props);
+  this.state = { isShow: false };
+}
+
+onClick = () => {
+  this.setState({
+    isShow: !this.state.isShow
+  });
+  console.log("click")
+};
+
   nameField = ({ input, type, autoFocus, meta: { touched, error, warning } }) => (
     <span>
       {
@@ -155,10 +172,11 @@ class Form extends Component {
   passwordField = ({ input, type, meta: { touched, error, warning } }) => (
     <span>
       {
-        (input.value.length > 0  &&  (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(input.value))) ?
+        (input.value.length > 0  &&  (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(input.value)) ) ?
         <Input {...input} placeholder={"password"} type={type} maxLength={50}  error /> :
         <Input {...input} placeholder={"password"} type={type} maxLength={50} />
       }
+
       {
         touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))
       }
@@ -199,9 +217,18 @@ class Form extends Component {
                <InputWrapper>
                  <Label>
                    <Svg src={require(`!raw-loader!./icons/key.svg`)} raw={true}/>
-                   <Field name="password" type="password" id="password" component={this.passwordField}/>
+                   {
+                     (this.state.isShow) ? <Field name="password" type="text" id="password" component={this.passwordField} /> :
+                     <Field name="password" type="password" id="password" component={this.passwordField} />
+                   }
+                   {
+                      (this.state.isShow) ?
+                      <Svg src={require(`!raw-loader!./icons/show-password-monkey.svg`)} raw={true} onClick={this.onClick} right/> :
+                      <Svg src={require(`!raw-loader!./icons/hide-password-monkey.svg`)} raw={true} onClick={this.onClick} right/>
+                   }
 
                  </Label>
+
                </InputWrapper>
 
                <InputWrapper>
