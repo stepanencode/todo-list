@@ -46,6 +46,10 @@ const Input = styled.input `
 
   &:focus{animation: ${borderAnimation} 2s 1 forwards;}
 
+  &:invalid {
+  box-shadow: none;
+}
+
   ${props => props.error && css`
     &:focus{animation: ${borderAnimation} 0s ;}
     border-bottom: 2px solid  red;
@@ -122,86 +126,92 @@ const validate = values => {
 
 class Form extends Component {
 
-  nameFieldError = ({ input, type, meta: { touched, error, warning } }) => (
+  nameField = ({ input, type, autoFocus, meta: { touched, error, warning } }) => (
     <span>
-    {(input.value.length === 0  || input.value.length >= 2) ?
-      <Input
-        {...input} placeholder={"full name"} type={type} maxLength={50} /> : <Input error
-          {...input} placeholder={"full name"} type={type} maxLength={50} />}
-        {touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))}
-      </span>
+      {
+        (input.value.length === 0  ||  input.value.length >= 2) ?
+         <Input {...input} placeholder={"full name"} type={type} maxLength={50} autoFocus={autoFocus} /> :
+         <Input {...input} placeholder={"full name"} type={type} maxLength={50} error/>
+      }
+      {
+        touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))
+      }
+    </span>
   );
+
   emailField = ({ input, type, meta: { touched, error, warning } }) => (
     <span>
-      <Input
-        {...input} placeholder={"email address"} type={type} maxLength={50} />
-        {touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))}
-    </span>
-  );
-  passwordField = ({ input, type, meta: { touched, error, warning }  }) => (
-    <span>
-
-    <Input
-      {...input} placeholder={"password"} type={type} maxLength={50} />
-      {touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))}
-
-      </span>
-  );
-  confirmPasswordField = ({ input, type, meta: { touched, error, warning }   }) => (
-    <span>
-    <Input
-      {...input} placeholder={"repeat your password"} type={type} maxLength={50} />
-      {touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))}
+    {
+      (input.value.length > 0  &&  (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(input.value))) ?
+       <Input {...input} placeholder={"email address"} type={type} maxLength={50} error /> :
+       <Input {...input} placeholder={"email address"} type={type} maxLength={50} />
+    }
+    {
+      touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))
+    }
     </span>
   );
 
+  passwordField = ({ input, type, meta: { touched, error, warning } }) => (
+    <span>
+      {
+        (input.value.length > 0  &&  (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(input.value))) ?
+        <Input {...input} placeholder={"password"} type={type} maxLength={50}  error /> :
+        <Input {...input} placeholder={"password"} type={type} maxLength={50} />
+      }
+      {
+        touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))
+      }
+    </span>
+  );
 
-    render(){
+  confirmPasswordField = ({ input, type, meta: { touched, error, warning } }) => (
+    <span>
+      <Input {...input} placeholder={"repeat your password"} type={type} maxLength={50} />
+      {
+        touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))
+      }
+    </span>
+  );
 
+    render() {
         const {handleSubmit, submitting} = this.props;
         const submit = (values) => console.log(values);
 
         return (
             <FormStyle onSubmit={handleSubmit(submit)}>
+              <SignUpHeader>Sign Up to Your Account</SignUpHeader>
+              <SignUpWrapper>
+                <InputWrapper>
+                  <Label>
+                    <Svg src={require(`!raw-loader!./icons/user.svg`)} raw={true}/>
+                    <Field name="fullname" type="text" id="fullname" component={this.nameField} autoFocus={true} />
+                  </Label>
+                </InputWrapper>
 
-            <SignUpHeader>Sign Up to Your Account</SignUpHeader>
-            <SignUpWrapper>
+                <InputWrapper>
+                  <Label>
+                    <Svg src={require(`!raw-loader!./icons/envelope.svg`)} raw={true}/>
+                    <Field name="email" type="email" id="email" component={this.emailField}/>
+                  </Label>
+               </InputWrapper>
 
-            <InputWrapper>
-            <Label>
-              <Svg src={require(`!raw-loader!./icons/user.svg`)} raw={true}/>
-              <Field name="fullname" type="text" id="fullname" component={this.nameFieldError}/>
-            </Label>
-            </InputWrapper>
+               <InputWrapper>
+                 <Label>
+                   <Svg src={require(`!raw-loader!./icons/key.svg`)} raw={true}/>
+                   <Field name="password" type="password" id="password" component={this.passwordField}/>
 
-            <InputWrapper>
-            <Label>
-              <Svg src={require(`!raw-loader!./icons/envelope.svg`)} raw={true}/>
-              <Field name="email" type="email" id="email" component={this.emailField}/>
-            </Label>
-            </InputWrapper>
+                 </Label>
+               </InputWrapper>
 
-            <InputWrapper>
-            <Label>
-              <Svg src={require(`!raw-loader!./icons/key.svg`)} raw={true}/>
-              <Field name="password" type="password" id="password" component={this.passwordField}/>
-            </Label>
-            </InputWrapper>
-
-            <InputWrapper>
-            <Label>
-              <Svg src={require(`!raw-loader!./icons/padlock.svg`)} raw={true}/>
-              <Field name="confirm_password" type="password" id="confirm-password" component={this.confirmPasswordField} />
-            </Label>
-            </InputWrapper>
-
-
-
-            </SignUpWrapper>
-
-                <div>
-                    <SignUpButton type="submit" disabled={submitting}>Sign Up</SignUpButton>
-                </div>
+               <InputWrapper>
+                 <Label>
+                   <Svg src={require(`!raw-loader!./icons/padlock.svg`)} raw={true}/>
+                   <Field name="confirm_password" type="password" id="confirm-password" component={this.confirmPasswordField} />
+                 </Label>
+                </InputWrapper>
+              </SignUpWrapper>
+              <SignUpButton type="submit" disabled={submitting}>Sign Up</SignUpButton>
             </FormStyle>
         );
     }
