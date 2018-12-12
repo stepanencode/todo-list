@@ -5,6 +5,8 @@ import InlineSVG from "svg-inline-react";
 import { Field, reduxForm, Form, formValueSelector } from 'redux-form';
 import { keyframes } from "styled-components";
 import img from "./signup-background.jpeg";
+import woman from "./woman.svg";
+import man from "./man.png";
 import { connect } from 'react-redux'
 
 const SignupBackground = styled.div`
@@ -45,6 +47,30 @@ const Svg = styled(InlineSVG)`
 
 const Label = styled.label`
   position: relative;
+
+  ${props => props.male && css`
+    width: 60px;
+    height: 60px;
+    background: blue;
+    display: inline-block;
+    background: url(${man});
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: 5px;
+    margin-left: 10px;
+  `}
+
+  ${props => props.female && css`
+    width: 60px;
+    height: 60px;
+    background: url(${woman});
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: 5px;
+    margin-left: 10px;
+  `}
 `;
 
 const FormStyle = styled.div`
@@ -83,7 +109,12 @@ const Input = styled.input `
 
   ${props => props.error && css`
     &:focus{animation: ${borderAnimation} 0s ;}
-    border-bottom: 2px solid  red;
+    border-bottom: 2px solid  #FF6347;
+  `}
+
+  ${props => props.radio && css`
+    opacity: 0.3;
+    width: 5px;
   `}
 
 `;
@@ -146,8 +177,8 @@ const validate = values => {
     } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values.password)) {
       errors.password = 'Minimum 8 characters, at least one letter, one number and one special character'
     }
-    if (values.confirm_password !== values.password) {
-      errors.confirm_password = 'Incorrect password'
+    if (values.confirmPassword !== values.password) {
+      errors.confirmPassword = 'Incorrect password'
     }
     return errors
   }
@@ -158,13 +189,21 @@ class ReduxForm extends Component {
   constructor(props) {
   super(props);
   this.state = {
-    isShow: false
+    isShowPassword: false,
+    isShowConfirmPassword: false
   };
 }
 
-onClick = () => {
+handleClickPassword = () => {
   this.setState({
-    isShow: !this.state.isShow
+    isShowPassword: !this.state.isShowPassword
+  });
+  console.log("click")
+};
+
+handleClickConfirmPassword = () => {
+  this.setState({
+    isShowConfirmPassword: !this.state.isShowConfirmPassword
   });
   console.log("click")
 };
@@ -181,6 +220,12 @@ onClick = () => {
       }
     </span>
   );
+
+  genderField = ({ input, type }) => (
+    <span>
+      <Input {...input}  type={type} radio />
+    </span>
+  )
 
   emailField = ({ input, type, meta: { touched, error, warning } }) => (
     <span>
@@ -211,7 +256,12 @@ onClick = () => {
 
   confirmPasswordField = ({ input, type, meta: { touched, error, warning } }) => (
     <span>
+    {
+      (input.value.length > 0  &&  (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(input.value)) ) ?
+      <Input {...input} placeholder={"repeat your password"} type={type} maxLength={50} error /> :
       <Input {...input} placeholder={"repeat your password"} type={type} maxLength={50} />
+    }
+
       {
         touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))
       }
@@ -219,7 +269,7 @@ onClick = () => {
   );
 
     render() {
-        const {handleSubmit, submitting, passwordValue} = this.props;
+        const {handleSubmit, submitting, pristine, passwordValue, confirmPasswordValue} = this.props;
         const submit = (values) => console.log(values);
 
         return (
@@ -235,6 +285,15 @@ onClick = () => {
                   </Label>
                 </InputWrapper>
 
+                <div>
+
+          <Label male><Field name="gender" component={this.genderField} type="radio" value="male"/></Label>
+          <Label female><Field name="gender" component={this.genderField} type="radio" value="female"/></Label>
+        </div>
+
+
+
+
                 <InputWrapper>
                   <Label>
                     <Svg src={require(`!raw-loader!./icons/envelope.svg`)} raw={true}/>
@@ -243,38 +302,51 @@ onClick = () => {
                </InputWrapper>
 
                <InputWrapper>
-
                  <Label>
                    <Svg src={require(`!raw-loader!./icons/key.svg`)} raw={true}/>
-                   {
-                     (this.state.isShow) ? <Field name="password" type="text" id="password" component={this.passwordField} /> :
+                  {
+                     (this.state.isShowPassword) ?
+                     <Field name="password" type="text" id="password" component={this.passwordField} /> :
                      <Field name="password" type="password" id="password" component={this.passwordField} />
                    }
-
-                  {
-                    ((passwordValue && passwordValue.length > 0)) ? <div>
                    {
-                      (this.state.isShow) ?
-                      <Svg right='true' src={require(`!raw-loader!./icons/show-password-monkey.svg`)} raw={true} onMouseUp={this.onClick} /> :
-                      <Svg right='true' src={require(`!raw-loader!./icons/hide-password-monkey.svg`)} raw={true} onMouseDown={this.onClick} />
-                  }
-                  </div> :
-                   null
-                 }
+                     ((passwordValue && passwordValue.length > 0)) ?
+                     <div>
+                       {
+                         (this.state.isShowPassword) ?
+                         <Svg right='true' src={require(`!raw-loader!./icons/show-password-monkey.svg`)} raw={true} onMouseUp={this.handleClickPassword} /> :
+                         <Svg right='true' src={require(`!raw-loader!./icons/hide-password-monkey.svg`)} raw={true} onMouseDown={this.handleClickPassword} />
+                       }
+                     </div> :
+                     null
+                   }
                  </Label>
-
-
                </InputWrapper>
-
 
                <InputWrapper>
                  <Label>
-                   <Svg src={require(`!raw-loader!./icons/padlock.svg`)} raw={true}/>
-                   <Field name="confirm_password" type="password" id="confirm-password" component={this.confirmPasswordField} />
+                 <Svg src={require(`!raw-loader!./icons/padlock.svg`)} raw={true}/>
+                 {
+                    (this.state.isShowConfirmPassword) ?
+                    <Field name="confirmPassword" type="text" id="confirm-password" component={this.confirmPasswordField} /> :
+                    <Field name="confirmPassword" type="password" id="confirm-password" component={this.confirmPasswordField} />
+                  }
+                  {
+                    ((confirmPasswordValue && confirmPasswordValue.length > 0)) ?
+                    <div>
+                      {
+                        (this.state.isShowConfirmPassword) ?
+                        <Svg right='true' src={require(`!raw-loader!./icons/show-password-monkey.svg`)} raw={true} onMouseUp={this.handleClickConfirmPassword} /> :
+                        <Svg right='true' src={require(`!raw-loader!./icons/hide-password-monkey.svg`)} raw={true} onMouseDown={this.handleClickConfirmPassword} />
+                      }
+                    </div> :
+                    null
+                  }
                  </Label>
                 </InputWrapper>
+
               </SignUpWrapper>
-              <SignUpButton type="submit" disabled={submitting}>Sign Up</SignUpButton>
+              <SignUpButton type="submit" disabled={pristine || submitting}>Sign Up</SignUpButton>
               </Form>
             </FormStyle>
             </SignupBackground>
@@ -290,10 +362,11 @@ const selector = formValueSelector('signup') // <-- same as form name
 ReduxForm = connect(
   state => {
     // can select values individually
-    const passwordValue = selector(state, 'password')
-
+    const passwordValue = selector(state, 'password');
+    const confirmPasswordValue = selector(state, 'confirmPassword');
     return {
-      passwordValue
+      passwordValue,
+      confirmPasswordValue
     }
   }
 )(ReduxForm)
