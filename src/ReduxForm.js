@@ -82,7 +82,7 @@ const FormStyle = styled.div`
   height: 500px;
   border-radius: 8px;
   font-size: 22px;
-  margin: 0 auto;
+  margin: 50px auto;
 `;
 
 const borderAnimation = keyframes`

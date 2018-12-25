@@ -8,6 +8,7 @@ import LogInFormContainer from "./LogInForm";
 import SignUpForm from "./SignUpForm";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ReduxForm from "./ReduxForm";
+import User from "./User";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Route path="/login" component={LogInFormContainer}/>
         <Route path="/signup" component={SignUpForm}/>
         <Route path="/form" component={ReduxForm}/>
+        <Route path="/user" component={User}/>
       </Switch>
     </BrowserRouter>
   </Provider>,

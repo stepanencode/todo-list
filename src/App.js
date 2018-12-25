@@ -15,6 +15,7 @@ import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetF
 import { completedFilter } from "./reducers/todoReducer";
 import LogInLink from "./LogInLink";
 import SignUpLink from "./SignUpLink";
+import UserLink from "./UserLink";
 
 
 const Svg = styled(InlineSVG)`
@@ -30,12 +31,6 @@ const Svg = styled(InlineSVG)`
   ${props => props.add_item && css`
     vertical-align: bottom;
     margin-left: 10px;
-  `}
-
-  ${props => props.user && css`
-    position: absolute;
-    top: 5px;
-    left: 5px;
   `}
 `;
 
@@ -72,6 +67,7 @@ const ToDoWrapper = styled.div`
 `;
 
 const Header = styled.header`
+  // background-color: #084a5d;
   background-color: #025278;
   width: 100%;
   height: 60px;
@@ -92,9 +88,10 @@ const User = styled.div `
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #faf3cf;
+  // background-color: #faf3cf;
   margin: 5px;
-  float: right;
+  // float: right;
+  float: left;
 `;
 
 const ItemsCounter = styled.div`
@@ -426,7 +423,7 @@ class App extends Component {
             <audio autoPlay="autoPlay" loop>
               <source src="relax.ogg" type="audio/ogg" />
             </audio>  : null}
-          <User><Svg user src={require(`!raw-loader!./icons/user.svg`)} raw={true}  width="2.78em" height="2.78em"/></User>
+          <User><UserLink /></User>
 
         </span>
         </HeaderWrapper>
