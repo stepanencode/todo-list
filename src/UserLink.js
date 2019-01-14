@@ -1,18 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom"
-import styled, { css } from "styled-components";
-import { keyframes } from "styled-components";
-import InlineSVG from "svg-inline-react";
+import styled from "styled-components";
 import woman from "./woman.svg";
-
-const Svg = styled(InlineSVG)`
-
-  ${props => props.user && css`
-    position: absolute;
-    top: 5px;
-    left: 5px;
-  `}
-`;
 
 const UserIn = styled.a `
   color: #5dcde3;

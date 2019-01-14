@@ -3,29 +3,31 @@ import styled, { css }  from "styled-components";
 import Gugi from "./fonts/Gugi-Regular.ttf";
 import img from "./user-background.jpeg";
 import InlineSVG from "svg-inline-react";
-import moment from 'moment'
-import Calendar from 'react-calendar';
+import { connect } from 'react-redux'
+import UserBirthday from "./UserBirthday";
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import normalizePhone from './normalizePhone';
 
 const Svg = styled(InlineSVG)`
-  ${props => props.calendar && css`
-    display: block;
-  	margin-left: 20px;
-  	margin-top: 10px;
+width: 110px;
+height: 100px;
+padding-left: 10px;
+  ${props => props.edit && css`
+    margin-left: 20px;
+    margin-top: 10px;
+    width: 1.6em;
+    height: 1.6em;
   `}
-`;
 
-const CalendarWrapper = styled.div`
-  ${props => props.show && css`
-    display: block;
-    position: absolute;
-    top: 155px;
-    left: 232px;
-    }
-`}
+  ${props => props.save && css`
+    margin-left: 20px;
+    margin-top: 10px;
+    width: 1.6em;
+    height: 1.6em;
+  `}
 
-${props => props.hide && css`
-  display: none;
-`}
+
+
 `;
 
 const UserBackground = styled.div`
@@ -75,20 +77,25 @@ const AvatarsWrapper = styled.div`
   margin-top: 20px;
   margin-left: 30px;
   float: left;
-  width: 400px;
+  width: 399px;
   height: 500px
   background-color: #e7e8ef;
   border-radius: 5px;
+
 `;
 
 const AvatarContainer = styled.div`
   display: inline-flex;
-  width: 110px;
-  height: 100px;
+  width: 130px;
+  height: 110px;
+  transition: 1s;
   &:hover{
     box-sizing: border-box;
-    background: #ded1cf;
-    border: 2px solid #c7bcba;
+    background: #8bb4e0;
+    border-radius: 50em;
+    box-shadow:
+    0 0 20px rgba(255,255,255,.6),
+    inset 0 0 20px rgba(255,255,255,1);
   }
 `;
 
@@ -114,13 +121,6 @@ position: relative;
   align-items: flex-start;
 `;
 
-const UserInfoText = styled.p`
-  color: #5a5858;
-  padding-left: 10px;
-  margin-top: 20px;
-  font-size: 16px;
-`;
-
 const UserName = styled.div`
   display: inline-flex;
   padding-left: 10px;
@@ -131,15 +131,6 @@ const UserName = styled.div`
 `;
 
 const UserMail = styled.div`
-  display: inline-flex;
-  padding-left: 10px;
-  font-size: 18px;
-  color: #a59390;
-  font-family: 'Gugi';
-  src: url(${Gugi});
-`;
-
-const UserBirthday = styled.div`
   display: inline-flex;
   padding-left: 10px;
   font-size: 18px;
@@ -185,34 +176,139 @@ const UserChangePasswordBtn = styled.button`
   }
 `;
 
+const Input = styled.input `
+display: block;
+  float: right;
+  background-color: #faf3cf;
+  padding: 3px 5px;
+  width: 200px;
+  margin-left: 5px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 2px solid  #dcd8c8;
+  box-sizing: border-box;
+  margin-top: 12px;
+`;
+
+const UserInfoText = styled.p`
+  color: #5a5858;
+  padding-left: 10px;
+  margin-top: 20px;
+  font-size: 16px;
+`;
+
+const Label = styled.label``;
+
+const RadioButton = styled.input`
+   [type="radio"]&:checked   {
+    position: absolute;
+    left: -9999px;
+}
+   [type="radio"]&:not(checked)  {
+    position: absolute;
+    left: -9999px;
+}
+
+[type="radio"]&:checked  + ${Label}  {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+[type="radio"]&:not(checked)  + ${Label} {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+[type="radio"]&:checked + ${Label}:before  {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
+    border-radius: 100%;
+  }
+
+  [type="radio"]&:not(checked) + ${Label}:before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #dddddd;
+      background-color: #ffffff;
+      border-radius: 100%;
+    }
+
+    [type="radio"]&:checked + ${Label}:after  {
+    content: "";
+    position: absolute;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    left: 15px;
+    top: 15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: #8bb4e0;
+    opacity: 1;
+    }
+
+    [type="radio"]&:not(checked) + ${Label}:after {
+    content: "";
+    position: absolute;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    left: 15px;
+    top: 15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: #8bb4e0;
+    opacity: 0;
+}
+`;
+
+
 class User extends Component {
-  state = {
-    date: new Date(),
-    isOpenCalendar: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditPhone: false,
+    };
   }
 
-  onChange = date => {
-    this.setState({ date });
-  }
+  handleEditPhone = () => {
+    this.setState({
+      isEditPhone: true
+    });
+  };
 
-  onClickDay = date => {
-    this.setState({ date });
-    console.log(date.toString());
-   }
+  handleSavePhone = () => {
+    this.setState({
+      isEditPhone: false
+    });
+  };
 
-   onClickCalendar = () => {
-     this.setState({
-       isOpenCalendar: !this.state.isOpenCalendar
+   PhoneField = ({ input, type, autoFocus, meta: { touched, error, warning } }) => (
+     <span>
+          <Input {...input} placeholder={"phone number"} type={type} />
+     </span>
+   );
 
-     })
-      console.log("клац")
-   }
 
   render() {
 
-    const myDay = this.state.date.getDate();
-    const myMonth = this.state.date.getMonth() + 1;
-    const myYear = this.state.date.getFullYear();
+    const {handleSubmit, inputValue} = this.props;
 
       return (
         <UserBackground>
@@ -220,18 +316,86 @@ class User extends Component {
           <UserInfo>
           <AvatarsWrapper>
           <AvatarHeader>Choose your avatar:</AvatarHeader>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/woman.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/pilot.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/squirrel.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/husky.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/mermaid.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/worker.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/monkey.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/kitten.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/blonde.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/hipster.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/robot.svg`)} raw={true}/></AvatarContainer>
-            <AvatarContainer><Svg src={require(`!raw-loader!./icons/penguin.svg`)} raw={true}/></AvatarContainer>
+              <AvatarContainer>
+                <RadioButton type="radio" name="avatar" value="id-1" id="1"/>
+                <Label for="1">
+                  <Svg avatar src={require(`!raw-loader!./icons/woman.svg`)} raw={true}/>
+                </Label>
+              </AvatarContainer>
+            <AvatarContainer>
+              <RadioButton type="radio" name="avatar" value="id-2" id="2"/>
+              <Label for="2">
+                <Svg src={require(`!raw-loader!./icons/pilot.svg`)} raw={true}/>
+              </Label>
+            </AvatarContainer>
+            <AvatarContainer>
+              <RadioButton type="radio" name="avatar" value="id-3" id="3"/>
+              <Label for="3">
+                <Svg src={require(`!raw-loader!./icons/squirrel.svg`)} raw={true}/>
+              </Label>
+            </AvatarContainer>
+            <AvatarContainer>
+              <RadioButton type="radio" name="avatar" value="id-4" id="4"/>
+              <Label for="4">
+                <Svg src={require(`!raw-loader!./icons/husky.svg`)} raw={true}/>
+              </Label>
+              </AvatarContainer>
+            <AvatarContainer>
+            <RadioButton type="radio" name="avatar"  id="5"/>
+            <Label for="5">
+              <Svg src={require(`!raw-loader!./icons/mermaid.svg`)} raw={true}/>
+            </Label>
+            </AvatarContainer>
+
+            <AvatarContainer>
+            <RadioButton type="radio" name="avatar" value="id-6" id="6"/>
+            <Label for="6">
+              <Svg src={require(`!raw-loader!./icons/worker.svg`)} raw={true}/>
+            </Label>
+            </AvatarContainer>
+
+            <AvatarContainer>
+            <RadioButton type="radio" name="avatar" value="id-7" id="7"/>
+            <Label for="7">
+            <Svg src={require(`!raw-loader!./icons/monkey.svg`)} raw={true}/>
+            </Label>
+            </AvatarContainer>
+
+            <AvatarContainer>
+            <RadioButton type="radio" name="avatar" value="id-8" id="8"/>
+            <Label for="8">
+            <Svg src={require(`!raw-loader!./icons/kitten.svg`)} raw={true}/>
+            </Label>
+            </AvatarContainer>
+
+            <AvatarContainer>
+            <RadioButton type="radio" name="avatar" value="id-9" id="9"/>
+            <Label for="9">
+            <Svg src={require(`!raw-loader!./icons/blonde.svg`)} raw={true}/>
+            </Label>
+            </AvatarContainer>
+
+            <AvatarContainer>
+            <RadioButton type="radio" name="avatar" value="id-10" id="10"/>
+            <Label for="10">
+            <Svg src={require(`!raw-loader!./icons/hipster.svg`)} raw={true}/>
+            </Label>
+            </AvatarContainer>
+
+            <AvatarContainer>
+            <RadioButton type="radio" name="avatar" value="id-11" id="11"/>
+            <Label for="11">
+            <Svg src={require(`!raw-loader!./icons/robot.svg`)} raw={true}/>
+            </Label>
+            </AvatarContainer>
+
+            <AvatarContainer>
+            <RadioButton type="radio" name="avatar" value="id-12" id="12"/>
+            <Label for="12">
+            <Svg src={require(`!raw-loader!./icons/penguin.svg`)} raw={true}/>
+            </Label>
+            </AvatarContainer>
+
           </AvatarsWrapper>
           <PersonalInfoWrapper>
             <UserName>
@@ -242,39 +406,43 @@ class User extends Component {
               <p>Mail:</p>
               <UserInfoText>stepanencode@gmail.com</UserInfoText>
             </UserMail>
-            <UserBirthday>
-              <p>Birthday:</p>
-              <UserInfoText>
-                {(myDay <= 9) ? <span>0{myDay}</span> : <span>{myDay}</span>}
-                  <span>/</span>
-                {(myMonth <= 9) ? <span>0{myMonth}</span> : <span>{myMonth}</span>}
-                 <span>/</span>
-                <span>{myYear}</span>
-              </UserInfoText>
+              <UserBirthday></UserBirthday>
 
-              <Svg calendar onClick={this.onClickCalendar} src={require(`!raw-loader!./icons/calendar.svg`)} raw={true}/>
-            </UserBirthday>
-            {
-              this.state.isOpenCalendar ?
-              <CalendarWrapper show>
-              <Calendar
-                onChange={this.onChange}
-                value={this.state.date}
-                onClickDay={this.onClickDay}
-                />
-              </CalendarWrapper> :
-              <CalendarWrapper hide>
-              <Calendar
-                onChange={this.onChange}
-                value={this.state.date}
-                onClickDay={this.onClickDay}
-                />
-              </CalendarWrapper>
-            }
+
+              {
+                this.state.isEditPhone ?
+
             <UserPhone>
               <p>Phone:</p>
-              <UserInfoText>+79897171335</UserInfoText>
-            </UserPhone>
+              <form onSubmit={handleSubmit}>
+                <div>
+                    <div>
+                      <Field
+                        name="phone"
+                        component={this.PhoneField}
+                        id="phone"
+                        type="text"
+                        normalize={normalizePhone}
+                      />
+                    </div>
+                  </div>
+              </form>
+              <Svg src={require(`!raw-loader!./icons/save.svg`)} save raw={true} onClick={this.handleSavePhone}/>
+            </UserPhone> :
+
+            <UserPhone>
+              <p>Phone:</p>
+              {
+                ((inputValue && inputValue.length > 0)) ?
+              <UserInfoText>{inputValue}</UserInfoText> :
+                <UserInfoText>Please, enter your phone</UserInfoText>
+              }
+              <Svg src={require(`!raw-loader!./icons/edit.svg`)} edit raw={true} onClick={this.handleEditPhone}
+                />
+              </UserPhone>
+}
+
+
             <UserChangePassword>
               <p>Password:</p>
               <UserChangePasswordBtn>{`Change password`}</UserChangePasswordBtn>
@@ -286,5 +454,19 @@ class User extends Component {
       )
     }
   }
+
+User = reduxForm({
+      form: 'user',
+  })(User);
+
+  const selector = formValueSelector('user')
+  User = connect(
+    state => {
+      const inputValue = selector(state, 'phone');
+      return {
+        inputValue
+      }
+    }
+  )(User)
 
 export default User;

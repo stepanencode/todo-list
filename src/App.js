@@ -67,7 +67,6 @@ const ToDoWrapper = styled.div`
 `;
 
 const Header = styled.header`
-  // background-color: #084a5d;
   background-color: #025278;
   width: 100%;
   height: 60px;
@@ -88,9 +87,7 @@ const User = styled.div `
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  // background-color: #faf3cf;
   margin: 5px;
-  // float: right;
   float: left;
 `;
 
@@ -133,7 +130,6 @@ const Button = styled.button`
   background: #f2f2f2;
   opacity: 0.9;
   font-weight: 500;
-
   &:hover  {
     color: #025278;
   }
@@ -154,11 +150,9 @@ const Button = styled.button`
     background: #098EA8;
     color: white;
     width: 150px;
-
     padding-top: 8px;
     padding-bottom: 8px;
     margin-top: 10px;
-
     &:hover  {
       color: #025278;
       background: #faf3cf;
@@ -232,7 +226,6 @@ const FilteredMessagesBox = styled.div`
   font-weight: bold;
   font-size: 16px;
   color: #098EA8;
-
   &:hover {
     opacity: 1;
   }
@@ -392,7 +385,7 @@ class App extends Component {
   allItemsCounter = () => {
     console.log(this.props.items);
     return this.props.items.length;
-  }
+  };
 
   isWellDone = () => {
     for (let counter of WELLDONE_COUNTERS) {
@@ -424,12 +417,10 @@ class App extends Component {
               <source src="relax.ogg" type="audio/ogg" />
             </audio>  : null}
           <User><UserLink /></User>
-
         </span>
         </HeaderWrapper>
       </Header>
         <ToDoWrapper>
-
           <ItemsCounter>
             {
               (this.allItemsCounter() === 0) ?
@@ -442,9 +433,7 @@ class App extends Component {
                   }
                 </ItemsCounterText>
             }
-
           </ItemsCounter>
-
           <form onSubmit={this.onSubmit} data-testid="submit">
             <Input value={this.props.term}
               onChange={this.onChange}
@@ -456,10 +445,6 @@ class App extends Component {
               <Svg add_item src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
             </span>
           </form>
-
-
-
-
           <FilterWrapper>
             <div>
               {(this.allItemsCounter() === 0) ? null:
@@ -553,7 +538,7 @@ class App extends Component {
             handleDueTomorrow={this.handleDueTomorrow}
             handleRemoveDueTomorrow={this.handleRemoveDueTomorrow}
           />
-          <WellDoneWrapper unvisible={!this.props.isWelldoneMessageVisible}>
+          <WellDoneWrapper unvisible={!this.props.isWelldoneMessageVisible} >
             <WellDoneBox >
               <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items
               </WellDoneMessage>
@@ -565,7 +550,6 @@ class App extends Component {
       </Body>
     );
   /* eslint-enable quotes */
-
   }
 }
 
@@ -579,7 +563,6 @@ const mapStateToProps = (state) => {
     filterCompletedTerm: state.todo.filterCompletedTerm,
     term: state.todo.term,
     items: state.todo.items,
-
   };
 };
 
@@ -617,4 +600,3 @@ const AppContainer = connect(
 )(App);
 
 export default AppContainer;
-// export default App;

@@ -19,11 +19,11 @@ const initialState = {
   filterCompletedTerm: completedFilter.ALL,
   term: "",
   items: [],
-  email: "ddd@uuu.ppp",
-  password: "kkkkkk",
-  emailSignUp: "ddd@uuu.pp",
-  passwordSignUp: "wwwwwwww",
-  userNameSignUp : "Joe"
+  // email: "ddd@uuu.ppp",
+  // password: "kkkkkk",
+  // emailSignUp: "ddd@uuu.pp",
+  // passwordSignUp: "wwwwwwww",
+  // userNameSignUp : "Joe"
 };
 
 

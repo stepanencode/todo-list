@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import styled, { css }  from "styled-components";
 import Gugi from "./fonts/Gugi-Regular.ttf";
 import InlineSVG from "svg-inline-react";
+import { Field, reduxForm, Form, formValueSelector } from 'redux-form';
+import { keyframes } from "styled-components";
 import img from "./login-background.jpeg";
-import { connect } from "react-redux";
-import { loginFormFillingEmail, loginFormFillingPassword } from "./actions";
+import { connect } from 'react-redux'
 
 const LoginBackground = styled.div`
   overflow: hidden;
@@ -29,22 +30,43 @@ const Svg = styled(InlineSVG)`
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
+
+
+  ${props => props.right && css`
+    position: absolute;
+    top: 50%;
+    left: 495px;
+    transform: translateY(-50%);
+  `}
+
+  ${props => props.none && css`
+    display: none;
+  `}
 `;
 
 const Label = styled.label`
   position: relative;
 `;
 
-const Form = styled.form`
+const FormStyle = styled.form`
   font-family: sans-serif;
   background-color: #faf3cf;
   color: #000080;
   border-style: none;
   width: 550px;
-  height: 450px;
+  height: 400px;
   border-radius: 8px;
   font-size: 22px;
   margin: 0 auto;
+`;
+
+const borderAnimation = keyframes`
+  from {
+    border-bottom: 2px solid  #dcd8c8;
+  }
+  to {
+    border-bottom: 2px solid  #025278;
+  }
 `;
 
 const Input = styled.input `
@@ -56,14 +78,30 @@ const Input = styled.input `
   border: none;
   border-bottom: 2px solid  #025278;
   box-sizing: border-box;
+  &:focus{
+    animation: ${borderAnimation} 2s 1 forwards;
+  }
+  &:invalid {
+  box-shadow: none;
+  }
+
+  ${props => props.error && css`
+    &:focus{animation: ${borderAnimation} 0s ;}
+    border-bottom: 2px solid  #FF6347;
+  `}
+
+  ${props => props.radio && css`
+    opacity: 0.3;
+    width: 5px;
+  `}
 `;
 
-const EmailWrapper = styled.div `
+const LogInWrapper = styled.div `
   margin: 0 auto;
   width: 100%;
 `;
 
-const LoginHeader = styled.h3 `
+const LogInHeader = styled.h3 `
   padding: 20px 0;
   font-family: 'Gugi';
   src: url(${Gugi});
@@ -87,74 +125,139 @@ const LogInButton = styled.button `
     }
 `;
 
-class LogInForm extends Component{
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     email: "",
-  //     password: ""
-  //   };
-  // }
+const InputWrapper = styled.div `
+  margin: 0 auto;
+  width: 100%;
+`;
 
-  handleChangeEmail = (event) => {
-    // this.setState({
-    //   [event.target.id]: event.target.value
-    // })
-    this.props.loginFormFillingEmail(event.target.value);
-    console.log(event.target.value);
+const ErrorWrapper = styled.div `
+  padding-left: 70px;
+  padding-top: 5px;
+  font-size: 14px;
+`;
+
+const validate = values => {
+  const errors = {}
+  if (!values.email) {
+    errors.email = 'This field is required'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address'
+  }
+  if (!values.password) {
+    errors.password = 'This field is required'
+  } else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values.password)) {
+    errors.password = 'Minimum 8 characters, at least one letter, one number and one special character'
   }
 
-  handleChangePassword = (event) => {
-    this.props.loginFormFillingPassword(event.target.value);
-    console.log(event.target.value);
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(this.props);
-  }
-
-  render() {
-    return(
-      <LoginBackground>
-        <Form onSubmit={this.handleSubmit}>
-          <LoginHeader>Log In to Your Account</LoginHeader>
-          <EmailWrapper>
-            <Label>
-              <Svg src={require(`!raw-loader!./icons/envelope.svg`)} raw={true}/>
-              <Input type="email" id="email" onChange={this.handleChangeEmail} maxLength={50} placeholder={"email address"} />
-            </Label>
-          </EmailWrapper>
-          <Label>
-            <Svg src={require(`!raw-loader!./icons/key.svg`)} raw={true}/>
-            <Input type="password" id="password" onChange={this.handleChangePassword} maxLength={50} placeholder={"password"} />
-          </Label>
-          <div>
-            <LogInButton>Log In</LogInButton>
-          </div>
-        </Form>
-      </LoginBackground>
-    )
-  }
+  return errors
 }
 
-const mapStateToProps = (state) => {
-  return {
-    email: state.todo.email,
-    password: state.todo.password
+
+class LogInForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShowPassword: false,
+    };
+  }
+
+  handleClickPassword = () => {
+    this.setState({
+      isShowPassword: !this.state.isShowPassword
+    });
   };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loginFormFillingEmail: (email) => dispatch(loginFormFillingEmail(email)),
-    loginFormFillingPassword: (password) => dispatch(loginFormFillingPassword(password))
-  };
-};
+  emailField = ({ input, type, autoFocus, meta: { touched, error, warning } }) => (
+    <span>
+    {
+      (input.value.length > 0  &&  (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(input.value))) ?
+       <Input {...input} placeholder={"email address"} type={type} maxLength={50} error/> :
+       <Input {...input} placeholder={"email address"} type={type} maxLength={50} autoFocus={autoFocus}/>
+    }
+    {
+      touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))
+    }
+    </span>
+  );
 
-const LogInFormContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LogInForm);
+  passwordField = ({ input, type, meta: { touched, error, warning } }) => (
+    <span>
+      {
+        (input.value.length > 0  &&  (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(input.value)) ) ?
+        <Input {...input} placeholder={"password"} type={type} maxLength={50}  error /> :
+        <Input {...input} placeholder={"password"} type={type} maxLength={50} />
+      }
 
-export default LogInFormContainer;
+      {
+        touched && ((error && <ErrorWrapper>{error}</ErrorWrapper>) || (warning && <ErrorWrapper>{warning}</ErrorWrapper>))
+      }
+    </span>
+  );
+
+  render() {
+    const {handleSubmit, submitting, pristine, passwordValue} = this.props;
+    const submit = (values) => console.log(values);
+
+    return(
+      <LoginBackground>
+      <FormStyle>
+        <Form onSubmit={handleSubmit(submit)}>
+          <LogInHeader>Log In to Your Account</LogInHeader>
+
+          <LogInWrapper>
+            <InputWrapper>
+            <Label>
+              <Svg src={require(`!raw-loader!./icons/envelope.svg`)} raw={true}/>
+              <Field name="email" type="email" id="email" component={this.emailField} autoFocus={true}/>
+            </Label>
+            </InputWrapper>
+
+            <InputWrapper>
+              <Label>
+                <Svg src={require(`!raw-loader!./icons/key.svg`)} raw={true}/>
+               {
+                  (this.state.isShowPassword) ?
+                  <Field name="password" type="text" id="password" component={this.passwordField} /> :
+                  <Field name="password" type="password" id="password" component={this.passwordField} />
+                }
+                {
+                  ((passwordValue && passwordValue.length > 0)) ?
+                  <div>
+                  {/*{passwordValue}*/}
+                    {
+                      (this.state.isShowPassword) ?
+                      <Svg right='true' src={require(`!raw-loader!./icons/show-password-monkey.svg`)} raw={true} onMouseUp={this.handleClickPassword} /> :
+                      <Svg right='true' src={require(`!raw-loader!./icons/hide-password-monkey.svg`)} raw={true} onMouseDown={this.handleClickPassword} />
+                    }
+                  </div> :
+                  null
+                }
+              </Label>
+            </InputWrapper>
+          </LogInWrapper>
+          <LogInButton type="submit" disabled={pristine || submitting}>Log In</LogInButton>
+        </Form>
+        </FormStyle>
+      </LoginBackground>
+    );
+  }
+}
+LogInForm = reduxForm({
+    form: 'login',
+    validate,
+})(LogInForm);
+
+const selector = formValueSelector('login')
+LogInForm= connect(
+  state => {
+    const passwordValue = selector(state, 'password');
+
+    return {
+      passwordValue,
+
+    }
+  }
+)(LogInForm)
+
+
+export default LogInForm;
