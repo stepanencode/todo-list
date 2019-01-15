@@ -9,9 +9,10 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import normalizePhone from './normalizePhone';
 
 const Svg = styled(InlineSVG)`
-width: 110px;
-height: 100px;
-padding-left: 10px;
+  width: 110px;
+  height: 100px;
+  padding-left: 10px;
+
   ${props => props.edit && css`
     margin-left: 20px;
     margin-top: 10px;
@@ -25,9 +26,6 @@ padding-left: 10px;
     width: 1.6em;
     height: 1.6em;
   `}
-
-
-
 `;
 
 const UserBackground = styled.div`
@@ -76,18 +74,18 @@ const AvatarsWrapper = styled.div`
   flex-wrap: wrap;
   margin-top: 20px;
   margin-left: 30px;
+  padding-left: 5px;
   float: left;
   width: 399px;
   height: 500px
   background-color: #e7e8ef;
   border-radius: 5px;
-
 `;
 
 const AvatarContainer = styled.div`
   display: inline-flex;
   width: 130px;
-  height: 110px;
+  height: 100px;
   transition: 1s;
   &:hover{
     box-sizing: border-box;
@@ -102,13 +100,14 @@ const AvatarContainer = styled.div`
 const AvatarHeader = styled.h3`
   font-size: 22px;
   margin: 0;
+  margin-bottom: 10px;
   padding: 0 60px;
   font-family: 'Gugi';
   src: url(${Gugi});
 `;
 
 const PersonalInfoWrapper = styled.div`
-position: relative;
+  position: relative;
   margin-top: 20px;
   margin-right: 30px;
   float: right;
@@ -176,8 +175,28 @@ const UserChangePasswordBtn = styled.button`
   }
 `;
 
+const AvatarSaveBtn = styled.button`
+  font-family: 'Gugi';
+  src: url(${Gugi});
+  display: block;
+  margin: 0 auto;
+  font-size: 16px;
+  background: #ded1cf;
+  width: 279px;
+  height: 30px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-top: 5px;
+  padding-left: 5px;
+  border: 2px solid #c7bcba;
+  &:hover  {
+    background: #c7bcba;
+    border-color: #ded1cf;
+  }
+`;
+
 const Input = styled.input `
-display: block;
+  display: block;
   float: right;
   background-color: #faf3cf;
   padding: 3px 5px;
@@ -200,28 +219,29 @@ const UserInfoText = styled.p`
 const Label = styled.label``;
 
 const RadioButton = styled.input`
-   [type="radio"]&:checked   {
+  [type="radio"]&:checked {
     position: absolute;
     left: -9999px;
-}
-   [type="radio"]&:not(checked)  {
-    position: absolute;
-    left: -9999px;
-}
+  }
 
-[type="radio"]&:checked  + ${Label}  {
+  [type="radio"]&:not(checked) {
+    position: absolute;
+    left: -9999px;
+  }
+
+  [type="radio"]&:checked + ${Label} {
     display: inline-block;
     position: relative;
     cursor: pointer;
-}
+  }
 
-[type="radio"]&:not(checked)  + ${Label} {
+  [type="radio"]&:not(checked) + ${Label} {
     display: inline-block;
     position: relative;
     cursor: pointer;
-}
+  }
 
-[type="radio"]&:checked + ${Label}:before  {
+  [type="radio"]&:checked + ${Label}:before {
     content: "";
     position: absolute;
     left: 10px;
@@ -234,18 +254,18 @@ const RadioButton = styled.input`
   }
 
   [type="radio"]&:not(checked) + ${Label}:before {
-      content: "";
-      position: absolute;
-      left: 10px;
-      top: 10px;
-      width: 18px;
-      height: 18px;
-      border: 1px solid #dddddd;
-      background-color: #ffffff;
-      border-radius: 100%;
-    }
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
+    border-radius: 100%;
+  }
 
-    [type="radio"]&:checked + ${Label}:after  {
+  [type="radio"]&:checked + ${Label}:after {
     content: "";
     position: absolute;
     -webkit-transition: all 0.2s ease;
@@ -259,9 +279,8 @@ const RadioButton = styled.input`
     border-radius: 100%;
     background-color: #8bb4e0;
     opacity: 1;
-    }
-
-    [type="radio"]&:not(checked) + ${Label}:after {
+  }
+  [type="radio"]&:not(checked) + ${Label}:after {
     content: "";
     position: absolute;
     -webkit-transition: all 0.2s ease;
@@ -275,7 +294,7 @@ const RadioButton = styled.input`
     border-radius: 100%;
     background-color: #8bb4e0;
     opacity: 0;
-}
+  }
 `;
 
 
@@ -284,6 +303,7 @@ class User extends Component {
     super(props);
     this.state = {
       isEditPhone: false,
+      selectedOption: "woman"
     };
   }
 
@@ -305,6 +325,16 @@ class User extends Component {
      </span>
    );
 
+   handleOptionChange = event => {
+   this.setState({
+     selectedOption: event.target.value
+   });
+ };
+
+ handleFormSubmit = event => {
+   event.preventDefault();
+   console.log("You have submitted:", this.state.selectedOption);
+};
 
   render() {
 
@@ -313,89 +343,94 @@ class User extends Component {
       return (
         <UserBackground>
           <UserInfoWrapper>
-          <UserInfo>
+            <UserInfo>
           <AvatarsWrapper>
-          <AvatarHeader>Choose your avatar:</AvatarHeader>
+          <form onSubmit={this.handleFormSubmit}>
+          <AvatarHeader>Choose your avatar:</AvatarHeader >
+
               <AvatarContainer>
-                <RadioButton type="radio" name="avatar" value="id-1" id="1"/>
-                <Label for="1">
-                  <Svg avatar src={require(`!raw-loader!./icons/woman.svg`)} raw={true}/>
+                <RadioButton type="radio" name="avatar" value="woman" id="1" checked={this.state.selectedOption === "woman"} onChange={this.handleOptionChange}/>
+                <Label htmlFor="1">
+                  <Svg src={require(`!raw-loader!./icons/woman.svg`)} raw={true}/>
                 </Label>
               </AvatarContainer>
+
             <AvatarContainer>
-              <RadioButton type="radio" name="avatar" value="id-2" id="2"/>
-              <Label for="2">
+              <RadioButton type="radio" name="avatar" value="pilot" id="2" checked={this.state.selectedOption === "pilot"} onChange={this.handleOptionChange}/>
+              <Label htmlFor="2">
                 <Svg src={require(`!raw-loader!./icons/pilot.svg`)} raw={true}/>
               </Label>
             </AvatarContainer>
+
             <AvatarContainer>
-              <RadioButton type="radio" name="avatar" value="id-3" id="3"/>
-              <Label for="3">
+              <RadioButton type="radio" name="avatar" value="squirrel" id="3" checked={this.state.selectedOption === "squirrel"} onChange={this.handleOptionChange}/>
+              <Label htmlFor="3">
                 <Svg src={require(`!raw-loader!./icons/squirrel.svg`)} raw={true}/>
               </Label>
             </AvatarContainer>
             <AvatarContainer>
-              <RadioButton type="radio" name="avatar" value="id-4" id="4"/>
-              <Label for="4">
+              <RadioButton type="radio" name="avatar" value="husky" id="4" checked={this.state.selectedOption === "husky"} onChange={this.handleOptionChange}/>
+              <Label htmlFor="4">
                 <Svg src={require(`!raw-loader!./icons/husky.svg`)} raw={true}/>
               </Label>
               </AvatarContainer>
             <AvatarContainer>
-            <RadioButton type="radio" name="avatar"  id="5"/>
-            <Label for="5">
+            <RadioButton type="radio" name="avatar" value="mermaid" id="5" checked={this.state.selectedOption === "mermaid"} onChange={this.handleOptionChange}/>
+            <Label htmlFor="5">
               <Svg src={require(`!raw-loader!./icons/mermaid.svg`)} raw={true}/>
             </Label>
             </AvatarContainer>
 
             <AvatarContainer>
-            <RadioButton type="radio" name="avatar" value="id-6" id="6"/>
-            <Label for="6">
+            <RadioButton type="radio" name="avatar" value="worker" id="6" checked={this.state.selectedOption === "worker"} onChange={this.handleOptionChange}/>
+            <Label htmlFor="6">
               <Svg src={require(`!raw-loader!./icons/worker.svg`)} raw={true}/>
             </Label>
             </AvatarContainer>
 
             <AvatarContainer>
-            <RadioButton type="radio" name="avatar" value="id-7" id="7"/>
-            <Label for="7">
+            <RadioButton type="radio" name="avatar" value="monkey" id="7" checked={this.state.selectedOption === "monkey"} onChange={this.handleOptionChange}/>
+            <Label htmlFor="7">
             <Svg src={require(`!raw-loader!./icons/monkey.svg`)} raw={true}/>
             </Label>
             </AvatarContainer>
 
             <AvatarContainer>
-            <RadioButton type="radio" name="avatar" value="id-8" id="8"/>
-            <Label for="8">
+            <RadioButton type="radio" name="avatar" value="kitten" id="8" checked={this.state.selectedOption === "kitten"} onChange={this.handleOptionChange}/>
+            <Label htmlFor="8">
             <Svg src={require(`!raw-loader!./icons/kitten.svg`)} raw={true}/>
             </Label>
             </AvatarContainer>
 
             <AvatarContainer>
-            <RadioButton type="radio" name="avatar" value="id-9" id="9"/>
-            <Label for="9">
+            <RadioButton type="radio" name="avatar" value="blonde" id="9" checked={this.state.selectedOption === "blonde"} onChange={this.handleOptionChange}/>
+            <Label htmlFor="9">
             <Svg src={require(`!raw-loader!./icons/blonde.svg`)} raw={true}/>
             </Label>
             </AvatarContainer>
 
             <AvatarContainer>
-            <RadioButton type="radio" name="avatar" value="id-10" id="10"/>
-            <Label for="10">
+            <RadioButton type="radio" name="avatar" value="hipster" id="10" checked={this.state.selectedOption === "hipster"} onChange={this.handleOptionChange}/>
+            <Label htmlFor="10">
             <Svg src={require(`!raw-loader!./icons/hipster.svg`)} raw={true}/>
             </Label>
             </AvatarContainer>
 
             <AvatarContainer>
-            <RadioButton type="radio" name="avatar" value="id-11" id="11"/>
-            <Label for="11">
+            <RadioButton type="radio" name="avatar" value="robot" id="11" checked={this.state.selectedOption === "robot"} onChange={this.handleOptionChange}/>
+            <Label htmlFor="11">
             <Svg src={require(`!raw-loader!./icons/robot.svg`)} raw={true}/>
             </Label>
             </AvatarContainer>
 
             <AvatarContainer>
-            <RadioButton type="radio" name="avatar" value="id-12" id="12"/>
-            <Label for="12">
+            <RadioButton type="radio" name="avatar" value="penguin" id="12" checked={this.state.selectedOption === "penguin"} onChange={this.handleOptionChange}/>
+            <Label htmlFor="12">
             <Svg src={require(`!raw-loader!./icons/penguin.svg`)} raw={true}/>
             </Label>
             </AvatarContainer>
-
+            <AvatarSaveBtn type="submit">Save</AvatarSaveBtn>
+          </form>
           </AvatarsWrapper>
           <PersonalInfoWrapper>
             <UserName>
@@ -407,7 +442,6 @@ class User extends Component {
               <UserInfoText>stepanencode@gmail.com</UserInfoText>
             </UserMail>
               <UserBirthday></UserBirthday>
-
 
               {
                 this.state.isEditPhone ?
@@ -437,11 +471,10 @@ class User extends Component {
               <UserInfoText>{inputValue}</UserInfoText> :
                 <UserInfoText>Please, enter your phone</UserInfoText>
               }
-              <Svg src={require(`!raw-loader!./icons/edit.svg`)} edit raw={true} onClick={this.handleEditPhone}
+              <Svg src={require(`!raw-loader!./icons/edit.svg`)} edit="true" raw={true} onClick={this.handleEditPhone}
                 />
               </UserPhone>
 }
-
 
             <UserChangePassword>
               <p>Password:</p>

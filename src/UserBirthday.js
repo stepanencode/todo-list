@@ -86,7 +86,7 @@ class UserBirthday extends Component {
            <span>/</span>
           <span>{myYear}</span>
         </UserInfoText>
-        <Svg calendar onClick={this.onClickCalendar} src={require(`!raw-loader!./icons/calendar.svg`)} raw={true}/>
+        <Svg calendar="true" onClick={this.onClickCalendar} src={require(`!raw-loader!./icons/calendar.svg`)} raw={true}/>
       </UserBirthdayWrapper>
       {
         this.state.isOpenCalendar ?
