@@ -12,6 +12,7 @@ import img from "./main-background.jpg";
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
   visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
   setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from "./actions";
+import { fetchRadioMessageBegin } from "./reducers/radioReducer";
 import { completedFilter } from "./reducers/todoReducer";
 import LogInLink from "./LogInLink";
 import SignUpLink from "./SignUpLink";
@@ -240,6 +241,9 @@ const WELLDONE_COUNTERS = [3, 5, 10];
 const TEXT_SAMPLE = {"Who is a good boy?": "it's you!", "Cъешь ещё этих мягких французских булок": "да выпей чаю!"};
 
 class App extends Component {
+  componentDidMount() {
+    this.props.fetchRadioMessageBegin();
+  }
 
   relaxButton = () => {
     this.props.toggleRelaxButton();
@@ -408,8 +412,8 @@ class App extends Component {
           <Button relax onClick={this.relaxButton}>
             {
               (this.props.isPlayRelaxAudio === false) ?
-                "I need to relax" :
-                "Back to work"
+                this.props.radio.message.on :
+                this.props.radio.message.off
             }
           </Button>
           {(this.props.isPlayRelaxAudio === true) ?
@@ -563,6 +567,7 @@ const mapStateToProps = (state) => {
     filterCompletedTerm: state.todo.filterCompletedTerm,
     term: state.todo.term,
     items: state.todo.items,
+    radio: state.radio,
   };
 };
 
@@ -591,6 +596,7 @@ const mapDispatchToProps = (dispatch) => {
     unsetDueTodayItem: (uuid) => dispatch(unsetDueTodayItem(uuid)),
     unsetDueTomorrowItem: (uuid) => dispatch(unsetDueTomorrowItem(uuid)),
     setChangeItem: (uuid, text) => dispatch(setChangeItem(uuid, text)),
+    fetchRadioMessageBegin: () => dispatch(fetchRadioMessageBegin()),
   };
 };
 
