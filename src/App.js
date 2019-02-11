@@ -12,7 +12,8 @@ import img from "./main-background.jpg";
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
   visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
   setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from "./actions";
-import { fetchRadioMessageBegin } from "./reducers/radioReducer";
+import { fetchRadioMessageBegin } from "./actions";
+import { fetchTestTextMessageBegin } from "./actions";
 import { completedFilter } from "./reducers/todoReducer";
 import LogInLink from "./LogInLink";
 import SignUpLink from "./SignUpLink";
@@ -243,6 +244,7 @@ const TEXT_SAMPLE = {"Who is a good boy?": "it's you!", "Cъешь ещё эти
 class App extends Component {
   componentDidMount() {
     this.props.fetchRadioMessageBegin();
+    this.props.fetchTestTextMessageBegin();
   }
 
   relaxButton = () => {
@@ -420,6 +422,11 @@ class App extends Component {
             <audio autoPlay="autoPlay" loop>
               <source src="relax.ogg" type="audio/ogg" />
             </audio>  : null}
+
+
+            {/*<span>{this.props.testText.message}</span> //This is saga test text. Don't delete this.*/}
+
+
           <User><UserLink /></User>
         </span>
         </HeaderWrapper>
@@ -568,6 +575,7 @@ const mapStateToProps = (state) => {
     term: state.todo.term,
     items: state.todo.items,
     radio: state.radio,
+    testText: state.testText,
   };
 };
 
@@ -597,6 +605,7 @@ const mapDispatchToProps = (dispatch) => {
     unsetDueTomorrowItem: (uuid) => dispatch(unsetDueTomorrowItem(uuid)),
     setChangeItem: (uuid, text) => dispatch(setChangeItem(uuid, text)),
     fetchRadioMessageBegin: () => dispatch(fetchRadioMessageBegin()),
+    fetchTestTextMessageBegin: () => dispatch(fetchTestTextMessageBegin()),
   };
 };
 

@@ -3,27 +3,21 @@ import constants from "../actions";
 const initialState = {
   fetching: false,
   error: null,
-  message: {
-    "on": null,
-    "off": null,
-  }
+  text: null,
 }
 
-export const radioReducer = (state=initialState, action) => {
+export const testTextReducer = (state=initialState, action) => {
   switch (action.type) {
-  case constants.FETCH_RADIO_MESSAGE_BEGIN:
+  case constants.FETCH_TEST_TEXT_MESSAGE_BEGIN:
     return Object.assign({}, state, {
       fetching: true
     });
-  case constants.FETCH_RADIO_MESSAGE_SUCCESS:
+  case constants.FETCH_TEST_TEXT_MESSAGE_SUCCESS:
     return Object.assign({}, state, {
       fetching: false,
-      message: {
-        "on": action.message.on,
-        "off": action.message.off
-      }
+      message: action.message.text
     });
-  case constants.FETCH_RADIO_MESSAGE_FAILURE:
+  case constants.FETCH_TEST_TEXT_MESSAGE_FAILURE:
     return Object.assign({}, state, {
       fetching: false,
       error: action.error
@@ -33,4 +27,4 @@ export const radioReducer = (state=initialState, action) => {
   }
 };
 
-export default radioReducer;
+export default testTextReducer;

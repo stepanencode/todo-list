@@ -27,7 +27,13 @@ const constants = {
   UNSET_DUE_TOMORROW_ITEM: "UNSET_DUE_TOMORROW_ITEM",
   SET_CHANGE_ITEM: "SET_CHANGE_ITEM",
   LOGIN_FORM_FILLING_EMAIL: "LOGIN_FORM_FILLING_EMAIL",
-  LOGIN_FORM_FILLING_PASSWORD: "LOGIN_FORM_FILLING_PASSWORD"
+  LOGIN_FORM_FILLING_PASSWORD: "LOGIN_FORM_FILLING_PASSWORD",
+  FETCH_RADIO_MESSAGE_BEGIN: "FETCH_RADIO_MESSAGE_BEGIN",
+  FETCH_RADIO_MESSAGE_SUCCESS: "FETCH_RADIO_MESSAGE_SUCCESS",
+  FETCH_RADIO_MESSAGE_FAILURE: "FETCH_RADIO_MESSAGE_FAILURE",
+  FETCH_TEST_TEXT_MESSAGE_BEGIN: "FETCH_TEST_TEXT_MESSAGE_BEGIN",
+  FETCH_TEST_TEXT_MESSAGE_SUCCESS: "FETCH_TEST_TEXT_MESSAGE_SUCCESS",
+  FETCH_TEST_TEXT_MESSAGE_FAILURE: "FETCH_TEST_TEXT_MESSAGE_FAILURE"
 };
 
 // Action creators
@@ -143,6 +149,31 @@ export function unsetDueTomorrowItem(uuid) {
 
 export function setChangeItem(uuid, text) {
   return { type: constants.SET_CHANGE_ITEM, uuid: uuid, text: text};
+}
+
+export function fetchRadioMessageBegin() {
+  return { type: constants.FETCH_RADIO_MESSAGE_BEGIN };
+}
+
+export function fetchRadioMessageSuccess(message) {
+  return { type: constants.FETCH_RADIO_MESSAGE_SUCCESS, message: message };
+}
+
+export function fetchRadioMessageFailure(error) {
+  return { type: constants.FETCH_RADIO_MESSAGE_FAILURE, error: error };
+}
+
+
+export function fetchTestTextMessageBegin() {
+  return { type: constants.FETCH_TEST_TEXT_MESSAGE_BEGIN };
+}
+
+export function fetchTestTextMessageSuccess(message) {
+  return { type: constants.FETCH_TEST_TEXT_MESSAGE_SUCCESS, message: message };
+}
+
+export function fetchTestTextMessageFailure(error) {
+  return { type: constants.FETCH_TEST_TEXT_MESSAGE_FAILURE, error: error };
 }
 
 export default constants;
