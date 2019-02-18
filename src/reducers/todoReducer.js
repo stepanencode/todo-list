@@ -1,7 +1,31 @@
-import constants from "../actions";
-// import { combineReducers } from 'redux';
-// import uuidv4 from "uuid";
-
+import {
+  FETCH_TODO_SUCCESS,
+  SET_FILTER_DUE_TOMORROW,
+  UNSET_FILTER_DUE_TOMORROW,
+  SET_FILTER_DUE_TODAY,
+  UNSET_FILTER_DUE_TODAY,
+  SET_FILTER_IMPORTANT,
+  UNSET_FILTER_IMPORTANT,
+  TOGGLE_RELAX_BUTTON,
+  LOGIN_FORM_FILLING_EMAIL,
+  LOGIN_FORM_FILLING_PASSWORD,
+  VISIBLE_WELLDONE_MESSAGE,
+  UNVISIBLE_WELLDONE_MESSAGE,
+  FILTER_COMPLETED_ALL,
+  FILTER_COMPLETED_ACTIVE,
+  FILTER_COMPLETED_DONE,
+  SET_TERM,
+  ADD_TODO,
+  DELETE_ITEM,
+  TOGGLE_ITEM_IMPORTANT,
+  SET_ITEM_COMPLETE,
+  CLEAR_COMPLETED_ITEMS,
+  SET_DUE_TODAY_ITEM,
+  SET_DUE_TOMORROW_ITEM,
+  UNSET_DUE_TODAY_ITEM,
+  UNSET_DUE_TOMORROW_ITEM,
+  SET_CHANGE_ITEM
+} from "../actions/todo";
 
 export const completedFilter = {
   ALL: "ALL",
@@ -29,68 +53,72 @@ const initialState = {
 
 export const todoReducer = (state=initialState, action) => {
   switch (action.type) {
-  case constants.SET_FILTER_DUE_TOMORROW:
+  case FETCH_TODO_SUCCESS:
+    return Object.assign({}, state, {
+      items: action.message
+    });
+  case SET_FILTER_DUE_TOMORROW:
     return Object.assign({}, state, {
       isFilterDueTomorrow: true
     });
-  case constants.UNSET_FILTER_DUE_TOMORROW:
+  case UNSET_FILTER_DUE_TOMORROW:
     return Object.assign({}, state, {
       isFilterDueTomorrow: false
     });
-  case constants.SET_FILTER_DUE_TODAY:
+  case SET_FILTER_DUE_TODAY:
     return Object.assign({}, state, {
       isFilterDueToday: true
     });
-  case constants.UNSET_FILTER_DUE_TODAY:
+  case UNSET_FILTER_DUE_TODAY:
     return Object.assign({}, state, {
       isFilterDueToday: false
     });
-  case constants.SET_FILTER_IMPORTANT:
+  case SET_FILTER_IMPORTANT:
     return Object.assign({}, state, {
       isFilterImportant: true
     });
-  case constants.UNSET_FILTER_IMPORTANT:
+  case UNSET_FILTER_IMPORTANT:
     return Object.assign({}, state, {
       isFilterImportant: false
     });
-  case constants.TOGGLE_RELAX_BUTTON:
+  case TOGGLE_RELAX_BUTTON:
     return Object.assign({}, state, {
       isPlayRelaxAudio: !state.isPlayRelaxAudio
     });
-  case constants.LOGIN_FORM_FILLING_EMAIL:
+  case LOGIN_FORM_FILLING_EMAIL:
     return Object.assign({}, state, {
       email: action.payload
     });
-    case constants.LOGIN_FORM_FILLING_PASSWORD:
+    case LOGIN_FORM_FILLING_PASSWORD:
       return Object.assign({}, state, {
         password: action.payload
       });
 
-  case constants.VISIBLE_WELLDONE_MESSAGE:
+  case VISIBLE_WELLDONE_MESSAGE:
     return Object.assign({}, state, {
       isWelldoneMessageVisible: true
     });
-  case constants.UNVISIBLE_WELLDONE_MESSAGE:
+  case UNVISIBLE_WELLDONE_MESSAGE:
     return Object.assign({}, state, {
       isWelldoneMessageVisible: false
     });
-  case constants.FILTER_COMPLETED_ALL:
+  case FILTER_COMPLETED_ALL:
     return Object.assign({}, state, {
       filterCompletedTerm: completedFilter.ALL
     });
-  case constants.FILTER_COMPLETED_ACTIVE:
+  case FILTER_COMPLETED_ACTIVE:
     return Object.assign({}, state, {
       filterCompletedTerm: completedFilter.ACTIVE
     });
-  case constants.FILTER_COMPLETED_DONE:
+  case FILTER_COMPLETED_DONE:
     return Object.assign({}, state, {
       filterCompletedTerm: completedFilter.DONE
     });
-  case constants.SET_TERM:
+  case SET_TERM:
     return Object.assign({}, state, {
       term: action.term
     });
-  case constants.ADD_TODO:
+  case ADD_TODO:
     return Object.assign({}, state, {
       items: [
         ...state.items,
@@ -104,43 +132,43 @@ export const todoReducer = (state=initialState, action) => {
         }
       ]
     });
-  case constants.DELETE_ITEM:
+  case DELETE_ITEM:
     return Object.assign({}, state, {
       items: [
         ...state.items.filter(item => item.uuid !== action.uuid)
       ]
     });
-  case constants.TOGGLE_ITEM_IMPORTANT:
+  case TOGGLE_ITEM_IMPORTANT:
     return Object.assign({}, state, {
       items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isImportant: !item.isImportant } : item; })
     });
-  case constants.SET_ITEM_COMPLETE:
+  case SET_ITEM_COMPLETE:
     return Object.assign({}, state, {
       items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isCompleted: true } : item; })
     });
-  case constants.CLEAR_COMPLETED_ITEMS:
+  case CLEAR_COMPLETED_ITEMS:
     return Object.assign({}, state, {
       items : [
         ...state.items.filter(item => item.isCompleted === false)
       ]
     });
-  case constants.SET_DUE_TODAY_ITEM:
+  case SET_DUE_TODAY_ITEM:
     return Object.assign({}, state, {
       items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: true, isDueTomorrow: false } : item; })
     });
-  case constants.SET_DUE_TOMORROW_ITEM:
+  case SET_DUE_TOMORROW_ITEM:
     return Object.assign({}, state, {
       items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: false, isDueTomorrow: true } : item; })
     });
-  case constants.UNSET_DUE_TODAY_ITEM:
+  case UNSET_DUE_TODAY_ITEM:
     return Object.assign({}, state, {
       items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: false } : item; })
     });
-  case constants.UNSET_DUE_TOMORROW_ITEM:
+  case UNSET_DUE_TOMORROW_ITEM:
     return Object.assign({}, state, {
       items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueTomorrow: false } : item; })
     });
-  case constants.SET_CHANGE_ITEM:
+  case SET_CHANGE_ITEM:
     return Object.assign({}, state, {
       items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, text: action.text } : item; })
     });

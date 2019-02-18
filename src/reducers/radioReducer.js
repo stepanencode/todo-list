@@ -1,4 +1,8 @@
-import constants from "../actions";
+import {
+  FETCH_RADIO_MESSAGE_BEGIN,
+  FETCH_RADIO_MESSAGE_SUCCESS,
+  FETCH_RADIO_MESSAGE_FAILURE
+} from "../actions/radio";
 
 const initialState = {
   fetching: false,
@@ -11,11 +15,11 @@ const initialState = {
 
 export const radioReducer = (state=initialState, action) => {
   switch (action.type) {
-  case constants.FETCH_RADIO_MESSAGE_BEGIN:
+  case FETCH_RADIO_MESSAGE_BEGIN:
     return Object.assign({}, state, {
       fetching: true
     });
-  case constants.FETCH_RADIO_MESSAGE_SUCCESS:
+  case FETCH_RADIO_MESSAGE_SUCCESS:
     return Object.assign({}, state, {
       fetching: false,
       message: {
@@ -23,7 +27,7 @@ export const radioReducer = (state=initialState, action) => {
         "off": action.message.off
       }
     });
-  case constants.FETCH_RADIO_MESSAGE_FAILURE:
+  case FETCH_RADIO_MESSAGE_FAILURE:
     return Object.assign({}, state, {
       fetching: false,
       error: action.error

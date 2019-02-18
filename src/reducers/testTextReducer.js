@@ -1,4 +1,8 @@
-import constants from "../actions";
+import {
+  FETCH_TEST_TEXT_MESSAGE_BEGIN,
+  FETCH_TEST_TEXT_MESSAGE_SUCCESS,
+  FETCH_TEST_TEXT_MESSAGE_FAILURE
+} from "../actions/testText";
 
 const initialState = {
   fetching: false,
@@ -8,16 +12,16 @@ const initialState = {
 
 export const testTextReducer = (state=initialState, action) => {
   switch (action.type) {
-  case constants.FETCH_TEST_TEXT_MESSAGE_BEGIN:
+  case FETCH_TEST_TEXT_MESSAGE_BEGIN:
     return Object.assign({}, state, {
       fetching: true
     });
-  case constants.FETCH_TEST_TEXT_MESSAGE_SUCCESS:
+  case FETCH_TEST_TEXT_MESSAGE_SUCCESS:
     return Object.assign({}, state, {
       fetching: false,
       message: action.message.text
     });
-  case constants.FETCH_TEST_TEXT_MESSAGE_FAILURE:
+  case FETCH_TEST_TEXT_MESSAGE_FAILURE:
     return Object.assign({}, state, {
       fetching: false,
       error: action.error

@@ -11,9 +11,9 @@ import Gugi from "./fonts/Gugi-Regular.ttf";
 import img from "./main-background.jpg";
 import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
   visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
-  setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem } from "./actions";
-import { fetchRadioMessageBegin } from "./actions";
-import { fetchTestTextMessageBegin } from "./actions";
+  setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem, fetchTodoBegin } from "./actions/todo";
+import { fetchRadioMessageBegin } from "./actions/radio";
+import { fetchTestTextMessageBegin } from "./actions/testText";
 import { completedFilter } from "./reducers/todoReducer";
 import LogInLink from "./LogInLink";
 import SignUpLink from "./SignUpLink";
@@ -245,6 +245,7 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchRadioMessageBegin();
     this.props.fetchTestTextMessageBegin();
+    this.props.fetchTodoBegin();
   }
 
   relaxButton = () => {
@@ -424,7 +425,7 @@ class App extends Component {
             </audio>  : null}
 
 
-            {/*<span>{this.props.testText.message}</span> //This is saga test text. Don't delete this.*/}
+          {/* <span>{this.props.testText.message}</span> */}
 
 
           <User><UserLink /></User>
@@ -606,6 +607,7 @@ const mapDispatchToProps = (dispatch) => {
     setChangeItem: (uuid, text) => dispatch(setChangeItem(uuid, text)),
     fetchRadioMessageBegin: () => dispatch(fetchRadioMessageBegin()),
     fetchTestTextMessageBegin: () => dispatch(fetchTestTextMessageBegin()),
+    fetchTodoBegin: () => dispatch(fetchTodoBegin()),
   };
 };
 
