@@ -1,8 +1,7 @@
 import axios from "axios";
 import { takeLatest, call, put } from "redux-saga/effects";
 
-import { fetchRadioMessageSuccess, fetchRadioMessageFailure } from "../actions/radio";
-
+import { fetchRadioMessageSuccess, fetchRadioMessageFailure, FETCH_RADIO_MESSAGE_BEGIN  } from "../actions/radio";
 
 function fetchRadio() {
   return axios({
@@ -21,5 +20,5 @@ function* fetchRadioSaga() {
 }
 
 export function* watchfetchRadioSaga() {
-  yield takeLatest("FETCH_RADIO_MESSAGE_BEGIN", fetchRadioSaga);
+  yield takeLatest(FETCH_RADIO_MESSAGE_BEGIN, fetchRadioSaga);
 }

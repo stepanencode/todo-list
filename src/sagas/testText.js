@@ -1,8 +1,7 @@
 import axios from "axios";
 import { takeLatest, call, put } from "redux-saga/effects";
 
-import { fetchTestTextMessageSuccess, fetchTestTextMessageFailure } from "../actions/testText";
-
+import { fetchTestTextMessageSuccess, fetchTestTextMessageFailure, FETCH_TEST_TEXT_MESSAGE_BEGIN } from "../actions/testText";
 
 function fetchTestText() {
   return axios({
@@ -21,5 +20,5 @@ function* fetchTestTextSaga() {
 }
 
 export function* watchfetchTestTextSaga() {
-  yield takeLatest("FETCH_TEST_TEXT_MESSAGE_BEGIN", fetchTestTextSaga);
+  yield takeLatest(FETCH_TEST_TEXT_MESSAGE_BEGIN, fetchTestTextSaga);
 }

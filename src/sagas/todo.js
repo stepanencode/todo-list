@@ -1,8 +1,7 @@
 import axios from "axios";
 import { takeLatest, call, put } from "redux-saga/effects";
 
-import { fetchTodoSuccess, fetchTodoFailure } from "../actions/todo";
-
+import { fetchTodoSuccess, fetchTodoFailure, FETCH_TODO_BEGIN } from "../actions/todo";
 
 function fetchTodo() {
   return axios({
@@ -21,5 +20,5 @@ function* fetchTodoSaga() {
 }
 
 export function* watchfetchTodoSaga() {
-  yield takeLatest("FETCH_TODO_BEGIN", fetchTodoSaga);
+  yield takeLatest(FETCH_TODO_BEGIN, fetchTodoSaga);
 }
