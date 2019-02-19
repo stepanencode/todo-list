@@ -1,109 +1,19 @@
 import React, {Component} from "react";
-import TimerButton from "./TimerButton";
-import TimerDisplay from "./TimerDisplay";
-import CommentField from "./CommentField";
-import styled, { css } from "styled-components";
-import InlineSVG from "svg-inline-react";
+import TimerButton from "../TodoItem/Timer/TimerButton/index";
+import TimerDisplay from "../TodoItem/Timer/TimerDisplay/index";
+import CommentField from "../TodoItem/Comments/CommentField/index";
+
+import {
+  ItemWrapper,
+  Svg,
+  SvgWrapper,
+  TextItem,
+  Button,
+  Checkbox,
+  Input
+} from './styles'
 
 const ENTERKEY = 13;
-
-const ItemWrapper = styled.li`
-  padding-bottom: 10px;
-  margin-top: 10px;
-  background-color: #ffffff;
-  opacity: 0.9;
-  border-radius: 3px;
-  list-style: none;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &:first-child {
-    margin-top: 0;
-  }
-`;
-
-const Svg = styled(InlineSVG)`
-  vertical-align: middle;
-  margin: 0;
-`;
-
-const SvgWrapper = styled.span`
- margin: 0 10px;
-`;
-
-const TextItem = styled.p`
-  display: inline-block;
-  font-family: sans-serif;
-  color: #000080;
-  font-size: 20px;
-  max-width: 500px;
-  word-break: break-all;
-  vertical-align: middle;
-`;
-
-const Button = styled.button`
-  border-radius: 3px;
-  padding: 0.25em 1em;
-  margin: 0 10px;
-  background: transparent;
-  color: #ff6347;
-  border: 2px solid #ff6347;
-  width: 150px;
-
-  &:hover  {
-    color: #fa2600;
-    border-color: #fa2600;
-    background-color: #ffefec;
-  }
-
-  ${props => props.primary && css`
-    background: white;
-    color: #ff99ff;
-    border: 2px solid #ff99ff;
-    font-size: 1rem;
-    vertical-align: bottom;
-  `}
-
-  ${props => props.pressed && css`
-    background: #0099ff;
-    color: white;
-  `}
-
-  ${props => props.disabled && css`
-    background: white;
-    color: gray;
-    border: 2px solid gray;
-  `}
-
-  ${props => props.bigger && css`
-    background: tomato;
-    color: white;
-    border: 2px solid tomato;
-    width: 150px;
-  `}
-  ${props => props.unvisible && css`
-    display: none;
-  `}
-`;
-
-const Checkbox = styled.input`
-  display: none;
-`;
-
-
-const Input = styled.input`
-  background-color: #BAE3FF;
-  color: #000080;
-  border-style: none;
-  width: 500px;
-  height: 1.78rem;
-  border-radius: 3px;
-  font-size: 24px;
-  margin-top: 10px;
-    margin-bottom: 10px;
-`;
 
 class ListItem extends Component {
   constructor(props) {
@@ -206,7 +116,7 @@ class ListItem extends Component {
 
   render() {
     /* eslint-disable quotes */
-  
+
     return(
       <ItemWrapper
         onMouseOver={this.itemMouseOver}
@@ -222,7 +132,7 @@ class ListItem extends Component {
                   data-testid="checkbox-checked"
                 />
                 <SvgWrapper>
-                  <Svg src={require(`!raw-loader!./icons/checkbox-checked.svg`)} raw={true}/>
+                  <Svg src={require(`!raw-loader!../../../icons/checkbox-checked.svg`)} raw={true}/>
                 </SvgWrapper>
               </label> :
               <label onClick={this.handleComplete} data-testid="checkbox">
@@ -230,7 +140,7 @@ class ListItem extends Component {
                   checked={this.props.item.isCompleted}
                 />
                 <SvgWrapper>
-                  <Svg src={require(`!raw-loader!./icons/checkbox-notchecked.svg`)} raw={true}/>
+                  <Svg src={require(`!raw-loader!../../../icons/checkbox-notchecked.svg`)} raw={true}/>
                 </SvgWrapper>
               </label>
           }
@@ -244,7 +154,7 @@ class ListItem extends Component {
                 data-testid="item-text-input"
               />
               <SvgWrapper>
-                <Svg src={require(`!raw-loader!./icons/save.svg`)}
+                <Svg src={require(`!raw-loader!../../../icons/save.svg`)}
                   raw={true}
                   onClick={this.handleSave}
                   data-testid="save-button"
@@ -259,7 +169,7 @@ class ListItem extends Component {
                 this.props.item.isCompleted ?
                   null :
                   <SvgWrapper>
-                    <Svg src={require(`!raw-loader!./icons/edit.svg`)} raw={true}
+                    <Svg src={require(`!raw-loader!../../../icons/edit.svg`)} raw={true}
                       onClick={this.handleEdit}
                       data-testid="edit-button"
                     />
@@ -274,13 +184,13 @@ class ListItem extends Component {
               {
                 this.props.item.isImportant ?
                   <SvgWrapper>
-                    <Svg src={require(`!raw-loader!./icons/important.svg`)}
+                    <Svg src={require(`!raw-loader!../../../icons/important.svg`)}
                       raw={true}
                       onClick={this.handleImportant}
                       data-testid="important-item"/>
                   </SvgWrapper> :
                   <SvgWrapper>
-                    <Svg src={require(`!raw-loader!./icons/notimportant.svg`)}
+                    <Svg src={require(`!raw-loader!../../../icons/notimportant.svg`)}
                       raw={true}
                       onClick={this.handleImportant}
                       data-testid="not-important-item"/>
@@ -306,7 +216,7 @@ class ListItem extends Component {
               }
               <span>
                 <SvgWrapper>
-                  <Svg src={require(`!raw-loader!./icons/add-comment.svg`)}
+                  <Svg src={require(`!raw-loader!../../../icons/add-comment.svg`)}
                     raw={true}
                     onClick={this.showCommentField}
                     data-testid="add-comment"/>
@@ -320,7 +230,7 @@ class ListItem extends Component {
             </span>
         }
         <SvgWrapper>
-          <Svg src={require(`!raw-loader!./icons/delete-item.svg`)}
+          <Svg src={require(`!raw-loader!../../../icons/delete-item.svg`)}
             raw={true}
             onClick={this.handleDelete}
             data-testid="delete-item"/>

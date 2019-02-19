@@ -1,5 +1,4 @@
-import React from "react";
-import { NavLink } from "react-router-dom"
+
 import styled from "styled-components";
 import woman from "./woman.svg";
 
@@ -20,12 +19,6 @@ const UserIn = styled.a `
   }
 `;
 
-const UserLink = () => {
-  return(
-        <NavLink to="/user">
-          <UserIn></UserIn>
-        </NavLink>
-  )
+export {
+  UserIn
 }
-
-export default UserLink;

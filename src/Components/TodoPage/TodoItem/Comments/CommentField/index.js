@@ -1,34 +1,11 @@
 import React, { Component } from "react";
-import CommentList from "./CommentList";
-import styled, {css} from "styled-components";
-import InlineSVG from "svg-inline-react";
+import CommentList from "../CommentList/index";
 import uuidv4 from "uuid";
 
-const Svg = styled(InlineSVG)`
-    vertical-align: middle;
-    margin: 0 10px;
-`;
-
-const Input = styled.input`
-  font-family: sans-serif;
-  background-color: #BAE3FF;
-  color: #000080;
-  border-style: none;
-  width: 350px;
-  height: 1.78rem;
-  border-radius: 3px;
-  font-size: 22px;
-  margin-top: 5px;
-  padding-left: 5px;
-  margin-left: 10px;
-
-  ${props => props.placeholder && css`
-    font-size: 16px;
-  `}
-  ${props => props.none && css`
-     display: none;
-  `}
-`;
+import {
+  Svg,
+  Input
+} from './styles'
 
 class CommentField extends Component{
   constructor(props) {
@@ -100,7 +77,7 @@ class CommentField extends Component{
                 <span
                   onClick={this.commentOnSubmit}
                   data-testid="submit-comment-button">
-                  <Svg src={require(`!raw-loader!./icons/add-comment-item.svg`)} raw={true}/>
+                  <Svg src={require(`!raw-loader!../../../../../icons/add-comment-item.svg`)} raw={true}/>
                 </span>
               </span>
           }

@@ -1,43 +1,13 @@
 import React, { Component } from 'react';
-import styled, { css }  from "styled-components";
 import onClickOutside from 'react-onclickoutside'
-import InlineSVG from "svg-inline-react";
 import Calendar from 'react-calendar';
-import Gugi from "./fonts/Gugi-Regular.ttf";
 
-const Svg = styled(InlineSVG)`
-  ${props => props.calendar && css`
-    display: block;
-  	margin-left: 20px;
-  	margin-top: 10px;
-  `}
-`;
-const CalendarWrapper = styled.div`
-  ${props => props.show && css`
-    display: block;
-    position: absolute;
-    top: 155px;
-    left: 232px;
-  `}
-  ${props => props.hide && css`
-    display: none;
-  `}
-`;
-const UserBirthdayWrapper = styled.div`
-  display: inline-flex;
-  padding-left: 10px;
-  font-size: 18px;
-  color: #a59390;
-  font-family: 'Gugi';
-  src: url(${Gugi});
-`;
-
-const UserInfoText = styled.p`
-  color: #5a5858;
-  padding-left: 10px;
-  margin-top: 20px;
-  font-size: 16px;
-`;
+import {
+  Svg,
+  CalendarWrapper,
+  UserBirthdayWrapper,
+  UserInfoText
+} from './styles'
 
 class UserBirthday extends Component {
   constructor(props) {
@@ -86,7 +56,7 @@ class UserBirthday extends Component {
            <span>/</span>
           <span>{myYear}</span>
         </UserInfoText>
-        <Svg calendar="true" onClick={this.onClickCalendar} src={require(`!raw-loader!./icons/calendar.svg`)} raw={true}/>
+        <Svg calendar="true" onClick={this.onClickCalendar} src={require(`!raw-loader!../../../icons/calendar.svg`)} raw={true}/>
       </UserBirthdayWrapper>
       {
         this.state.isOpenCalendar ?

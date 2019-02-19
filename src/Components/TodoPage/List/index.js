@@ -1,13 +1,10 @@
 import React from "react";
-import ListItem from "./ListItem";
-import styled from "styled-components";
+import ListItem from "../ListItem/index";
 import { Scrollbars } from "react-custom-scrollbars";
 
-
-const ListWrapper = styled.ul`
-  padding-left: 0;
-  overflow-x:hidden;
-`;
+import {
+  ListWrapper
+} from './styles'
 
 
 const List = (props) => (

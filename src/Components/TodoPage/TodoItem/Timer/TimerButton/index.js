@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import InlineSVG from "svg-inline-react";
 
-
-const Svg = styled(InlineSVG)`
-    vertical-align: middle;
-    margin: 0 10px;
-`;
+import {
+  Svg
+} from "./styles"
 
 class TimerButton extends Component{
 
@@ -20,7 +16,7 @@ class TimerButton extends Component{
       <span>
         {this.props.item.isCompleted ?
           null :
-          <Svg src={require(`!raw-loader!./icons/timer.svg`)} raw={true} onClick={this.handleStartTimer}  data-testid="timer-for-item"/>
+          <Svg src={require(`!raw-loader!../../../../../icons/timer.svg`)} raw={true} onClick={this.handleStartTimer}  data-testid="timer-for-item"/>
         }
       </span>
     );

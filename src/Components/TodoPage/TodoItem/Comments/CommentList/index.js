@@ -1,10 +1,9 @@
 import React from "react";
-import CommentItem from "./CommentItem";
-import styled from "styled-components";
+import CommentItem from "../CommentItem/index";
 
-const CommentListWrapper = styled.ul`
-  padding-left: 0;
-`;
+import {
+  CommentListWrapper
+} from "./styles"
 
 const CommentList = (props) => (
   <CommentListWrapper>

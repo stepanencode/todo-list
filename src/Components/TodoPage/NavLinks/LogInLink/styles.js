@@ -1,6 +1,4 @@
-import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom"
 
 const LogIn = styled.a `
   color: #5dcde3;
@@ -16,12 +14,6 @@ const LogIn = styled.a `
   }
 `;
 
-const LogInLink = () => {
-  return(
-        <NavLink to="/login">
-          <LogIn>Log In</LogIn>
-        </NavLink>
-  )
+export {
+  LogIn
 }
-
-export default LogInLink;

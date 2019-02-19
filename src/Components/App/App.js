@@ -1,24 +1,50 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import List from "./List";
 import uuidv4 from "uuid";
+
 import styled, { css } from "styled-components";
 import { keyframes } from "styled-components";
 import InlineSVG from "svg-inline-react";
 import { injectGlobal } from "styled-components";
-import "normalize.css";
-import Gugi from "./fonts/Gugi-Regular.ttf";
-import img from "./main-background.jpg";
-import { setFilterDueTomorrow, unsetFilterDueTomorrow, setFilterDueToday, unsetFilterDueToday, setFilterImportant, unsetFilterImportant, toggleRelaxButton,
-  visibleWelldoneMessage, unvisibleWelldoneMessage, filterCompletedAll, filterCompletedActive, filterCompletedDone, setTerm, addTodo, deleteItem, toggleItemImportant,
-  setItemComplete, clearCompletedItems, setDueTodayItem, setDueTomorrowItem, unsetDueTodayItem, unsetDueTomorrowItem, setChangeItem, fetchTodoBegin } from "./actions/todo";
-import { fetchRadioMessageBegin } from "./actions/radio";
-import { fetchTestTextMessageBegin } from "./actions/testText";
-import { completedFilter } from "./reducers/todoReducer";
-import LogInLink from "./LogInLink";
-import SignUpLink from "./SignUpLink";
-import UserLink from "./UserLink";
+import Gugi from "../../fonts/Gugi-Regular.ttf";
 
+import img from "./main-background.jpg";
+import "normalize.css";
+
+import {
+  setFilterDueTomorrow,
+  unsetFilterDueTomorrow,
+  setFilterDueToday,
+  unsetFilterDueToday,
+  setFilterImportant,
+  unsetFilterImportant,
+  toggleRelaxButton,
+  visibleWelldoneMessage,
+  unvisibleWelldoneMessage,
+  filterCompletedAll,
+  filterCompletedActive,
+  filterCompletedDone,
+  setTerm,
+  addTodo,
+  deleteItem,
+  toggleItemImportant,
+  setItemComplete,
+  clearCompletedItems,
+  setDueTodayItem,
+  setDueTomorrowItem,
+  unsetDueTodayItem,
+  unsetDueTomorrowItem,
+  setChangeItem,
+  fetchTodoBegin } from "../../actions/todo";
+import { fetchRadioMessageBegin } from "../../actions/radio";
+import { fetchTestTextMessageBegin } from "../../actions/testText";
+
+import { completedFilter } from "../../reducers/todoReducer";
+
+import List from "../TodoPage/List/index";
+import LogInLink from "../TodoPage/NavLinks/LogInLink/index";
+import SignUpLink from "../TodoPage/NavLinks/SignUpLink/index";
+import UserLink from "../TodoPage/NavLinks/UserLink/index";
 
 const Svg = styled(InlineSVG)`
 
@@ -190,8 +216,6 @@ const WellDoneBox = styled.div`
   animation: ${fadeIn} 1sl
   cursor: pointer;
 `;
-
-
 
 const WellDoneMessage = styled.span`
   margin: 0 auto;
@@ -418,12 +442,12 @@ class App extends Component {
                 this.props.radio.message.on :
                 this.props.radio.message.off
             }
-          </Button>
+
           {(this.props.isPlayRelaxAudio === true) ?
             <audio autoPlay="autoPlay" loop>
               <source src="relax.ogg" type="audio/ogg" />
             </audio>  : null}
-
+</Button>
 
           {/* <span>{this.props.testText.message}</span> */}
 
@@ -454,7 +478,7 @@ class App extends Component {
               data-testid="input-add-item"
             />
             <span onClick={this.onSubmit} data-testid="submit-button">
-              <Svg add_item src={require(`!raw-loader!./icons/add-item.svg`)} raw={true}/>
+              <Svg add_item src={require(`!raw-loader!../../icons/add-item.svg`)} raw={true}/>
             </span>
           </form>
           <FilterWrapper>
@@ -554,7 +578,7 @@ class App extends Component {
             <WellDoneBox >
               <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items
               </WellDoneMessage>
-              <Svg src={require(`!raw-loader!./icons/close-popup.svg`)} raw={true} onClick={this.okButton}
+              <Svg src={require(`!raw-loader!../../icons/close-popup.svg`)} raw={true} onClick={this.okButton}
                 position/>
             </WellDoneBox>
           </WellDoneWrapper>

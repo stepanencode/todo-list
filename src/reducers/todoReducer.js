@@ -33,7 +33,6 @@ export const completedFilter = {
   DONE: "DONE"
 };
 
-
 const initialState = {
   isFilterDueTomorrow: false,
   isFilterDueToday: false,
