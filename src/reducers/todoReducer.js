@@ -1,5 +1,6 @@
 import {
   FETCH_TODO_SUCCESS,
+  EDIT_TODO_SUCCESS,
   SET_FILTER_DUE_TOMORROW,
   UNSET_FILTER_DUE_TOMORROW,
   SET_FILTER_DUE_TODAY,
@@ -63,6 +64,10 @@ export const todoReducer = (state=initialState, action) => {
         ...state.items,
         action.item
       ]
+    });
+  case EDIT_TODO_SUCCESS:
+    return Object.assign({}, state, {
+      items: state.items.map(item => {return (item.id === action.id) ? action.item : item; })
     });
   case SET_FILTER_DUE_TOMORROW:
     return Object.assign({}, state, {

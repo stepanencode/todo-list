@@ -10,6 +10,9 @@ export const DELETE_TODO_FAILURE = "DELETE_TODO_FAILURE";
 export const CREATE_TODO_BEGIN = "CREATE_TODO_BEGIN";
 export const CREATE_TODO_SUCCESS = "CREATE_TODO_SUCCESS";
 export const CREATE_TODO_FAILURE = "CREATE_TODO_FAILURE";
+export const EDIT_TODO_BEGIN = "EDIT_TODO_BEGIN";
+export const EDIT_TODO_SUCCESS = "EDIT_TODO_SUCCESS";
+export const EDIT_TODO_FAILURE = "EDIT_TODO_FAILURE";
 
 export const SET_FILTER_DUE_TOMORROW = "SET_FILTER_DUE_TOMORROW";
 export const UNSET_FILTER_DUE_TOMORROW = "UNSET_FILTER_DUE_TOMORROW";
@@ -71,6 +74,22 @@ export function createTodoSuccess(item) {
 
 export function createTodoFailure(error) {
   return { type: CREATE_TODO_FAILURE, error: error };
+}
+
+export function editTodoBegin(id, item) {
+  return { type: EDIT_TODO_BEGIN, id: id, item: item };
+}
+
+export function editTodoSuccess(id, item) {
+  return { type: EDIT_TODO_SUCCESS, id: id, item: item };
+}
+
+export function editTodoFailure(error) {
+  return { type: EDIT_TODO_FAILURE, error: error };
+}
+
+export function setChangeItem(id, text) {
+  return editTodoBegin(id, {text: text});
 }
 
 
@@ -165,8 +184,4 @@ export function unsetDueTodayItem(uuid) {
 
 export function unsetDueTomorrowItem(uuid) {
   return { type: UNSET_DUE_TOMORROW_ITEM, uuid: uuid};
-}
-
-export function setChangeItem(uuid, text) {
-  return { type: SET_CHANGE_ITEM, uuid: uuid, text: text};
 }

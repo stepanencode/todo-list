@@ -140,8 +140,8 @@ class App extends Component {
     this.props.clearCompletedItems();
   };
 
-  handleChange = (uuid, text) => {
-    this.props.setChangeItem(uuid, text);
+  handleChange = (id, text) => {
+    this.props.setChangeItem(id, text);
   };
 
   filterAll = () => {
@@ -419,7 +419,7 @@ const mapDispatchToProps = (dispatch) => {
     setDueTomorrowItem: (uuid) => dispatch(setDueTomorrowItem(uuid)),
     unsetDueTodayItem: (uuid) => dispatch(unsetDueTodayItem(uuid)),
     unsetDueTomorrowItem: (uuid) => dispatch(unsetDueTomorrowItem(uuid)),
-    setChangeItem: (uuid, text) => dispatch(setChangeItem(uuid, text)),
+    setChangeItem: (id, text) => dispatch(setChangeItem(id, text)),
     fetchRadioMessageBegin: () => dispatch(fetchRadioMessageBegin()),
     fetchTestTextMessageBegin: () => dispatch(fetchTestTextMessageBegin()),
     fetchTodoBegin: () => dispatch(fetchTodoBegin()),

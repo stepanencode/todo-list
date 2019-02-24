@@ -6,7 +6,7 @@ import { createTodoSuccess, createTodoFailure, CREATE_TODO_BEGIN } from "../acti
 function createTodo(item) {
   return api({
     method: "post",
-    url: `/todos/`,
+    url: "/todos/",
     data: item
   });
 }

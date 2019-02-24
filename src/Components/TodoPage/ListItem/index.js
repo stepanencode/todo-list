@@ -67,7 +67,7 @@ class ListItem extends Component {
   };
 
   handleChange = (event) => {
-    this.props.handleChange(this.props.item.uuid, event.target.value);
+    this.props.handleChange(this.props.item.id, event.target.value);
   };
 
   itemMouseOver = () => {

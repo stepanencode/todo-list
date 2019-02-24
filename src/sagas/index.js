@@ -5,6 +5,7 @@ import { watchfetchTestTextSaga } from "./testText";
 import { watchfetchTodoSaga } from "./fetchTodo";
 import { watchdeleteTodoSaga } from "./deleteTodo";
 import { watchcreateTodoSaga } from "./createTodo";
+import { watcheditTodoSaga } from "./editTodo";
 
 
 export default function* rootSaga() {
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     watchfetchTodoSaga(),
     watchdeleteTodoSaga(),
     watchcreateTodoSaga(),
+    watcheditTodoSaga(),
   ])
 }
