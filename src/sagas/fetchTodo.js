@@ -6,7 +6,7 @@ import { fetchTodoSuccess, fetchTodoFailure, FETCH_TODO_BEGIN } from "../actions
 function fetchTodo() {
   return api({
     method: "get",
-    url: "/todos"
+    url: "/todos/"
   });
 }
 

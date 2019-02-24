@@ -6,7 +6,7 @@ import { fetchRadioMessageSuccess, fetchRadioMessageFailure, FETCH_RADIO_MESSAGE
 function fetchRadio() {
   return api({
     method: "get",
-    url: "/radio"
+    url: "/radio/"
   });
 }
 

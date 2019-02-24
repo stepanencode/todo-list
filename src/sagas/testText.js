@@ -6,7 +6,7 @@ import { fetchTestTextMessageSuccess, fetchTestTextMessageFailure, FETCH_TEST_TE
 function fetchTestText() {
   return api({
     method: "get",
-    url: "/test"
+    url: "/test/"
   });
 }
 
