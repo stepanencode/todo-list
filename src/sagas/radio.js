@@ -1,12 +1,12 @@
-import axios from "axios";
 import { takeLatest, call, put } from "redux-saga/effects";
 
+import { api } from "./api";
 import { fetchRadioMessageSuccess, fetchRadioMessageFailure, FETCH_RADIO_MESSAGE_BEGIN  } from "../actions/radio";
 
 function fetchRadio() {
-  return axios({
+  return api({
     method: "get",
-    url: "http://127.0.0.1:8000/api/radio"
+    url: "/radio"
   });
 }
 

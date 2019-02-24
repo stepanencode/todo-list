@@ -1,12 +1,12 @@
-import axios from "axios";
 import { takeLatest, call, put } from "redux-saga/effects";
 
+import { api } from "./api";
 import { fetchTestTextMessageSuccess, fetchTestTextMessageFailure, FETCH_TEST_TEXT_MESSAGE_BEGIN } from "../actions/testText";
 
 function fetchTestText() {
-  return axios({
+  return api({
     method: "get",
-    url: "http://127.0.0.1:8000/api/test"
+    url: "/test"
   });
 }
 
