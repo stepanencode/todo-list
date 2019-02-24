@@ -24,7 +24,6 @@ class UserBirthday extends Component {
 
   onClickDay = date => {
     this.setState({ date });
-    console.log(date.toString());
    }
 
    onClickCalendar = () => {

@@ -209,7 +209,6 @@ class App extends Component {
   };
 
   allItemsCounter = () => {
-    console.log(this.props.items);
     return this.props.items.length;
   };
 
