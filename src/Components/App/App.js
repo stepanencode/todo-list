@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import uuidv4 from "uuid";
 
 import {
   Svg,
@@ -35,7 +34,7 @@ import {
   filterCompletedActive,
   filterCompletedDone,
   setTerm,
-  addTodo,
+  createTodoBegin,
   deleteTodoBegin,
   toggleItemImportant,
   setItemComplete,
@@ -92,11 +91,10 @@ class App extends Component {
     this.props.setTerm("");
     if (this.props.term.trim()) {
       this.textCompare();
-      this.props.addTodo({
+      this.props.createTodoBegin({
         text: this.props.term.trim(),
         isCompleted: false,
         isImportant: false,
-        uuid: uuidv4(),
         isDueToday: false,
         isDueTomorrow: false
       });
@@ -413,7 +411,7 @@ const mapDispatchToProps = (dispatch) => {
     filterCompletedActive: () => dispatch(filterCompletedActive()),
     filterCompletedDone: () => dispatch(filterCompletedDone()),
     setTerm: (term) => dispatch(setTerm(term)),
-    addTodo: (item) => dispatch(addTodo(item)),
+    createTodoBegin: (item) => dispatch(createTodoBegin(item)),
     toggleItemImportant: (uuid) => dispatch(toggleItemImportant(uuid)),
     setItemComplete: (uuid) => dispatch(setItemComplete(uuid)),
     clearCompletedItems: () => dispatch(clearCompletedItems()),

@@ -15,7 +15,7 @@ import {
   FILTER_COMPLETED_ACTIVE,
   FILTER_COMPLETED_DONE,
   SET_TERM,
-  ADD_TODO,
+  CREATE_TODO_SUCCESS,
   DELETE_TODO_SUCCESS,
   TOGGLE_ITEM_IMPORTANT,
   SET_ITEM_COMPLETE,
@@ -55,6 +55,13 @@ export const todoReducer = (state=initialState, action) => {
     return Object.assign({}, state, {
       items: [
         ...state.items.filter(item=> item.id !== action.id)
+      ]
+    });
+  case CREATE_TODO_SUCCESS:
+    return Object.assign({}, state, {
+      items: [
+        ...state.items,
+        action.item
       ]
     });
   case SET_FILTER_DUE_TOMORROW:
@@ -117,20 +124,6 @@ export const todoReducer = (state=initialState, action) => {
   case SET_TERM:
     return Object.assign({}, state, {
       term: action.term
-    });
-  case ADD_TODO:
-    return Object.assign({}, state, {
-      items: [
-        ...state.items,
-        {
-          text: action.text,
-          isCompleted: action.isCompleted,
-          isImportant: action.isImportant,
-          uuid: action.uuid,
-          isDueToday: action.isDueToday,
-          isDueTomorrow: action.isDueTomorrow
-        }
-      ]
     });
   case TOGGLE_ITEM_IMPORTANT:
     return Object.assign({}, state, {

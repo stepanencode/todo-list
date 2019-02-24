@@ -4,6 +4,7 @@ import { watchfetchRadioSaga } from "./radio";
 import { watchfetchTestTextSaga } from "./testText";
 import { watchfetchTodoSaga } from "./fetchTodo";
 import { watchdeleteTodoSaga } from "./deleteTodo";
+import { watchcreateTodoSaga } from "./createTodo";
 
 
 export default function* rootSaga() {
@@ -12,5 +13,6 @@ export default function* rootSaga() {
     watchfetchTestTextSaga(),
     watchfetchTodoSaga(),
     watchdeleteTodoSaga(),
+    watchcreateTodoSaga(),
   ])
 }
