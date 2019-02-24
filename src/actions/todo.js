@@ -5,6 +5,9 @@ import uuidv4 from "uuid";
 export const FETCH_TODO_BEGIN = "FETCH_TODO_BEGIN";
 export const FETCH_TODO_SUCCESS = "FETCH_TODO_SUCCESS";
 export const FETCH_TODO_FAILURE = "FETCH_TODO_FAILURE";
+export const DELETE_TODO_BEGIN = "DELETE_TODO_BEGIN";
+export const DELETE_TODO_SUCCESS = "DELETE_TODO_SUCCESS";
+export const DELETE_TODO_FAILURE = "DELETE_TODO_FAILURE";
 
 export const SET_FILTER_DUE_TOMORROW = "SET_FILTER_DUE_TOMORROW";
 export const UNSET_FILTER_DUE_TOMORROW = "UNSET_FILTER_DUE_TOMORROW";
@@ -20,7 +23,6 @@ export const FILTER_COMPLETED_ACTIVE = "FILTER_COMPLETED_ACTIVE";
 export const FILTER_COMPLETED_DONE = "FILTER_COMPLETED_DONE";
 export const SET_TERM = "SET_TERM";
 export const ADD_TODO = "ADD_TODO";
-export const DELETE_ITEM = "DELETE_ITEM";
 export const TOGGLE_ITEM_IMPORTANT = "TOGGLE_ITEM_IMPORTANT";
 export const SET_ITEM_COMPLETE = "SET_ITEM_COMPLETE";
 export const CLEAR_COMPLETED_ITEMS = "CLEAR_COMPLETED_ITEMS";
@@ -46,6 +48,17 @@ export function fetchTodoFailure(error) {
   return { type: FETCH_TODO_FAILURE, error: error };
 }
 
+export function deleteTodoBegin(id) {
+  return { type: DELETE_TODO_BEGIN, id: id };
+}
+
+export function deleteTodoSuccess(id) {
+  return { type: DELETE_TODO_SUCCESS, id: id };
+}
+
+export function deleteTodoFailure(error) {
+  return { type: DELETE_TODO_FAILURE, error: error };
+}
 
 export function setFilterDueTomorrow() {
   return { type: SET_FILTER_DUE_TOMORROW };
@@ -123,10 +136,6 @@ export function addTodo(item) {
     isDueToday: item.isDueToday,
     isDueTomorrow: item.isDueTomorrow
   };
-}
-
-export function deleteItem(uuid) {
-  return { type: DELETE_ITEM, uuid: uuid };
 }
 
 export function toggleItemImportant(uuid) {

@@ -36,7 +36,7 @@ import {
   filterCompletedDone,
   setTerm,
   addTodo,
-  deleteItem,
+  deleteTodoBegin,
   toggleItemImportant,
   setItemComplete,
   clearCompletedItems,
@@ -105,8 +105,8 @@ class App extends Component {
     }
   };
 
-  handleDelete = (uuid) => {
-    this.props.deleteItem(uuid);
+  handleDelete = (id) => {
+    this.props.deleteTodoBegin(id);
   };
 
   handleComplete = (uuid) => {
@@ -415,7 +415,6 @@ const mapDispatchToProps = (dispatch) => {
     filterCompletedDone: () => dispatch(filterCompletedDone()),
     setTerm: (term) => dispatch(setTerm(term)),
     addTodo: (item) => dispatch(addTodo(item)),
-    deleteItem: (uuid) => dispatch(deleteItem(uuid)),
     toggleItemImportant: (uuid) => dispatch(toggleItemImportant(uuid)),
     setItemComplete: (uuid) => dispatch(setItemComplete(uuid)),
     clearCompletedItems: () => dispatch(clearCompletedItems()),
@@ -427,6 +426,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchRadioMessageBegin: () => dispatch(fetchRadioMessageBegin()),
     fetchTestTextMessageBegin: () => dispatch(fetchTestTextMessageBegin()),
     fetchTodoBegin: () => dispatch(fetchTodoBegin()),
+    deleteTodoBegin: (id) => dispatch(deleteTodoBegin(id)),
   };
 };
 
