@@ -24,7 +24,8 @@ class ListItem extends Component {
       timeLeft: null,
       timer: null,
       showComment: false,
-      showCommentItems: false
+      showCommentItems: false,
+      term: this.props.item.text
     };
   }
 
@@ -64,10 +65,13 @@ class ListItem extends Component {
     this.setState({
       isEdit: false
     });
+    this.props.handleChange(this.props.item.id, this.state.term);
   };
 
   handleChange = (event) => {
-    this.props.handleChange(this.props.item.id, event.target.value);
+    this.setState({
+      term: event.target.value
+    });
   };
 
   itemMouseOver = () => {
@@ -148,8 +152,9 @@ class ListItem extends Component {
         {
           this.state.isEdit ?
             <span>
-              <Input value={this.props.item.text}
+              <Input value={this.state.term}
                 maxLength={100}
+                onSubmit={this.handleSave}
                 onChange={this.handleChange}
                 data-testid="item-text-input"
               />
@@ -164,7 +169,7 @@ class ListItem extends Component {
             <span>
               <TextItem maxLength={100}
                 data-testid="item-text"
-              >{this.props.item.text}</TextItem>
+              >{this.state.term}</TextItem>
               {
                 this.props.item.isCompleted ?
                   null :
