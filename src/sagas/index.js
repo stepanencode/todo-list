@@ -7,7 +7,6 @@ import { watchdeleteTodoSaga } from "./deleteTodo";
 import { watchcreateTodoSaga } from "./createTodo";
 import { watcheditTodoSaga } from "./editTodo";
 
-
 export default function* rootSaga() {
   yield all([
     watchfetchRadioSaga(),

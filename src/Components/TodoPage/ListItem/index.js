@@ -48,7 +48,7 @@ class ListItem extends Component {
   };
 
   handleComplete = () => {
-    this.props.handleComplete(this.props.item.uuid);
+    this.props.handleComplete(this.props.item.id);
   };
 
   handleDelete = () => {

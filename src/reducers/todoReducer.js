@@ -69,6 +69,9 @@ export const todoReducer = (state=initialState, action) => {
     return Object.assign({}, state, {
       items: state.items.map(item => {return (item.id === action.id) ? action.item : item; })
     });
+
+
+
   case SET_FILTER_DUE_TOMORROW:
     return Object.assign({}, state, {
       isFilterDueTomorrow: true

@@ -107,8 +107,8 @@ class App extends Component {
     this.props.deleteTodoBegin(id);
   };
 
-  handleComplete = (uuid) => {
-    this.props.setItemComplete(uuid);
+  handleComplete = (id) => {
+    this.props.setItemComplete(id);
     for (let counter of WELLDONE_COUNTERS) {
       if (this.getCompletedItems().length === counter) {
         return this.props.visibleWelldoneMessage();
@@ -413,7 +413,7 @@ const mapDispatchToProps = (dispatch) => {
     setTerm: (term) => dispatch(setTerm(term)),
     createTodoBegin: (item) => dispatch(createTodoBegin(item)),
     toggleItemImportant: (uuid) => dispatch(toggleItemImportant(uuid)),
-    setItemComplete: (uuid) => dispatch(setItemComplete(uuid)),
+    setItemComplete: (id) => dispatch(setItemComplete(id)),
     clearCompletedItems: () => dispatch(clearCompletedItems()),
     setDueTodayItem: (uuid) => dispatch(setDueTodayItem(uuid)),
     setDueTomorrowItem: (uuid) => dispatch(setDueTomorrowItem(uuid)),
@@ -424,6 +424,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchTestTextMessageBegin: () => dispatch(fetchTestTextMessageBegin()),
     fetchTodoBegin: () => dispatch(fetchTodoBegin()),
     deleteTodoBegin: (id) => dispatch(deleteTodoBegin(id)),
+
   };
 };
 

@@ -93,6 +93,12 @@ export function setChangeItem(id, text) {
 }
 
 
+export function setItemComplete(id) {
+  return editTodoBegin(id, {isCompleted: true});
+}
+
+
+
 export function setFilterDueTomorrow() {
   return { type: SET_FILTER_DUE_TOMORROW };
 }
@@ -162,9 +168,6 @@ export function toggleItemImportant(uuid) {
   return { type: TOGGLE_ITEM_IMPORTANT, uuid: uuid};
 }
 
-export function setItemComplete(uuid) {
-  return { type: SET_ITEM_COMPLETE, uuid: uuid};
-}
 
 export function clearCompletedItems() {
   return { type: CLEAR_COMPLETED_ITEMS};
