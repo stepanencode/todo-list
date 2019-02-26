@@ -30,11 +30,7 @@ export const SET_TERM = "SET_TERM";
 
 
 export const CLEAR_COMPLETED_ITEMS = "CLEAR_COMPLETED_ITEMS";
-export const SET_DUE_TODAY_ITEM = "SET_DUE_TODAY_ITEM";
-export const SET_DUE_TOMORROW_ITEM = "SET_DUE_TOMORROW_ITEM";
-export const UNSET_DUE_TODAY_ITEM = "UNSET_DUE_TODAY_ITEM";
-export const UNSET_DUE_TOMORROW_ITEM = "UNSET_DUE_TOMORROW_ITEM";
-export const SET_CHANGE_ITEM = "SET_CHANGE_ITEM";
+
 export const LOGIN_FORM_FILLING_EMAIL = "LOGIN_FORM_FILLING_EMAIL";
 export const LOGIN_FORM_FILLING_PASSWORD = "LOGIN_FORM_FILLING_PASSWORD";
 
@@ -99,6 +95,22 @@ export function setItemComplete(id) {
 
 export function toggleItemImportant(id, item) {
   return editTodoBegin(id, {isImportant: !item.isImportant});
+}
+
+export function setDueTodayItem(id) {
+  return editTodoBegin(id, {isDueToday: true, isDueTomorrow: false});
+}
+
+export function unsetDueTodayItem(id) {
+  return editTodoBegin(id, {isDueToday: false});
+}
+
+export function setDueTomorrowItem(id) {
+  return editTodoBegin(id, {isDueToday: false, isDueTomorrow: true});
+}
+
+export function unsetDueTomorrowItem(id) {
+  return editTodoBegin(id, {isDueTomorrow: false});
 }
 
 
@@ -174,20 +186,4 @@ export function setTerm(term) {
 
 export function clearCompletedItems() {
   return { type: CLEAR_COMPLETED_ITEMS};
-}
-
-export function setDueTodayItem(uuid) {
-  return { type: SET_DUE_TODAY_ITEM, uuid: uuid};
-}
-
-export function setDueTomorrowItem(uuid) {
-  return { type: SET_DUE_TOMORROW_ITEM, uuid: uuid};
-}
-
-export function unsetDueTodayItem(uuid) {
-  return { type: UNSET_DUE_TODAY_ITEM, uuid: uuid};
-}
-
-export function unsetDueTomorrowItem(uuid) {
-  return { type: UNSET_DUE_TOMORROW_ITEM, uuid: uuid};
 }

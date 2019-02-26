@@ -91,19 +91,19 @@ class ListItem extends Component {
   };
 
   handleDueToday = () => {
-    this.props.handleDueToday(this.props.item.uuid);
+    this.props.handleDueToday(this.props.item.id);
   };
 
   handleRemoveDueToday = () => {
-    this.props.handleRemoveDueToday(this.props.item.uuid);
+    this.props.handleRemoveDueToday(this.props.item.id);
   };
 
   handleRemoveDueTomorrow = () => {
-    this.props.handleRemoveDueTomorrow(this.props.item.uuid);
+    this.props.handleRemoveDueTomorrow(this.props.item.id);
   };
 
   handleDueTomorrow = () => {
-    this.props.handleDueTomorrow(this.props.item.uuid);
+    this.props.handleDueTomorrow(this.props.item.id);
   };
 
   onKeyPressed = (event) => {

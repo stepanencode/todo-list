@@ -75,7 +75,9 @@ const Button = styled.button`
     background: tomato;
     color: white;
     border: 2px solid tomato;
-    width: 150px;
+    width: 180px;
+    padding-left: 4px;
+    padding-right: 5px;
   `}
   ${props => props.unvisible && css`
     display: none;

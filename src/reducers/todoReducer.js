@@ -20,11 +20,7 @@ import {
   DELETE_TODO_SUCCESS,
 
   CLEAR_COMPLETED_ITEMS,
-  SET_DUE_TODAY_ITEM,
-  SET_DUE_TOMORROW_ITEM,
-  UNSET_DUE_TODAY_ITEM,
-  UNSET_DUE_TOMORROW_ITEM,
-  SET_CHANGE_ITEM
+
 } from "../actions/todo";
 
 export const completedFilter = {
@@ -139,26 +135,6 @@ export const todoReducer = (state=initialState, action) => {
       items : [
         ...state.items.filter(item => item.isCompleted === false)
       ]
-    });
-  case SET_DUE_TODAY_ITEM:
-    return Object.assign({}, state, {
-      items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: true, isDueTomorrow: false } : item; })
-    });
-  case SET_DUE_TOMORROW_ITEM:
-    return Object.assign({}, state, {
-      items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: false, isDueTomorrow: true } : item; })
-    });
-  case UNSET_DUE_TODAY_ITEM:
-    return Object.assign({}, state, {
-      items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueToday: false } : item; })
-    });
-  case UNSET_DUE_TOMORROW_ITEM:
-    return Object.assign({}, state, {
-      items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isDueTomorrow: false } : item; })
-    });
-  case SET_CHANGE_ITEM:
-    return Object.assign({}, state, {
-      items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, text: action.text } : item; })
     });
   default:
     return state;

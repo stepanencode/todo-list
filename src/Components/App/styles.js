@@ -133,6 +133,7 @@ const Button = styled.button`
     background: #098EA8;
     color: white;
     width: 150px;
+
   `}
 
   ${props => props.relax && css`

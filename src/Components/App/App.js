@@ -120,20 +120,20 @@ class App extends Component {
     this.props.toggleItemImportant(id, item);
   };
 
-  handleDueToday = (uuid) => {
-    this.props.setDueTodayItem(uuid);
+  handleDueToday = (id) => {
+    this.props.setDueTodayItem(id);
   };
 
-  handleRemoveDueToday = (uuid) => {
-    this.props.unsetDueTodayItem(uuid);
+  handleRemoveDueToday = (id) => {
+    this.props.unsetDueTodayItem(id);
   };
 
-  handleRemoveDueTomorrow = (uuid) => {
-    this.props.unsetDueTomorrowItem(uuid);
+  handleRemoveDueTomorrow = (id) => {
+    this.props.unsetDueTomorrowItem(id);
   };
 
-  handleDueTomorrow = (uuid) => {
-    this.props.setDueTomorrowItem(uuid);
+  handleDueTomorrow = (id) => {
+    this.props.setDueTomorrowItem(id);
   };
 
   clearCompleted = () => {
@@ -415,10 +415,10 @@ const mapDispatchToProps = (dispatch) => {
     toggleItemImportant: (id, item) => dispatch(toggleItemImportant(id, item)),
     setItemComplete: (id) => dispatch(setItemComplete(id)),
     clearCompletedItems: () => dispatch(clearCompletedItems()),
-    setDueTodayItem: (uuid) => dispatch(setDueTodayItem(uuid)),
-    setDueTomorrowItem: (uuid) => dispatch(setDueTomorrowItem(uuid)),
-    unsetDueTodayItem: (uuid) => dispatch(unsetDueTodayItem(uuid)),
-    unsetDueTomorrowItem: (uuid) => dispatch(unsetDueTomorrowItem(uuid)),
+    setDueTodayItem: (id) => dispatch(setDueTodayItem(id)),
+    setDueTomorrowItem: (id) => dispatch(setDueTomorrowItem(id)),
+    unsetDueTodayItem: (id) => dispatch(unsetDueTodayItem(id)),
+    unsetDueTomorrowItem: (id) => dispatch(unsetDueTomorrowItem(id)),
     setChangeItem: (id, text) => dispatch(setChangeItem(id, text)),
     fetchRadioMessageBegin: () => dispatch(fetchRadioMessageBegin()),
     fetchTestTextMessageBegin: () => dispatch(fetchTestTextMessageBegin()),
