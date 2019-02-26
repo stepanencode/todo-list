@@ -31,6 +31,7 @@ const List = (props) => (
         props.items.map(item =>
           <ListItem
             key={item.uuid}
+            key={item.id}
             item={item}
             handleDelete={props.handleDelete}
             handleChange={props.handleChange}
