@@ -27,8 +27,8 @@ export const FILTER_COMPLETED_ALL = "FILTER_COMPLETED_ALL";
 export const FILTER_COMPLETED_ACTIVE = "FILTER_COMPLETED_ACTIVE";
 export const FILTER_COMPLETED_DONE = "FILTER_COMPLETED_DONE";
 export const SET_TERM = "SET_TERM";
-export const TOGGLE_ITEM_IMPORTANT = "TOGGLE_ITEM_IMPORTANT";
-export const SET_ITEM_COMPLETE = "SET_ITEM_COMPLETE";
+
+
 export const CLEAR_COMPLETED_ITEMS = "CLEAR_COMPLETED_ITEMS";
 export const SET_DUE_TODAY_ITEM = "SET_DUE_TODAY_ITEM";
 export const SET_DUE_TOMORROW_ITEM = "SET_DUE_TOMORROW_ITEM";
@@ -97,6 +97,11 @@ export function setItemComplete(id) {
   return editTodoBegin(id, {isCompleted: true});
 }
 
+export function toggleItemImportant(id, item) {
+  return editTodoBegin(id, {isImportant: !item.isImportant});
+}
+
+
 
 
 export function setFilterDueTomorrow() {
@@ -164,9 +169,7 @@ export function setTerm(term) {
   return { type: SET_TERM, term: term };
 }
 
-export function toggleItemImportant(uuid) {
-  return { type: TOGGLE_ITEM_IMPORTANT, uuid: uuid};
-}
+
 
 
 export function clearCompletedItems() {

@@ -87,7 +87,7 @@ class ListItem extends Component {
   };
 
   handleImportant = () => {
-    this.props.handleImportant(this.props.item.uuid);
+    this.props.handleImportant(this.props.item.id, this.props.item);
   };
 
   handleDueToday = () => {

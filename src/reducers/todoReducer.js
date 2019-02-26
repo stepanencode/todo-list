@@ -18,8 +18,7 @@ import {
   SET_TERM,
   CREATE_TODO_SUCCESS,
   DELETE_TODO_SUCCESS,
-  TOGGLE_ITEM_IMPORTANT,
-  SET_ITEM_COMPLETE,
+
   CLEAR_COMPLETED_ITEMS,
   SET_DUE_TODAY_ITEM,
   SET_DUE_TOMORROW_ITEM,
@@ -133,14 +132,8 @@ export const todoReducer = (state=initialState, action) => {
     return Object.assign({}, state, {
       term: action.term
     });
-  case TOGGLE_ITEM_IMPORTANT:
-    return Object.assign({}, state, {
-      items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isImportant: !item.isImportant } : item; })
-    });
-  case SET_ITEM_COMPLETE:
-    return Object.assign({}, state, {
-      items: state.items.map(item => {return (item.uuid === action.uuid) ? {...item, isCompleted: true } : item; })
-    });
+
+
   case CLEAR_COMPLETED_ITEMS:
     return Object.assign({}, state, {
       items : [

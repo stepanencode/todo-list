@@ -116,8 +116,8 @@ class App extends Component {
     } return this.props.unvisibleWelldoneMessage();
   };
 
-  handleImportant = (uuid) => {
-    this.props.toggleItemImportant(uuid);
+  handleImportant = (id, item) => {
+    this.props.toggleItemImportant(id, item);
   };
 
   handleDueToday = (uuid) => {
@@ -412,7 +412,7 @@ const mapDispatchToProps = (dispatch) => {
     filterCompletedDone: () => dispatch(filterCompletedDone()),
     setTerm: (term) => dispatch(setTerm(term)),
     createTodoBegin: (item) => dispatch(createTodoBegin(item)),
-    toggleItemImportant: (uuid) => dispatch(toggleItemImportant(uuid)),
+    toggleItemImportant: (id, item) => dispatch(toggleItemImportant(id, item)),
     setItemComplete: (id) => dispatch(setItemComplete(id)),
     clearCompletedItems: () => dispatch(clearCompletedItems()),
     setDueTodayItem: (uuid) => dispatch(setDueTodayItem(uuid)),
