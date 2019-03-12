@@ -22,4 +22,4 @@ export {
   Svg,
   CommentList,
   CommentText
-}
+};

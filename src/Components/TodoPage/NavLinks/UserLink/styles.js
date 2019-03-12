@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import woman from "./woman.svg";
 
@@ -21,4 +20,4 @@ const UserIn = styled.a `
 
 export {
   UserIn
-}
+};

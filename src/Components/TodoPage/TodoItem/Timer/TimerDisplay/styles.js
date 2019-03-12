@@ -9,4 +9,4 @@ const Text = styled.p`
 `;
 export {
   Text
-}
+};

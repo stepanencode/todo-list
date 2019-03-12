@@ -16,4 +16,4 @@ const SignUp = styled.a `
 
 export {
   SignUp
-}
+};

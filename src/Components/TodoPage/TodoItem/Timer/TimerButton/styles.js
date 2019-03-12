@@ -8,4 +8,4 @@ const Svg = styled(InlineSVG)`
 
 export {
   Svg
-} 
+};

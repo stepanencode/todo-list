@@ -4,8 +4,7 @@ import { Scrollbars } from "react-custom-scrollbars";
 
 import {
   ListWrapper
-} from './styles'
-
+} from "./styles";
 
 const List = (props) => (
   <ListWrapper>
@@ -30,7 +29,6 @@ const List = (props) => (
       {
         props.items.map(item =>
           <ListItem
-            key={item.uuid}
             key={item.id}
             item={item}
             handleDelete={props.handleDelete}

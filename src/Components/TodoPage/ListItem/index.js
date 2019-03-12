@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import TimerButton from "../TodoItem/Timer/TimerButton/index";
 import TimerDisplay from "../TodoItem/Timer/TimerDisplay/index";
 import CommentField from "../TodoItem/Comments/CommentField/index";
-
 import {
   ItemWrapper,
   Svg,
@@ -11,7 +10,7 @@ import {
   Button,
   Checkbox,
   Input
-} from './styles'
+} from "./styles";
 
 const ENTERKEY = 13;
 
@@ -116,7 +115,6 @@ class ListItem extends Component {
     // this.setState(() => ({showComment: !this.state.showComment}));
     this.setState(() => ({showComment: true}));
   };
-
 
   render() {
     /* eslint-disable quotes */

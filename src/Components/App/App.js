@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import {
   Svg,
   FilterWrapper,
@@ -18,8 +17,7 @@ import {
   WellDoneWrapper,
   FilteredMessagesBox,
   FilteredMessage
-} from './styles'
-
+} from "./styles";
 import {
   setFilterDueTomorrow,
   unsetFilterDueTomorrow,
@@ -47,16 +45,13 @@ import {
   fetchTodoBegin } from "../../actions/todo";
 import { fetchRadioMessageBegin } from "../../actions/radio";
 import { fetchTestTextMessageBegin } from "../../actions/testText";
-
 import { completedFilter } from "../../reducers/todoReducer";
-
 import List from "../TodoPage/List/index";
 import LogInLink from "../TodoPage/NavLinks/LogInLink/index";
 import SignUpLink from "../TodoPage/NavLinks/SignUpLink/index";
 import UserLink from "../TodoPage/NavLinks/UserLink/index";
 
-
-const WELLDONE_COUNTERS = [3, 5, 10];
+const WELLDONE_COUNTERS = [1, 4, 8];
 const TEXT_SAMPLE = {"Who is a good boy?": "it's you!", "Cъешь ещё этих мягких французских булок": "да выпей чаю!"};
 
 class App extends Component {
@@ -64,14 +59,6 @@ class App extends Component {
     this.props.fetchRadioMessageBegin();
     this.props.fetchTestTextMessageBegin();
     this.props.fetchTodoBegin();
-  }
-
-  relaxButton = () => {
-    this.props.toggleRelaxButton();
-  };
-
-  okButton = () => {
-    this.props.unvisibleWelldoneMessage();
   };
 
   onChange = (event) => {
@@ -136,32 +123,8 @@ class App extends Component {
     this.props.setDueTomorrowItem(id);
   };
 
-  clearCompleted = () => {
-    this.props.clearCompletedItems();
-  };
-
   handleChange = (id, text) => {
     this.props.setChangeItem(id, text);
-  };
-
-  filterAll = () => {
-    this.props.filterCompletedAll();
-  };
-
-  filterActive = () => {
-    this.props.filterCompletedActive();
-  };
-
-  filterCompleted = () => {
-    this.props.filterCompletedDone();
-  };
-
-  filterImportant = () => {
-    this.props.setFilterImportant();
-  };
-
-  notFilterImportant = () => {
-    this.props.unsetFilterImportant();
   };
 
   filterDueToday = () => {
@@ -223,31 +186,28 @@ class App extends Component {
     /* eslint-disable quotes */
     return (
       <Body>
-      <Header>
-      <HeaderWrapper>
-        <span>
-          <LogInLink />
-          <SignUpLink />
-          <Button relax onClick={this.relaxButton}>
-            {
-              (this.props.isPlayRelaxAudio === false) ?
-                this.props.radio.message.on :
-                this.props.radio.message.off
-            }
+        <Header>
+          <HeaderWrapper>
+            <span>
+              <LogInLink />
+              <SignUpLink />
+              <Button relax onClick={this.props.toggleRelaxButton}>
+                {
+                  (this.props.isPlayRelaxAudio === false) ?
+                    this.props.radio.message.on :
+                    this.props.radio.message.off
+                }
 
-          {(this.props.isPlayRelaxAudio === true) ?
-            <audio autoPlay="autoPlay" loop>
-              <source src="relax.ogg" type="audio/ogg" />
-            </audio>  : null}
-</Button>
-
-          {/* <span>{this.props.testText.message}</span> */}
-
-
-          <User><UserLink /></User>
-        </span>
-        </HeaderWrapper>
-      </Header>
+                {(this.props.isPlayRelaxAudio === true) ?
+                  <audio autoPlay="autoPlay" loop>
+                    <source src="relax.ogg" type="audio/ogg" />
+                  </audio>  : null}
+              </Button>
+              {/* <span>{this.props.testText.message}</span> */}
+              <User><UserLink /></User>
+            </span>
+          </HeaderWrapper>
+        </Header>
         <ToDoWrapper>
           <ItemsCounter>
             {
@@ -277,19 +237,19 @@ class App extends Component {
             <div>
               {(this.allItemsCounter() === 0) ? null:
                 <span>
-                  <Button onClick={this.filterAll}
+                  <Button onClick={this.props.filterCompletedAll}
                     pressed={this.props.filterCompletedTerm === completedFilter.ALL}>All
                   </Button>
-                  <Button onClick={this.filterActive} data-testid="active"
+                  <Button onClick={this.props.filterCompletedActive} data-testid="active"
                     pressed={this.props.filterCompletedTerm === completedFilter.ACTIVE}>Active
                   </Button>
-                  <Button onClick={this.filterCompleted} data-testid="completed"
+                  <Button onClick={this.props.filterCompletedDone} data-testid="completed"
                     pressed={this.props.filterCompletedTerm === completedFilter.DONE}>Completed
                   </Button>
                   {
                     ((this.props.items.filter(item => item.isCompleted === true)).length > 0) ?
                       <Button bigger
-                        onClick={this.clearCompleted}>Clear completed
+                        onClick={this.props.clearCompletedItems}>Clear completed
                       </Button> :
                       null
                   }
@@ -298,10 +258,10 @@ class App extends Component {
             </div>
             {(this.allItemsCounter() === 0) ? null:
               <div>
-                <Button onClick={this.notFilterImportant}
+                <Button onClick={this.props.unsetFilterImportant}
                   pressed={!this.props.isFilterImportant}>All
                 </Button>
-                <Button onClick={this.filterImportant}
+                <Button onClick={this.props.setFilterImportant}
                   pressed={this.props.isFilterImportant} >Important!
                 </Button>
               </div>
@@ -370,7 +330,7 @@ class App extends Component {
             <WellDoneBox >
               <WellDoneMessage>Well done! You have already completed {this.getCompletedItems().length} items
               </WellDoneMessage>
-              <Svg src={require(`!raw-loader!../../icons/close-popup.svg`)} raw={true} onClick={this.okButton}
+              <Svg src={require(`!raw-loader!../../icons/close-popup.svg`)} raw={true} onClick={this.props.unvisibleWelldoneMessage}
                 position/>
             </WellDoneBox>
           </WellDoneWrapper>

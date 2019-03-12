@@ -30,4 +30,4 @@ const Input = styled.input`
 export {
   Svg,
   Input
-}
+};

@@ -16,4 +16,4 @@ const LogIn = styled.a `
 
 export {
   LogIn
-}
+};

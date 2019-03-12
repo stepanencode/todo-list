@@ -1,5 +1,4 @@
 import { all } from "redux-saga/effects";
-
 import { watchfetchRadioSaga } from "./radio";
 import { watchfetchTestTextSaga } from "./testText";
 import { watchfetchTodoSaga } from "./fetchTodo";
@@ -15,5 +14,5 @@ export default function* rootSaga() {
     watchdeleteTodoSaga(),
     watchcreateTodoSaga(),
     watcheditTodoSaga(),
-  ])
+  ]);
 }

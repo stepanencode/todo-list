@@ -5,7 +5,7 @@ import uuidv4 from "uuid";
 import {
   Svg,
   Input
-} from './styles'
+} from "./styles";
 
 class CommentField extends Component{
   constructor(props) {
@@ -55,7 +55,6 @@ class CommentField extends Component{
       return {commentItems: commentItems};
     });
   };
-
 
   render() {
     /* eslint-disable quotes */

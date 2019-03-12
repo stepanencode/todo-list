@@ -3,7 +3,7 @@ import CommentItem from "../CommentItem/index";
 
 import {
   CommentListWrapper
-} from "./styles"
+} from "./styles";
 
 const CommentList = (props) => (
   <CommentListWrapper>

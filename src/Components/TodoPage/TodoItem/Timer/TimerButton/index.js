@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import {
   Svg
-} from "./styles"
+} from "./styles";
 
 class TimerButton extends Component{
 

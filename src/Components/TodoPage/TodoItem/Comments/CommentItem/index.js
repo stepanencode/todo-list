@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-
 import {
   Svg,
   CommentList,
   CommentText
-} from './styles'
+} from "./styles";
 
 class CommentItem extends Component {
   constructor(props) {

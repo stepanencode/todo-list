@@ -241,4 +241,4 @@ export {
   WellDoneWrapper,
   FilteredMessagesBox,
   FilteredMessage
-}
+};

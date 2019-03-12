@@ -7,4 +7,4 @@ const ListWrapper = styled.ul`
 
 export {
   ListWrapper
-}
+};

@@ -13,7 +13,6 @@ export const CREATE_TODO_FAILURE = "CREATE_TODO_FAILURE";
 export const EDIT_TODO_BEGIN = "EDIT_TODO_BEGIN";
 export const EDIT_TODO_SUCCESS = "EDIT_TODO_SUCCESS";
 export const EDIT_TODO_FAILURE = "EDIT_TODO_FAILURE";
-
 export const SET_FILTER_DUE_TOMORROW = "SET_FILTER_DUE_TOMORROW";
 export const UNSET_FILTER_DUE_TOMORROW = "UNSET_FILTER_DUE_TOMORROW";
 export const SET_FILTER_DUE_TODAY = "SET_FILTER_DUE_TODAY";
@@ -27,15 +26,12 @@ export const FILTER_COMPLETED_ALL = "FILTER_COMPLETED_ALL";
 export const FILTER_COMPLETED_ACTIVE = "FILTER_COMPLETED_ACTIVE";
 export const FILTER_COMPLETED_DONE = "FILTER_COMPLETED_DONE";
 export const SET_TERM = "SET_TERM";
-
-
 export const CLEAR_COMPLETED_ITEMS = "CLEAR_COMPLETED_ITEMS";
-
 export const LOGIN_FORM_FILLING_EMAIL = "LOGIN_FORM_FILLING_EMAIL";
 export const LOGIN_FORM_FILLING_PASSWORD = "LOGIN_FORM_FILLING_PASSWORD";
 
-
 // Action creators
+
 export function fetchTodoBegin() {
   return { type: FETCH_TODO_BEGIN };
 }
@@ -88,7 +84,6 @@ export function setChangeItem(id, text) {
   return editTodoBegin(id, {text: text});
 }
 
-
 export function setItemComplete(id) {
   return editTodoBegin(id, {isCompleted: true});
 }
@@ -112,9 +107,6 @@ export function setDueTomorrowItem(id) {
 export function unsetDueTomorrowItem(id) {
   return editTodoBegin(id, {isDueTomorrow: false});
 }
-
-
-
 
 export function setFilterDueTomorrow() {
   return { type: SET_FILTER_DUE_TOMORROW };
@@ -148,13 +140,14 @@ export function loginFormFillingEmail(email) {
   return {
     type: LOGIN_FORM_FILLING_EMAIL,
     payload: email
-   };
+  };
 }
+
 export function loginFormFillingPassword(password) {
   return {
     type: LOGIN_FORM_FILLING_PASSWORD,
     payload: password
-   };
+  };
 }
 
 export function visibleWelldoneMessage() {
@@ -180,9 +173,6 @@ export function filterCompletedDone() {
 export function setTerm(term) {
   return { type: SET_TERM, term: term };
 }
-
-
-
 
 export function clearCompletedItems() {
   return { type: CLEAR_COMPLETED_ITEMS};

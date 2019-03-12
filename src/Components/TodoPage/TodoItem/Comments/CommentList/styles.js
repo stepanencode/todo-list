@@ -6,4 +6,4 @@ const CommentListWrapper = styled.ul`
 
 export {
   CommentListWrapper
-}
+};

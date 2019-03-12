@@ -28,7 +28,6 @@ const Svg = styled(InlineSVG)`
   left: 15px;
   transform: translateY(-50%);
 
-
   ${props => props.right && css`
     position: absolute;
     top: 50%;
@@ -144,4 +143,4 @@ export {
   LogInButton,
   InputWrapper,
   ErrorWrapper
-}
+};

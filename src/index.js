@@ -5,7 +5,7 @@ import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "react-redux";
 import store from "./store";
 import LogInForm from "./Components/LogInPage/LogInForm/index";
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import SignUpForm from "./Components/SignUpPage/SignUpForm/index";
 import User from "./Components/UserPage/User/index";
 
